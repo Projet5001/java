@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="54" height="30" tilewidth="30" tileheight="30">
+ <tileset firstgid="1" source="tilesets/fantasy-tileset.tsx"/>
+ <tileset firstgid="209" source="tilesets/Woodland_ground.tsx"/>
+ <tileset firstgid="465" source="tilesets/Woodland_village.tsx"/>
+ <layer name="outdoor" width="54" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztwwENAAAMw6D6dzdHV3AHkLBqqqqqqqqqvg8lNyrg
+  </data>
+ </layer>
+ <layer name="ground" width="54" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt1jEKACEMBEDbq6/x/y+1uuawkSjEMAtbCBoY0tia3Jw3eSOuZ6Gr9yNvubi4uLi4uOq4vvbfOdrZvKz7ipTrLlcv6qq6Ly4uLq7srlP/qB0zRUROZQDSgCdw
+  </data>
+ </layer>
+ <layer name="walls" width="54" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt1jEOwCAMBEH+kP//NT1KhX0IolmJzsfqoPEYuJnn8FPplZzn4uLi4uLi4pp3lu4dqLIX7XzDCnqtzXdl09zS66//pdfafFc27dKrN5t26fWdTe1RHXcCQIoXtcsM6w==
+  </data>
+ </layer>
+ <objectgroup name="pnjs" width="54" height="30">
+  <object name="monstre1" x="572" y="149" width="30" height="30">
+   <properties>
+    <property name="monstre" value=""/>
+   </properties>
+  </object>
+  <object name="monstre2" x="256" y="227" width="30" height="30">
+   <properties>
+    <property name="monstre" value=""/>
+   </properties>
+  </object>
+  <object name="monstre3" x="211" y="686" width="30" height="30">
+   <properties>
+    <property name="monstre" value=""/>
+    <property name="visible" value="0"/>
+   </properties>
+  </object>
+  <object name="npc1" x="842" y="686" width="30" height="30">
+   <properties>
+    <property name="npc" value=""/>
+    <property name="visible" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="boundaries" width="54" height="30">
+  <object name="porte_ageei" type="porte" gid="23" x="840" y="751">
+   <properties>
+    <property name="barree" value="False"/>
+    <property name="block" value="True"/>
+    <property name="destination" value="couloir_sh.tmx"/>
+   </properties>
+  </object>
+  <object name="source_start" type="source" x="841" y="541" width="28" height="28">
+   <properties>
+    <property name="source" value="start"/>
+   </properties>
+  </object>
+  <object name="source_couloir" type="source" x="844" y="692" width="24" height="23">
+   <properties>
+    <property name="source" value="couloir_sh.tmx"/>
+   </properties>
+  </object>
+  <object name="porte_etage" type="porte" gid="26" x="209" y="750">
+   <properties>
+    <property name="barree" value="True"/>
+    <property name="block" value="True"/>
+    <property name="clef" value="cle_1"/>
+    <property name="destination" value="test_etage_1.tmx"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="objets" width="54" height="30">
+  <object name="cle_1" type="clef" gid="38" x="1067" y="139"/>
+ </objectgroup>
+</map>

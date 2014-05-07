@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="30" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" source="tilesets/fantasy-tileset.tsx"/>
+ <objectgroup name="boundaries" width="50" height="30" opacity="0.99">
+  <object type="porte" gid="22" x="256" y="128">
+   <properties>
+    <property name="block" value="True"/>
+    <property name="destination" value="ageei.tmx"/>
+   </properties>
+  </object>
+  <object type="porte" gid="22" x="1280" y="512">
+   <properties>
+    <property name="block" value="True"/>
+   </properties>
+  </object>
+  <object type="porte" gid="22" x="1024" y="128">
+   <properties>
+    <property name="block" value="True"/>
+   </properties>
+  </object>
+  <object type="porte" gid="22" x="1504" y="384">
+   <properties>
+    <property name="block" value="True"/>
+   </properties>
+  </object>
+  <object name="source_ageei" type="source" x="260" y="131" width="27" height="26">
+   <properties>
+    <property name="source" value="ageei.tmx"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="ground" width="50" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt1rsJACAQBNHrweAi+2/TBvwEKqzrPNhIEAYTI4B7ymA5OTux3ft7HfWx0aE1OrRGh9ZcOtKkw+U93DsUt/p/AQAAAD9oebU/Ww==
+  </data>
+ </layer>
+ <layer name="walls" width="50" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt1TEKACEMBdHcwdb7n1PSGy2i+NV5kEpWHATXDNinBDNaWzHZ/XsdJ9TEt0odGXRooUMLHTqi9/q2DvfCfbibOkb/+6hDcWZnAwAAAH7QAMBRCH8=
+  </data>
+ </layer>
+</map>

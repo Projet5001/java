@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="17" height="12" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" source="tilesets/uqam_Tileset.tsx"/>
+ <tileset firstgid="337" source="tilesets/dirt_tileset1.tsx"/>
+ <tileset firstgid="465" source="tilesets/meubles_Tileset.tsx"/>
+ <layer name="99_floor" width="17" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAccAExN4VmSAGxNB75K4wMDFeB+BojbjUiWDALDnFkzAqlcZlBCh41AzVcvZHMIgdEAXE0mrmiVPAbuRgASJUN3A==
+  </data>
+ </layer>
+ <objectgroup name="objets" width="17" height="12">
+  <object name="cle_1" type="clef" gid="166" x="399" y="240">
+   <properties>
+    <property name="basetool" value="True"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="07_table_front" width="17" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgYkAHEmSSod2XCFKsA4koquWekACcgdgZiFzTsSoIZQUAcDMQhaDiUqi4dnAAAmqEGLg==
+  </data>
+ </layer>
+ <layer name="light" width="17" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAc6AGxPhAbUGCGHRDbA7EDFdwzCkYBrQAAkCkBSw==
+  </data>
+ </layer>
+ <layer name="06_wall_design" width="17" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAcKAKxKhrOxCKGjDOgatSgZggBsSkarsQihowroGrMkMxwItMPzEhmBJFphjCSGeSCMCqY4YZkBrl+gbkjEYiTgDgZiFOAWB2IU3HgdCR1IH4a1IxCIC4C4mIgLgFicyAuxYHLkdSB+GVkup9WAADyBBZq
+  </data>
+ </layer>
+ <objectgroup name="boundaries" width="17" height="12">
+  <object name="bibli" type="objet" x="130" y="159" width="190" height="96">
+   <properties>
+    <property name="block" value="1"/>
+   </properties>
+  </object>
+  <object name="sofa_1" type="objet" x="459" y="191" width="171" height="89">
+   <properties>
+    <property name="block" value="1"/>
+   </properties>
+  </object>
+  <object name="sofa_2" type="objet" x="714" y="184" width="171" height="97">
+   <properties>
+    <property name="block" value="1"/>
+   </properties>
+  </object>
+  <object name="table_2" type="objet" x="413" y="472" width="323" height="107">
+   <properties>
+    <property name="block" value="1"/>
+   </properties>
+  </object>
+  <object name="porte_ageei_1" type="porte" x="147" y="570" width="88" height="65">
+   <properties>
+    <property name="barree" value="True"/>
+    <property name="basetool" value="True"/>
+    <property name="block" value="1"/>
+    <property name="clef" value="cle_1"/>
+    <property name="dest_transition" value="source_ageei_1"/>
+    <property name="destination" value="couloir_sh2.tmx"/>
+   </properties>
+  </object>
+  <object name="porte_ageei_2" type="porte" x="789" y="576" width="86" height="64">
+   <properties>
+    <property name="barree" value="True"/>
+    <property name="basetool" value="True"/>
+    <property name="block" value="1"/>
+    <property name="clef" value="cle_1"/>
+    <property name="dest_transition" value="source_ageei_2"/>
+    <property name="destination" value="couloir_sh2.tmx"/>
+   </properties>
+  </object>
+  <object name="source_start" type="source" x="359" y="302" width="27" height="25">
+   <properties>
+    <property name="source" value="start"/>
+   </properties>
+  </object>
+  <object name="mur_droite" type="mur" x="1012" y="153" width="41" height="461">
+   <properties>
+    <property name="block" value="True"/>
+   </properties>
+  </object>
+  <object name="source_couloir_1" type="source" x="165" y="473" width="57" height="54">
+   <properties>
+    <property name="source" value="couloir_sh2.tmx"/>
+    <property name="source_transition" value="source_couloir_1"/>
+   </properties>
+  </object>
+  <object name="source_couloir_2" type="source" x="805" y="472" width="57" height="58">
+   <properties>
+    <property name="source" value="couloir_sh2.tmx"/>
+    <property name="source_transition" value="source_couloir_2"/>
+   </properties>
+  </object>
+  <object name="source_start_ageei" type="source" x="633" y="329" width="57" height="43">
+   <properties>
+    <property name="source_transition" value="source_start_ageei"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="walls" width="17" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAcKAKxEhrOxCKGjDOgatSgZhgCsREarsQihowroGrMkMygFIyagQoSqWBGIRAXAXExEJcAsTkQm2LBRWjqYOKDCQAAF3QNhA==
+  </data>
+ </layer>
+ <layer name="03_deco_01" width="17" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAtUGRiYFACYmUgVmEirF4MCcOALlCfHhDrA7EB1Aw2PGbwk+/cUTCAAD3eByMAAH44Adg=
+  </data>
+ </layer>
+ <layer name="02_meubles" width="17" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBhcIBeI84A4nwIzaoG4DojrkcTeMjIwvAPi94zY+cSAn0C1v4D4NyN2/igY/gAA8MYOQQ==
+  </data>
+ </layer>
+ <layer name="hint" width="17" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUEAsAAzAAAQ==
+  </data>
+ </layer>
+ <layer name="00_wall_front" width="17" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAccFHBDCkqmDEKqA8SgTgJiJOBOAXKxoeR1aUNgHtpDQA3+gZO
+  </data>
+ </layer>
+ <layer name="98_dirt" width="17" height="12" opacity="0.22">
+  <data encoding="base64" compression="zlib">
+   eJzNkdcJAzEQRFclOhXgVIBTAU4FOP2fT3cFOBXg1JefYA+EQFjnLw88EKxmdqUV+R81jEgTWtCGjqmf0cXTgz4MYKgZdyPZCY5Q3c2pWSig9HqNOI9hAlOYae2B9wy5lxHTHM8ClrCCtWY88V7AJmRs8GxhB3s4aMYL7xWKhAzeLMws9BQ8ctOMN17OWZmQwd+5t7vZXW/nrSX7wx5DhfOHYq/RfVb6Nn/sr3x9AOqDNPU=
+  </data>
+ </layer>
+ <layer name="Tile Layer 11" width="17" height="12">
+  <data encoding="base64" compression="zlib">
+   eJzV0MsRgkAQRdHuEBEIAMQAFA0AlADwk693+WqKZmbLqzqrvqs2O8YqNzuhRoMWHXqcPW502g+44IobRo8bnfZ3PDBhxtPjRqf9CwtWvPHxuNFp/8UvuWuT+0v049zvtpZ2ud9tba/L/aWkK/ld1P0BKAYwmg==
+  </data>
+ </layer>
+</map>
