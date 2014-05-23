@@ -2,11 +2,6 @@ package com.projet5001.game;
 
 import com.badlogic.gdx.InputProcessor;
 
-import com.badlogic.gdx.Input.Keys;
-
-/**
- * Created by macmata on 20/05/14.
- */
 public class MyInputProcessor implements InputProcessor {
 
     private Projet5001 game;
@@ -27,13 +22,6 @@ public class MyInputProcessor implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        if (keycode == Keys.LEFT){
-            System.out.println(keycode);
-            System.out.println(true);
-            this.actor.sayHelloTest();
-
-        }
-
         return false;
     }
 
@@ -49,9 +37,6 @@ public class MyInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        System.out.println(true);
-        this.actor.sayHelloTest();
-        this.actor.hit(screenX,screenY,true);
         return false;
     }
 
@@ -62,10 +47,6 @@ public class MyInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        System.out.println(screenX);
-        System.out.println(screenY);
-        System.out.println(pointer);
-
         return false;
     }
 

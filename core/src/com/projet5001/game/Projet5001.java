@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class Projet5001 extends ApplicationAdapter {
     SpriteBatch batch;
@@ -22,7 +21,7 @@ public class Projet5001 extends ApplicationAdapter {
     Sprite sprite;
 
     MyActor myActor;
-    Stage stage;
+    Director director;
 
     @Override
     public void create () {
@@ -44,9 +43,8 @@ public class Projet5001 extends ApplicationAdapter {
         myActor = new MyActor(sprite);
 
 
-        stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
-        stage.addActor(myActor);
+        director = new Director();
+        director.addActor(myActor);
 
 
     }
@@ -58,7 +56,7 @@ public class Projet5001 extends ApplicationAdapter {
         camera.position.set(0f, 0f, 0f);
         camera.update();
 
-        stage.draw();
+        director.draw();
         batch.begin();
         renderer.setView(camera);
         renderer.render();
