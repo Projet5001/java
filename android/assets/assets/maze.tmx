@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="32" height="32" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" source="tilesets/fantasy-tileset.tsx"/>
+ <layer name="ground" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztwwEJAAAMBKEr8v1rrsdQcNVUVVXV1w8ub3QB
+  </data>
+ </layer>
+ <layer name="walls" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJzt1iEOAEAIA8Fq/v9g5Bk0iJtNSOVYKkkdXYbdis/n77t8Pp/Pf3v5f0mS/qwBD9IEGw==
+  </data>
+ </layer>
+ <layer name="warps" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztzjEBAAAMAiCj2D/lYngMEpAAS10HRroOAADAMwcQLQBB
+  </data>
+ </layer>
+ <objectgroup name="owarps" width="32" height="32">
+  <object name="1,7" x="36" y="228" width="24" height="24">
+   <properties>
+    <property name="from" value="Maze 1,7"/>
+    <property name="to" value="Maze 31,8"/>
+    <property name="warp" value=""/>
+   </properties>
+  </object>
+  <object name="31,8" x="996" y="260" width="26" height="24">
+   <properties>
+    <property name="from" value="Maze 31,8"/>
+    <property name="to" value="Maze 1,7"/>
+    <property name="warp" value=""/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="opnjs" width="32" height="32">
+  <object name="player" x="36" y="36" width="22" height="23">
+   <properties>
+    <property name="start" value=""/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

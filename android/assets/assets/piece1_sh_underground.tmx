@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="12" height="12" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" source="tilesets/meubles_Tileset.tsx"/>
+ <tileset firstgid="145" source="tilesets/uqam_Tileset.tsx"/>
+ <tileset firstgid="273" source="tilesets/trou_Tileset.tsx"/>
+ <tileset firstgid="285" source="tilesets/dirt_tileset1.tsx"/>
+ <tileset firstgid="413" source="tilesets/fantasy-tileset.tsx"/>
+ <layer name="floor" width="12" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYKA9WALES6E0Poysnhg8qp426kkBAPAdOao=
+  </data>
+ </layer>
+ <layer name="dirt" width="12" height="12">
+  <data encoding="base64" compression="zlib">
+   eJy90DcOgEAMRFHvgcmhI4eOHM7Lb1Yg4RZGepILF/aIfJ/QiESIkSCFAxcefATm3q+ZG7To0CNDjgIlqsf+yrxhx4ETA0ZMmLGY911fRftN68BG+03rwEb7Tevgj1wwDh6X
+  </data>
+ </layer>
+ <layer name="walls" width="12" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYCANHATiQ0DMzsjAwIqGQWLHgXJHgfgYVP0zEs3fQaL6E0B8Eg2zMeJWT6p7Bpv6jySqZ0SLH/Q4g2F8YYYPAADlYg5Z
+  </data>
+ </layer>
+ <layer name="walls_extra" width="12" height="12">
+  <data encoding="base64" compression="zlib">
+   eJzN0TkKgDAQBdAZXHJXD2avEJdSwe0i9uLW+sEEY4oQOwce84tfDExGRCtssFtOKEFCQfc0EDBRCClyxLcEWWAP2B30qj+T3+heBTXkBunojzBBa+gc/a/3/K2/0Ps/9s+0Q/WZnx8JI9ti9jzEmguiKCwt
+  </data>
+ </layer>
+ <objectgroup name="boundaries" width="12" height="12">
+  <object name="mur_droit_01" type="mur" x="693" y="63" width="54" height="690">
+   <properties>
+    <property name="block" value="True"/>
+   </properties>
+  </object>
+  <object name="porte_vers_couloir_sh2" type="porte" x="86" y="50" width="88" height="83">
+   <properties>
+    <property name="basetool" value="True"/>
+    <property name="block" value="True"/>
+    <property name="dest_transition" value="source_start_couloir"/>
+    <property name="destination" value="couloir_sh2.tmx"/>
+   </properties>
+  </object>
+  <object name="box_02" type="objet" x="521" y="699" width="94" height="80">
+   <properties>
+    <property name="block" value="True"/>
+   </properties>
+  </object>
+  <object name="box_03" type="objet" x="257" y="705" width="94" height="80">
+   <properties>
+    <property name="block" value="True"/>
+   </properties>
+  </object>
+  <object name="box_04" type="objet" x="91" y="709" width="94" height="80">
+   <properties>
+    <property name="block" value="True"/>
+   </properties>
+  </object>
+  <object name="tuyau_01" type="objet" x="202" y="120" width="170" height="36">
+   <properties>
+    <property name="block" value="True"/>
+   </properties>
+  </object>
+  <object name="tuyau_01" type="objet" x="589" y="117" width="109" height="41">
+   <properties>
+    <property name="block" value="True"/>
+   </properties>
+  </object>
+  <object name="table_01" type="objet" x="49" y="270" width="334" height="184">
+   <properties>
+    <property name="block" value="True"/>
+   </properties>
+  </object>
+  <object name="source_fall" type="source" x="84" y="490" width="29" height="22">
+   <properties>
+    <property name="source_transition" value="source_fall"/>
+   </properties>
+  </object>
+  <object name="mur_milieu_01" type="mur" x="375" y="224" width="9" height="95">
+   <properties>
+    <property name="block" value="True"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="tuyau" width="12" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYEAAGSTMgEUcHWggYWzi6MAECWMTHwX0B91A3EOBfgDK7ANw
+  </data>
+ </layer>
+ <layer name="walls_screen" width="12" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAeKKOiWaNgaAAA6LgAdw==
+  </data>
+ </layer>
+ <layer name="chaises" width="12" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBh54DIQX0HCVwmofwzET5DwU5q6bmgBAA1WCJk=
+  </data>
+ </layer>
+ <layer name="computers" width="12" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBiZIBMJjwLyAQCQ+wE8
+  </data>
+ </layer>
+ <objectgroup name="objets" width="12" height="12">
+  <object name="clef_4" type="clef" gid="450" x="624" y="209">
+   <properties>
+    <property name="basetool" value="True"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="pnjs" width="12" height="12">
+  <object name="monstre1" type="monstre" x="457" y="161" width="27" height="28">
+   <properties>
+    <property name="monstre" value=""/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="hint" width="12" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo4B8AAACQAAB
+  </data>
+ </layer>
+ <layer name="boxes_02" width="12" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFtAahQBxGgvpEIE4iQX0uEOeR5CLqAQB9wwJK
+  </data>
+ </layer>
+ <layer name="boxes_01" width="12" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgF9AShQByGRwzGhtGJQJyEph5ZDMaG0blAnIemHlkMxkanyQUA5WgKAA==
+  </data>
+ </layer>
+ <layer name="hide_boxes" width="12" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBhcYAcQ7wTir2gYFzgBxCeBmJURFQ9X8BGIPzFghg86/gZVzwgMCyZomKQxYIYTDLORGWYAbsYSDA==
+  </data>
+ </layer>
+ <layer name="screens" width="12" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBj6IBqIY4A4HYk9CugDAKveAdY=
+  </data>
+ </layer>
+</map>

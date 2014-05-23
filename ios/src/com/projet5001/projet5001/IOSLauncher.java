@@ -1,11 +1,11 @@
 package com.projet5001.projet5001;
 
+import com.projet5001.game.Projet5001;
 import org.robovm.apple.foundation.NSAutoreleasePool;
 import org.robovm.apple.uikit.UIApplication;
 
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
-import com.projet5001.projet5001.Projet5001;
 
 public class IOSLauncher extends IOSApplication.Delegate {
     @Override

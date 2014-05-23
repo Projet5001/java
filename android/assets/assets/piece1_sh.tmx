@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="15" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" source="tilesets/uqam_Tileset.tsx"/>
+ <tileset firstgid="129" source="tilesets/dirt_tileset1.tsx"/>
+ <tileset firstgid="257" source="tilesets/meubles_Tileset.tsx"/>
+ <tileset firstgid="401" source="tilesets/trou_Tileset.tsx"/>
+ <tileset firstgid="413" source="tilesets/fantasy-tileset.tsx"/>
+ <layer name="floor" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBi5QIRCPNTNIzVM6GEeKYAY+0k1g57mDfb0MhgBAEgbCXU=
+  </data>
+ </layer>
+ <layer name="dirt" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJzl0rcOwkAQRdH5dVJFDq5MDpVJJlQmh8qkT+IiUWwzrNgOMdJpdqQn7dOI/OckkEQKaWSMXRY55FFAESVLXhkVVFGDZ+x81NFAEy20LXkddNFDHwNjF2CIEcaYYGrJCzHDHAssjV2EFdbYYIudJW+PA4444fx+f3UX44IrbrjjYcnTxhe3/rQJRO/P5SYi0ftzuYlY9P5+9Sbkw5++nSfsoFzc
+  </data>
+ </layer>
+ <layer name="walls" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgaQAqIpYG4GIhLgDgKiKOB2JRIbEZ/Jw96AAsbWJhSO4w0SFALi89SKC7DosYCiC2BuAJJHS6gCMRKQKyKBScDcQoQp5HgPkMgNmLAnrZg4YfNzbhAIAlqB8I8EChiQIQzOZgWAABjDBaS
+  </data>
+ </layer>
+ <layer name="trou_01" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJztzLkNACAQxMCl/4j/LRb3wEkkZ2lSS96PYpASMkp4/1UeDR3D4Dd5LGwcg5/nWXQBdIgHGw==
+  </data>
+ </layer>
+ <layer name="light_right" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFAw14gJiXiubJALEsFc2jNhj1L2VgsPuXlgAA8v8A9w==
+  </data>
+ </layer>
+ <layer name="walls_extra" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAN4AJibiBOBuIUIPYCYm8gViUSq6GZJ0Whe8LQ+IEUmudGZfPQATOF+tHdJ4zGNwRiUyguBuISIDYjwTwvItygQYJ5UUAcDcSlUFyGRY8FHvPQ41eRoOvwA3T3GVJoHrXTH7p5iRSahw4KgbiIAREfMFwOxBVYxGFy5gy4448aAAA97xOV
+  </data>
+ </layer>
+ <layer name="meubles" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgegIWRgYEViNkYqWOeANAcQSAWQjKvHMiuoJL5o2AUjALSAQBZdAE6
+  </data>
+ </layer>
+ <layer name="light_top" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJztyDERwCAQBVEMQTAAiQFIDEDwr4J18K+iup15zYZwpoiEC9nwVQUVNx7DVzV0vPgMXzUw8WMZvud5ug04UAjR
+  </data>
+ </layer>
+ <objectgroup name="boundaries" width="20" height="15">
+  <object name="source_piece1_entree" type="source" x="218" y="303" width="59" height="119">
+   <properties>
+    <property name="source" value="couloir_sh2.tmx"/>
+    <property name="source_transition" value="source_piece1_entree"/>
+   </properties>
+  </object>
+  <object name="porte_vers_couloir_1" type="porte" x="122" y="325" width="69" height="77">
+   <properties>
+    <property name="basetool" value="True"/>
+    <property name="block" value="True"/>
+    <property name="dest_transition" value="source_ageei_3"/>
+    <property name="destination" value="couloir_sh2.tmx"/>
+   </properties>
+  </object>
+  <object name="mur_droite_01" type="mur" x="1203" y="123" width="69" height="733">
+   <properties>
+    <property name="block" value="True"/>
+   </properties>
+  </object>
+  <object name="mur_milieu_01" type="mur" x="436" y="384" width="39" height="129">
+   <properties>
+    <property name="block" value="True"/>
+   </properties>
+  </object>
+  <object name="mur_gauche_01" type="mur" x="92" y="48" width="100" height="575">
+   <properties>
+    <property name="block" value="True"/>
+   </properties>
+  </object>
+  <object name="plancher_boisson" type="objet" x="980" y="193" width="96" height="88">
+   <properties>
+    <property name="block" value="True"/>
+   </properties>
+  </object>
+  <object name="plancher_serveur" type="objet" x="636" y="182" width="202" height="77">
+   <properties>
+    <property name="block" value="True"/>
+   </properties>
+  </object>
+  <object name="plancher_sieges" type="objet" x="834" y="558" width="186" height="77">
+   <properties>
+    <property name="block" value="True"/>
+   </properties>
+  </object>
+  <object name="trou" type="porte" x="945" y="287" width="170" height="121">
+   <properties>
+    <property name="basetool" value="True"/>
+    <property name="block" value="True"/>
+    <property name="dest_transition" value="source_fall"/>
+    <property name="destination" value="piece1_sh_underground.tmx"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object name="mur_milieu_02" type="objet" x="724" y="371" width="40" height="197">
+   <properties>
+    <property name="block" value="True"/>
+   </properties>
+  </object>
+  <object name="mur_milieu_03" type="objet" x="997" y="481" width="24" height="72"/>
+  <object name="porte_vers_ageei_2" type="porte" x="278" y="88" width="86" height="102">
+   <properties>
+    <property name="basetool" value="True"/>
+    <property name="block" value="True"/>
+    <property name="dest_transition" value="source_start_ageei"/>
+    <property name="destination" value="ageei2.tmx"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="objets" width="20" height="15">
+  <object name="cle_3" type="clef" gid="450" x="255" y="788">
+   <properties>
+    <property name="basetool" value="True"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="pnjs" width="20" height="15">
+  <object name="monstre1" type="monstre" x="457" y="751" width="27" height="28">
+   <properties>
+    <property name="monstre" value=""/>
+   </properties>
+  </object>
+  <object name="monstre3" type="monstre" x="1144" y="370" width="27" height="28">
+   <properties>
+    <property name="monstre" value=""/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="deco_walls" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBg6QAyJ7cfIwODPSFgPsepIBVE4zOSnvlU0Aw2MDAtKgHig3UEKYANiZkYEpgbgZ0RgfAA9LaHzsxhxpwtsgBS1owACAFjYBpY=
+  </data>
+ </layer>
+ <layer name="hint" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIKhAQAEsAAB
+  </data>
+ </layer>
+ <layer name="walls_top" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgZwG2Im6cIxEpAnA7EyUCcAsRqFJhnCMRGQFwOxMVAXALEZiSa5w3EqVCchkVeA4g1gTgDSR2x7htugNb+TQTiJAZEOMMwKL1kYBGHyakz4I6/wQgAbxEO7w==
+  </data>
+ </layer>
+</map>

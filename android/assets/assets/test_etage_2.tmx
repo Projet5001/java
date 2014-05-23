@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="15" height="15" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" source="tilesets/fantasy-tileset.tsx"/>
+ <layer name="walls" width="15" height="15" opacity="0.99">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAccJFII+sjFWOzl1j3odtLrN5Re4emvZSmK1LTM7kAAG3AAoE=
+  </data>
+ </layer>
+ <layer name="ground" width="15" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBjaQJYIPKp3ZOodKgAAN+gJLg==
+  </data>
+ </layer>
+ <objectgroup name="boundaries" width="15" height="15">
+  <object name="escalier1" type="escalier" gid="15" x="224" y="320">
+   <properties>
+    <property name="block" value="True"/>
+   </properties>
+  </object>
+  <object name="source_etage1" type="source" x="225" y="258" width="30" height="28">
+   <properties>
+    <property name="source" value="test_etage_1.tmx"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
