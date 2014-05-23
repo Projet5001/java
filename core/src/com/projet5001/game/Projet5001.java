@@ -8,9 +8,14 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 
 public class Projet5001 extends ApplicationAdapter {
     SpriteBatch batch;
@@ -32,20 +37,43 @@ public class Projet5001 extends ApplicationAdapter {
 
 
         TiledMap tiledmap = new TmxMapLoader(new InternalFileHandleResolver()).load("assets/ageei2.tmx");
-
-        camera = new OrthographicCamera((Integer)tiledmap.getProperties().get("tileheight"),
-                (Integer)tiledmap.getProperties().get("tilewidth"));
+        MapProperties mapProperties =  tiledmap.getProperties();
+        camera = new OrthographicCamera((Integer)mapProperties.get("tileheight"),(Integer)mapProperties.get("tilewidth"));
 
         renderer = new OrthogonalTiledMapRenderer(tiledmap, unitScale);
 
         sprite = new Sprite(new Texture(Gdx.files.internal("assets/alttp-link1.png")));
-        sprite.setPosition(0, 0);
+
         myActor = new MyActor(sprite);
 
 
+        myActor.addListener(new DragListener(){
+            private float startDragX;
+            private float startDragY;
+            @Override
+            public void dragStart(
+                    InputEvent event,
+                    float x,
+                    float y,
+                    int pointer) {
+                startDragX = x;
+                startDragY = y;
+                myActor.setOrigin(startDragX,startDragY);
+            }
+
+            @Override
+            public void drag(InputEvent event, float x, float y, int pointer) {
+                System.out.println("test");
+                myActor.setPositionC(x, y);
+            }
+            public void dragStop (InputEvent event, float x, float y, int pointer) {
+                myActor.setOrigin(x,y);
+            }
+
+        });
+
         director = new Director();
         director.addActor(myActor);
-
 
     }
 

@@ -16,20 +16,18 @@ public class MyActor extends Actor {
     }
 
     public void initMyactor(){
-        this.setHeight(this.sprite.getHeight());
-        this.setWidth(this.sprite.getWidth());
-        this.setX(this.sprite.getX());
-        this.setY(this.sprite.getY());
+
+        this.setBounds(this.sprite.getX(),this.sprite.getY(),this.sprite.getWidth(),this.sprite.getHeight());
+        this.setOrigin(this.sprite.getWidth()/2,this.sprite.getHeight()/2);
+        System.out.printf("%f %f",this.getOriginX(), this.getOriginY());
         setTouchable(Touchable.enabled);
-        addListener(new InputListener() {
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("yesyes");
-                return true;
-            }
-        });
 
     }
+    public void setPositionC(float x,float y){
+        this.sprite.setPosition(x,y);
+        setPosition(x,y);
 
+    }
     public void sayHelloTest(){
         System.out.println("Allo");
         System.out.printf("height %2f width %2f\n", this.getHeight(), this.getWidth());
