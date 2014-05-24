@@ -2,7 +2,8 @@ package com.projet5001.game;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 
 public class MyActor extends Actor {
@@ -23,15 +24,11 @@ public class MyActor extends Actor {
         setTouchable(Touchable.enabled);
 
     }
-    public void setPositionC(float x,float y){
-        this.sprite.setPosition(x,y);
-        setPosition(x,y);
 
-    }
-    public void sayHelloTest(){
-        System.out.println("Allo");
-        System.out.printf("height %2f width %2f\n", this.getHeight(), this.getWidth());
-        System.out.printf( "height %2f width %2f\n",this.sprite.getHeight(), this.sprite.getWidth());
+    public void moveByC(float x, float y) {
+        this.moveBy(x, y);
+        this.sprite.translate(x, y);
+
     }
 
     public void draw (Batch batch, float parentAlpha){
