@@ -22,6 +22,7 @@ public class Projet5001 extends Game {
     OrthographicCamera camera;
 
     Sprite sprite;
+
     MyActor myActor1;
     MyActor myActor;
     Director director;
@@ -42,31 +43,19 @@ public class Projet5001 extends Game {
         sprite = new Sprite(new Texture(Gdx.files.internal("assets/alttp-link1.png")));
 
         myActor = new MyActor(sprite);
-        myActor1 = new MyActor(sprite);
-        myActor1.setName("bob");
 
-        myActor1.addListener(new ContainerListener() {
-
-            public boolean SimpleContainer(ContainerEvent containerEvent) {
-                System.out.println("ca fonctionne");
-                return false;
-            }
-
-        });
 
         myActor.addListener(new DragListener() {
             @Override
             public void drag(InputEvent event, float x, float y, int pointer) {
                 System.out.println("testDrag");
                 System.out.printf("%2f %2f", this.getDeltaX(), this.getDeltaY());
-                myActor.moveByC(-this.getDeltaX(), -this.getDeltaY());
+
+                ((MyActor) event.getTarget()).moveByC(-this.getDeltaX(), -this.getDeltaY());
             }
 
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("testTouchDown");
-                ContainerEvent e = new ContainerEvent();
-                e.setType(ContainerEvent.Type.SimpleContainer);
-                myActor1.fire(e);
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
