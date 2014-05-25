@@ -7,7 +7,6 @@ public class ContainerListener implements EventListener {
     @Override
     public boolean handle(Event e) {
         if (!(e instanceof ContainerEvent)) {
-            System.out.println(e.toString());
             return false;
         }
         System.out.println(e.toString());
@@ -15,7 +14,6 @@ public class ContainerListener implements EventListener {
         switch (containerEvent.getType()) {
             case SimpleContainer:
                 return SimpleContainer(containerEvent);
-
         }
         return false;
     }
