@@ -3,6 +3,9 @@ package com.projet5001.game;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 
+/**
+ * Permet 'implanter les nouveau type de eventListener
+ */
 public class ContainerListener implements EventListener {
     @Override
     public boolean handle(Event e) {

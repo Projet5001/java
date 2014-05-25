@@ -8,8 +8,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * This class is to be use as a way to fire event that containt information
- * and a type (just a kind of flag ...).
+ * ContainerEvent est un event qui agis de foure tous tout en utilisant le system event driven
  */
 public class ContainerEvent  extends Event {
     Map<Objects,Objects> map;

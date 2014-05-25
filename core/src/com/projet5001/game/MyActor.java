@@ -9,29 +9,38 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 public class MyActor extends Actor {
     private Sprite sprite;
 
-    public MyActor (Sprite sprite){
+
+    public MyActor() {
+        super();
+        this.sprite = null;
+        setTouchable(Touchable.enabled);
+    }
+
+    public MyActor(Sprite sprite) {
         super();
         this.sprite = sprite;
-
-        initMyactor();
-    }
-
-    public void initMyactor(){
-
         this.setBounds(this.sprite.getX(),this.sprite.getY(),this.sprite.getWidth(),this.sprite.getHeight());
-        this.setOrigin(this.sprite.getWidth()/2,this.sprite.getHeight()/2);
-        System.out.printf("%f %f",this.getOriginX(), this.getOriginY());
+        this.setOrigin(this.sprite.getWidth() / 2, this.sprite.getHeight() / 2);
         setTouchable(Touchable.enabled);
-
     }
 
-    public void moveByC(float x, float y) {
+
+    /**
+     * Permet de faire le deplacement de l'acteur et de sont sprite attaché si present
+     *
+     * @param x
+     * @param y
+     */
+    public void moveBy(float x, float y) {
         this.moveBy(x, y);
-        this.sprite.translate(x, y);
-
+        if (this.sprite != null) {
+            this.sprite.translate(x, y);
+        }
     }
 
-    public void draw (Batch batch, float parentAlpha){
-        this.sprite.draw(batch);
+    public void draw (Batch batch, float parentAlpha) {
+        if (this.sprite != null) {
+            this.sprite.draw(batch);
+        }
     }
 }

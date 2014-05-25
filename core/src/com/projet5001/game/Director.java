@@ -10,12 +10,20 @@ public class Director extends Stage implements InputProcessor {
 
     Director director;
 
+    /**
+     * Crée un nouveau directeur et l'enregistre automatique au system de input
+     */
     public Director() {
         super();
         Gdx.input.setInputProcessor(this);
 
     }
 
+    /**
+     * Lance les envent privé a tous les Acteur contenue dans le directeur.
+     *
+     * @param e
+     */
     public void fire(Event e) {
         SnapshotArray array = this.getRoot().getChildren();
 
