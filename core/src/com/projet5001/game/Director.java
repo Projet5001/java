@@ -1,6 +1,7 @@
 package com.projet5001.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.SnapshotArray;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.utils.SnapshotArray;
 public class Director extends Stage {
 
     Director director;
+    private Actor keyboardFocus;
 
     /**
      * Crée un nouveau directeur et l'enregistre automatique au system de input
@@ -15,7 +17,6 @@ public class Director extends Stage {
     public Director() {
         super();
         Gdx.input.setInputProcessor(this);
-
     }
 
     /**
@@ -32,6 +33,5 @@ public class Director extends Stage {
             item.fire(e);
         }
         array.end();
-
     }
 }
