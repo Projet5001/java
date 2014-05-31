@@ -1,12 +1,11 @@
 package com.projet5001.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.SnapshotArray;
 
-public class Director extends Stage implements InputProcessor {
+public class Director extends Stage {
 
     Director director;
 
@@ -35,5 +34,4 @@ public class Director extends Stage implements InputProcessor {
         array.end();
 
     }
-
 }

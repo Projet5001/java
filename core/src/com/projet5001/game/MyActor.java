@@ -21,7 +21,8 @@ public class MyActor extends Actor {
         this.sprite = sprite;
         this.setBounds(this.sprite.getX(),this.sprite.getY(),this.sprite.getWidth(),this.sprite.getHeight());
         this.setOrigin(this.sprite.getWidth() / 2, this.sprite.getHeight() / 2);
-        setTouchable(Touchable.enabled);
+        this.setTouchable(Touchable.enabled);
+
     }
 
 
@@ -31,7 +32,7 @@ public class MyActor extends Actor {
      * @param x
      * @param y
      */
-    public void moveBy(float x, float y) {
+    public void move(float x, float y) {
         this.moveBy(x, y);
         if (this.sprite != null) {
             this.sprite.translate(x, y);

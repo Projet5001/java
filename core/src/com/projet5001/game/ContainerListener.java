@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 
 /**
- * Permet 'implanter les nouveau type de eventListener
+ * Permet d'implanter les nouveau type de eventListener
  */
 public class ContainerListener implements EventListener {
     @Override

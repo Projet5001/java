@@ -10,14 +10,14 @@ import java.util.Objects;
 /**
  * ContainerEvent est un event qui agis de foure tous tout en utilisant le system event driven
  */
-public class ContainerEvent  extends Event {
-    Map<Objects,Objects> map;
+public class ContainerEvent extends Event {
+    Map<Objects, Objects> map;
     private Type type;
     private Actor relatedActor;
 
     public ContainerEvent() {
         super.reset();
-        this.map =  new HashMap<Objects,Objects>();
+        this.map = new HashMap<Objects, Objects>();
         this.relatedActor = null;
 
     }

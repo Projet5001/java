@@ -12,6 +12,8 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 public class Projet5001 extends Game {
     SpriteBatch batch;
@@ -30,10 +32,6 @@ public class Projet5001 extends Game {
 
         batch = new SpriteBatch();
 
-        /**
-         * Le directeur s'occupe de passé les event anisi que de faire le draw de model
-         */
-        director = new Director();
 
         /**
          * La map , la caméra et le renderer
@@ -48,6 +46,17 @@ public class Projet5001 extends Game {
          */
         sprite = new Sprite(new Texture(Gdx.files.internal("assets/alttp-link1.png")));
         myActor = new MyActor(sprite);
+
+        myActor.addListener(new InputListener() {
+            public boolean keyDown(InputEvent event, int keycode) {
+                System.out.println("test");
+                return false;
+            }
+        });
+        /**
+         * Le directeur s'occupe de passé les event anisi que de faire le draw de model
+         */
+        director = new Director();
         director.addActor(myActor);
 
 
