@@ -32,14 +32,15 @@ public class Test extends ScreenAdapter {
 
     public Test(Projet5001 game) {
         this.game = game;
+        this.batch = game.batcher;
+
         float unitScale = 1 / 16f;
 
-        batch = new SpriteBatch();
 
         /**
          * La map , la caméra et le renderer
          */
-        tiledmap = new TmxMapLoader(new InternalFileHandleResolver()).load("assets/ageei2.tmx");
+        tiledmap = new TmxMapLoader(new InternalFileHandleResolver()).load("data/tmx/ageei2.tmx");
         mapProperties = tiledmap.getProperties();
         camera = new OrthographicCamera((Integer) mapProperties.get("tileheight"), (Integer) mapProperties.get("tilewidth"));
         renderer = new OrthogonalTiledMapRenderer(tiledmap, unitScale);
@@ -47,7 +48,7 @@ public class Test extends ScreenAdapter {
         /**
          * Tous ce  qui concerne la creation du player
          */
-        sprite = new Sprite(new Texture(Gdx.files.internal("assets/alttp-link1.png")));
+        sprite = new Sprite(new Texture(Gdx.files.internal("data/sprites/alttp-link1.png")));
         myActor = new MyActor(sprite);
 
 
