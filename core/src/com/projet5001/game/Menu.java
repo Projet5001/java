@@ -26,14 +26,18 @@ public class Menu implements Screen {
     Director director;
     TextButton button;
     Table table;
-    private Touchpad touchpad;
-    private Touchpad.TouchpadStyle touchpadStyle;
-    private Skin touchpadSkin;
-    private Drawable touchBackground;
-    private Drawable touchKnob;
-    private Texture blockTexture;
+    Touchpad touchpad;
+    Touchpad.TouchpadStyle touchpadStyle;
+    Skin touchpadSkin;
+    Drawable touchBackground;
+    Drawable touchKnob;
+
 
     public Menu(final Projet5001 game) {
+        String extRoot = Gdx.files.getExternalStoragePath();
+        String locRoot = Gdx.files.getLocalStoragePath();
+        System.out.println("ext" + extRoot);
+        System.out.println("loc" + locRoot);
 
         this.game = game;
         guiCam = new OrthographicCamera(320, 480);
