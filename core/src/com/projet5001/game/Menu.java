@@ -26,7 +26,7 @@ public class Menu implements Screen {
     Director director;
     TextButton button;
     Table table;
-    Touchpad touchpad;
+    Joypad touchpad;
     Touchpad.TouchpadStyle touchpadStyle;
     Skin touchpadSkin;
     Drawable touchBackground;
@@ -88,7 +88,7 @@ public class Menu implements Screen {
         touchpadStyle.background = touchBackground;
         touchpadStyle.knob = touchKnob;
         //Create new TouchPad with the created style
-        touchpad = new Touchpad(10, touchpadStyle);
+        touchpad = new Joypad(10f, touchpadStyle);
         //setBounds(x,y,width,height)
         touchpad.setBounds(50, 50, 200, 200);
 
@@ -110,9 +110,9 @@ public class Menu implements Screen {
         shapeRenderer.rect(0, 0, 50, 50);
         shapeRenderer.end();
 
-
-        table.setX(table.getX() + touchpad.getKnobPercentX());
-        table.setY(table.getY() + touchpad.getKnobPercentY());
+        //if touch pad area is bigger than 50% that half of the radius then * 5
+        table.setX(table.getX() + touchpad.getJoyPadKnobPercentX());
+        table.setY(table.getY() + touchpad.getJoyPadKnobPercentY());
 
         game.batcher.begin();
         director.draw();

@@ -11,6 +11,7 @@ public class MyActorControler {
         myActor.addListener(new InputListener() {
             public boolean keyDown(InputEvent event, int keycode) {
                 System.out.println("test");
+                System.out.println();
                 return false;
             }
         });
