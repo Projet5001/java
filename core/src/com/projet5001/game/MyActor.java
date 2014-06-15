@@ -44,4 +44,26 @@ public class MyActor extends Actor {
             this.sprite.draw(batch);
         }
     }
+
+    public void moveLeft(){
+        move(-10,0);
+        System.out.println(getX());
+        System.out.println(this.sprite.getX());
+    }
+    public void moveRight(){
+        move(10,0);
+        System.out.println(getX());
+        System.out.println(this.sprite.getX());
+    }
+    public void moveUp(){
+        move(0,10);
+        System.out.println(getY());
+        System.out.println(this.sprite.getY());
+
+    }
+    public void moveDown(){
+        move(0,-10);
+        System.out.println(getY());
+        System.out.println(this.sprite.getY());
+    }
 }

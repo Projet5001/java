@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -26,7 +27,7 @@ public class Menu implements Screen {
     Director director;
     TextButton button;
     Table table;
-    Joypad touchpad;
+    JoypadControleur joyPadControleur;
     Touchpad.TouchpadStyle touchpadStyle;
     Skin touchpadSkin;
     Drawable touchBackground;
@@ -76,9 +77,9 @@ public class Menu implements Screen {
 
         touchpadSkin = new Skin();
         //Set background image
-        touchpadSkin.add("touchBackground", new Texture("data/touchpad/touchBackground.png"));
+        touchpadSkin.add("touchBackground", new Texture("data/joyPadControleur/touchBackground.png"));
         //Set knob image
-        touchpadSkin.add("touchKnob", new Texture("data/touchpad/touchKnob.png"));
+        touchpadSkin.add("touchKnob", new Texture("data/joyPadControleur/touchKnob.png"));
         //Create TouchPad Style
         touchpadStyle = new Touchpad.TouchpadStyle();
         //Create Drawable's from TouchPad skin
@@ -88,13 +89,13 @@ public class Menu implements Screen {
         touchpadStyle.background = touchBackground;
         touchpadStyle.knob = touchKnob;
         //Create new TouchPad with the created style
-        touchpad = new Joypad(10f, touchpadStyle);
+        joyPadControleur = new JoypadControleur(10f, touchpadStyle);
         //setBounds(x,y,width,height)
-        touchpad.setBounds(50, 50, 200, 200);
+        joyPadControleur.setBounds(30, 30, 200, 200);
 
         director = new Director();
         director.addActor(table);
-        director.addActor(touchpad);
+        director.addActor(joyPadControleur);
 
     }
 
@@ -111,8 +112,8 @@ public class Menu implements Screen {
         shapeRenderer.end();
 
         //if touch pad area is bigger than 50% that half of the radius then * 5
-        table.setX(table.getX() + touchpad.getJoyPadKnobPercentX());
-        table.setY(table.getY() + touchpad.getJoyPadKnobPercentY());
+        table.setX(table.getX() + joyPadControleur.getJoyPadKnobPercentX());
+        table.setY(table.getY() + joyPadControleur.getJoyPadKnobPercentY());
 
         game.batcher.begin();
         director.draw();
@@ -125,6 +126,7 @@ public class Menu implements Screen {
     @Override
     public void render(float delta) {
         draw();
+        director.act();
     }
 
     @Override

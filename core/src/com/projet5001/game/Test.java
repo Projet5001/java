@@ -62,7 +62,13 @@ public class Test extends ScreenAdapter {
          * Permet a myActor de recevoir les event du keyboard
          */
         director.setKeyboardFocus(myActor);
-        MyActorControler.register(myActor);
+
+        /**
+         * On peu assi ajouter des listerner a partir de directeur vers un acteur specific voir
+         * 	public void addTouchFocus (EventListener listener, Actor listenerActor, Actor target, int pointer, int button)
+         * 	dans stage
+         */
+        KeyboardControleur.register(myActor);
 
     }
 
