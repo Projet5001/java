@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -95,7 +94,6 @@ public class Menu implements Screen {
 
         director = new Director();
         director.addActor(table);
-        director.addActor(joyPadControleur);
 
     }
 
@@ -110,10 +108,6 @@ public class Menu implements Screen {
         shapeRenderer.setColor(0, 1, 0, 1);
         shapeRenderer.rect(0, 0, 50, 50);
         shapeRenderer.end();
-
-        //if touch pad area is bigger than 50% that half of the radius then * 5
-        table.setX(table.getX() + joyPadControleur.getJoyPadKnobPercentX());
-        table.setY(table.getY() + joyPadControleur.getJoyPadKnobPercentY());
 
         game.batcher.begin();
         director.draw();

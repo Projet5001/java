@@ -13,6 +13,9 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 /**
  * Created by macmata on 31/05/14.
@@ -26,6 +29,11 @@ public class Test extends ScreenAdapter {
     Director director;
     TiledMap tiledmap;
     MapProperties mapProperties;
+    JoypadControleur joyPadControleur;
+    Touchpad.TouchpadStyle touchpadStyle;
+    Skin touchpadSkin;
+    Drawable touchBackground;
+    Drawable touchKnob;
 
     private Game game;
 
@@ -70,6 +78,27 @@ public class Test extends ScreenAdapter {
          */
         KeyboardControleur.register(myActor);
 
+        touchpadSkin = new Skin();
+        //Set background image
+        touchpadSkin.add("touchBackground", new Texture("data/joyPadControleur/touchBackground.png"));
+        //Set knob image
+        touchpadSkin.add("touchKnob", new Texture("data/joyPadControleur/touchKnob.png"));
+        //Create TouchPad Style
+        touchpadStyle = new Touchpad.TouchpadStyle();
+        //Create Drawable's from TouchPad skin
+        touchBackground = touchpadSkin.getDrawable("touchBackground");
+        touchKnob = touchpadSkin.getDrawable("touchKnob");
+        //Apply the Drawables to the TouchPad Style
+        touchpadStyle.background = touchBackground;
+        touchpadStyle.knob = touchKnob;
+        //Create new TouchPad with the created style
+        joyPadControleur = new JoypadControleur(10f, touchpadStyle);
+        //setBounds(x,y,width,height)
+        joyPadControleur.setBounds(70, 70, 200, 200);
+
+        joyPadControleur.register(myActor);
+
+        director.addActor(joyPadControleur);
     }
 
 
@@ -83,11 +112,12 @@ public class Test extends ScreenAdapter {
         Gdx.gl20.glClearColor(0, 0, 0, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
         camera.position.set(0f, 0f, 0f);
         camera.update();
 
+        director.act();
         director.draw();
+
         batch.begin();
         renderer.setView(camera);
         renderer.render();

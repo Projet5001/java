@@ -14,20 +14,16 @@ public class KeyboardControleur {
             public boolean keyDown(InputEvent event, int keycode) {
                 switch (keycode){
                     case Input.Keys.LEFT:
-                        myActor.moveLeft();
-                        System.out.println("move left");
+                        myActor.fire(new MovementEvents(MovementEvents.Type.moveLeft));
                         break;
                     case Input.Keys.RIGHT:
-                        myActor.moveRight();
-                        System.out.println("move right");
+                        myActor.fire(new MovementEvents(MovementEvents.Type.moveRight));
                         break;
                     case Input.Keys.DOWN:
-                        myActor.moveDown();
-                        System.out.println("move down");
+                        myActor.fire(new MovementEvents(MovementEvents.Type.moveDown));
                         break;
                     case Input.Keys.UP:
-                        myActor.moveUp();
-                        System.out.println("move up");
+                        myActor.fire(new MovementEvents(MovementEvents.Type.moveUp));
                         break;
                 }
                 return true;
