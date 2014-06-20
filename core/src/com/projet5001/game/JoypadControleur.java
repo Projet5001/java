@@ -1,5 +1,6 @@
 package com.projet5001.game;
 
+
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 
@@ -31,6 +32,8 @@ public class JoypadControleur extends Touchpad {
            else if (Math.abs(getKnobPercentY())>0.5 && getKnobY() > 100){
                this.myActor.fire(new MovementEvents(MovementEvents.Type.moveUp));
            }
+           if (Math.abs(getKnobPercentY())>0.5 ^ Math.abs(getKnobPercentX())>0.5){return;}
+           if (Math.abs(getKnobPercentY())>0.5 && Math.abs(getKnobPercentX())>0.5){return;}
        }
     }
 }

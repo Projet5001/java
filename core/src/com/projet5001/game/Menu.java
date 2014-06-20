@@ -19,18 +19,15 @@ public class Menu implements Screen {
 
     Skin skin;
     BitmapFont font;
-    OrthographicCamera guiCam;
     Projet5001 game;
     ShapeRenderer shapeRenderer;
     Label label;
     Director director;
     TextButton button;
     Table table;
-    JoypadControleur joyPadControleur;
-    Touchpad.TouchpadStyle touchpadStyle;
-    Skin touchpadSkin;
-    Drawable touchBackground;
-    Drawable touchKnob;
+
+
+
 
 
     public Menu(final Projet5001 game) {
@@ -40,8 +37,6 @@ public class Menu implements Screen {
         System.out.println("loc" + locRoot);
 
         this.game = game;
-        guiCam = new OrthographicCamera(320, 480);
-        guiCam.position.set(320 / 2, 480 / 2, 0);
 
         shapeRenderer = new ShapeRenderer();
 
@@ -65,35 +60,23 @@ public class Menu implements Screen {
         table.setFillParent(true);
         table.add(button);
         table.add(label);
+
+        //n'est pas la seul facon d'ajout les input mais permet de le faire a la vole
         button.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                //Lance le scree test
+                //Lance le screen test
+                //ajouter une methode qui sauve l'etat du screen actuel
                 game.setScreen(new Test(game));
                 return true;
             }
         });
 
 
-        touchpadSkin = new Skin();
-        //Set background image
-        touchpadSkin.add("touchBackground", new Texture("data/joyPadControleur/touchBackground.png"));
-        //Set knob image
-        touchpadSkin.add("touchKnob", new Texture("data/joyPadControleur/touchKnob.png"));
-        //Create TouchPad Style
-        touchpadStyle = new Touchpad.TouchpadStyle();
-        //Create Drawable's from TouchPad skin
-        touchBackground = touchpadSkin.getDrawable("touchBackground");
-        touchKnob = touchpadSkin.getDrawable("touchKnob");
-        //Apply the Drawables to the TouchPad Style
-        touchpadStyle.background = touchBackground;
-        touchpadStyle.knob = touchKnob;
-        //Create new TouchPad with the created style
-        joyPadControleur = new JoypadControleur(10f, touchpadStyle);
-        //setBounds(x,y,width,height)
-        joyPadControleur.setBounds(30, 30, 200, 200);
-
         director = new Director();
         director.addActor(table);
+
+        //enregistre un seul input processor
+        Gdx.input.setInputProcessor(director);
 
     }
 
@@ -101,8 +84,6 @@ public class Menu implements Screen {
         GL20 gl = Gdx.gl20;
         gl.glClearColor(0, 0, 0, 0);
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        guiCam.update();
-        game.batcher.setProjectionMatrix(guiCam.combined);
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(0, 1, 0, 1);

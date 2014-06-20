@@ -2,6 +2,7 @@ package com.projet5001.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.GL20;
@@ -13,9 +14,6 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 /**
  * Created by macmata on 31/05/14.
@@ -24,16 +22,15 @@ public class Test extends ScreenAdapter {
     SpriteBatch batch;
     OrthogonalTiledMapRenderer renderer;
     OrthographicCamera camera;
+    OrthographicCamera uiCamera;
     Sprite sprite;
     MyActor myActor;
     Director director;
+    Director uiDirector;
     TiledMap tiledmap;
     MapProperties mapProperties;
     JoypadControleur joyPadControleur;
-    Touchpad.TouchpadStyle touchpadStyle;
-    Skin touchpadSkin;
-    Drawable touchBackground;
-    Drawable touchKnob;
+    InputMultiplexer multiplexer;
 
     private Game game;
 
@@ -41,30 +38,49 @@ public class Test extends ScreenAdapter {
     public Test(Projet5001 game) {
         this.game = game;
         this.batch = game.batcher;
-
-        float unitScale = 1 / 16f;
-
+        //scale qui represente  le ratio de render de la map
+        float unitScale = 1/32f;
 
         /**
-         * La map , la caméra et le renderer
+         * La map et son renderer
          */
         tiledmap = new TmxMapLoader(new InternalFileHandleResolver()).load("data/tmx/ageei2.tmx");
         mapProperties = tiledmap.getProperties();
-        camera = new OrthographicCamera((Integer) mapProperties.get("tileheight"), (Integer) mapProperties.get("tilewidth"));
         renderer = new OrthogonalTiledMapRenderer(tiledmap, unitScale);
+
 
         /**
          * Tous ce  qui concerne la creation du player
          */
         sprite = new Sprite(new Texture(Gdx.files.internal("data/sprites/alttp-link1.png")));
+        sprite.setSize(2,2);
         myActor = new MyActor(sprite);
-
 
         /**
          * Le directeur s'occupe de passé les event anisi que de faire le draw de model
          */
         director = new Director();
-        director.addActor(myActor);
+
+
+        /**
+         * Le ui director va prendre en charge le draw de tous les objets du ui
+         * va aussi achemier tous les event de keyboard et touch
+         */
+        uiDirector = new Director();
+
+        /***
+         * il est important d'utiliser un multiplexer pour
+         * enregister tous les inputs. Pour le moment il est ici  mais idealement
+         * il fautdrait avoir une seul multiplexeur pour le jeux sachant que l'on va
+         * changer les "screen" souvent
+         */
+        multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(uiDirector);
+        multiplexer.addProcessor(director);
+        //playerItemMenu = new director()
+        //ex: multiplexer.addProcessor(playerItemMenu);
+        Gdx.input.setInputProcessor(multiplexer);
+
 
         /**
          * Permet a myActor de recevoir les event du keyboard
@@ -78,27 +94,23 @@ public class Test extends ScreenAdapter {
          */
         KeyboardControleur.register(myActor);
 
-        touchpadSkin = new Skin();
-        //Set background image
-        touchpadSkin.add("touchBackground", new Texture("data/joyPadControleur/touchBackground.png"));
-        //Set knob image
-        touchpadSkin.add("touchKnob", new Texture("data/joyPadControleur/touchKnob.png"));
-        //Create TouchPad Style
-        touchpadStyle = new Touchpad.TouchpadStyle();
-        //Create Drawable's from TouchPad skin
-        touchBackground = touchpadSkin.getDrawable("touchBackground");
-        touchKnob = touchpadSkin.getDrawable("touchKnob");
-        //Apply the Drawables to the TouchPad Style
-        touchpadStyle.background = touchBackground;
-        touchpadStyle.knob = touchKnob;
-        //Create new TouchPad with the created style
-        joyPadControleur = new JoypadControleur(10f, touchpadStyle);
-        //setBounds(x,y,width,height)
-        joyPadControleur.setBounds(70, 70, 200, 200);
+        /**
+         * Cree un nouceau touchpad
+         */
+        TouchpadStyle tps  = new TouchpadStyle();
+        joyPadControleur = new JoypadControleur(10f,tps.getTouchpadStyle());
 
+        //set size et position
+        joyPadControleur.setBounds(0, 0, 200, 200);
+
+        //enregister l'acteur qui va recevoir les evenements
         joyPadControleur.register(myActor);
 
-        director.addActor(joyPadControleur);
+        //enregistre le joypad au bon directeur
+        uiDirector.addActor(joyPadControleur);
+
+        //enregistre myactor pour etre render dans le director
+        director.addActor(myActor);
     }
 
 
@@ -112,16 +124,26 @@ public class Test extends ScreenAdapter {
         Gdx.gl20.glClearColor(0, 0, 0, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        camera.position.set(0f, 0f, 0f);
+        camera = (OrthographicCamera)director.getCamera();
+        //render sur la surface de la fenetre le 30x20 de la map
+        camera.setToOrtho(false,30,20);
+
+
+        camera.position.set(myActor.getX(),myActor.getY(),0f);
         camera.update();
+
+        renderer.setView(camera);
+        renderer.render();
+
+        uiCamera = (OrthographicCamera)uiDirector.getCamera();
+        uiCamera.setToOrtho(false, 640, 480);
+
+        uiDirector.act();
+        uiDirector.draw();
+
 
         director.act();
         director.draw();
 
-        batch.begin();
-        renderer.setView(camera);
-        renderer.render();
-        camera.update();
-        batch.end();
     }
 }
