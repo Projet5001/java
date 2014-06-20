@@ -26,11 +26,9 @@ public class Menu implements Screen {
     Director director;
     TextButton button;
     Table table;
-    JoypadControleur joyPadControleur;
-    Touchpad.TouchpadStyle touchpadStyle;
-    Skin touchpadSkin;
-    Drawable touchBackground;
-    Drawable touchKnob;
+
+
+
 
 
     public Menu(final Projet5001 game) {
@@ -65,35 +63,22 @@ public class Menu implements Screen {
         table.setFillParent(true);
         table.add(button);
         table.add(label);
+        //n'est pas la seul facon d'ajout les input mais permet de le faire a la vole
         button.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                //Lance le scree test
+                //Lance le screen test
+                //ajouter une methode qui sauve l'etat du screen actuel
                 game.setScreen(new Test(game));
                 return true;
             }
         });
 
 
-        touchpadSkin = new Skin();
-        //Set background image
-        touchpadSkin.add("touchBackground", new Texture("data/joyPadControleur/touchBackground.png"));
-        //Set knob image
-        touchpadSkin.add("touchKnob", new Texture("data/joyPadControleur/touchKnob.png"));
-        //Create TouchPad Style
-        touchpadStyle = new Touchpad.TouchpadStyle();
-        //Create Drawable's from TouchPad skin
-        touchBackground = touchpadSkin.getDrawable("touchBackground");
-        touchKnob = touchpadSkin.getDrawable("touchKnob");
-        //Apply the Drawables to the TouchPad Style
-        touchpadStyle.background = touchBackground;
-        touchpadStyle.knob = touchKnob;
-        //Create new TouchPad with the created style
-        joyPadControleur = new JoypadControleur(10f, touchpadStyle);
-        //setBounds(x,y,width,height)
-        joyPadControleur.setBounds(30, 30, 200, 200);
-
         director = new Director();
         director.addActor(table);
+
+        //enregistre un seul input processor
+        Gdx.input.setInputProcessor(director);
 
     }
 
