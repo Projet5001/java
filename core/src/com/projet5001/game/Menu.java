@@ -19,7 +19,6 @@ public class Menu implements Screen {
 
     Skin skin;
     BitmapFont font;
-    OrthographicCamera guiCam;
     Projet5001 game;
     ShapeRenderer shapeRenderer;
     Label label;
@@ -38,8 +37,6 @@ public class Menu implements Screen {
         System.out.println("loc" + locRoot);
 
         this.game = game;
-        guiCam = new OrthographicCamera(320, 480);
-        guiCam.position.set(320 / 2, 480 / 2, 0);
 
         shapeRenderer = new ShapeRenderer();
 
@@ -63,6 +60,7 @@ public class Menu implements Screen {
         table.setFillParent(true);
         table.add(button);
         table.add(label);
+
         //n'est pas la seul facon d'ajout les input mais permet de le faire a la vole
         button.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -86,8 +84,6 @@ public class Menu implements Screen {
         GL20 gl = Gdx.gl20;
         gl.glClearColor(0, 0, 0, 0);
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        guiCam.update();
-        game.batcher.setProjectionMatrix(guiCam.combined);
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(0, 1, 0, 1);
