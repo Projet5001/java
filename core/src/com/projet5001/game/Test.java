@@ -24,9 +24,11 @@ public class Test extends ScreenAdapter {
     SpriteBatch batch;
     OrthogonalTiledMapRenderer renderer;
     OrthographicCamera camera;
+    OrthographicCamera camera2;
     Sprite sprite;
     MyActor myActor;
     Director director;
+    Director uiDirector;
     TiledMap tiledmap;
     MapProperties mapProperties;
     JoypadControleur joyPadControleur;
@@ -35,6 +37,7 @@ public class Test extends ScreenAdapter {
     Drawable touchBackground;
     Drawable touchKnob;
 
+
     private Game game;
 
 
@@ -42,7 +45,7 @@ public class Test extends ScreenAdapter {
         this.game = game;
         this.batch = game.batcher;
 
-        float unitScale = 1 / 16f;
+        float unitScale = 1/32f;
 
 
         /**
@@ -50,26 +53,30 @@ public class Test extends ScreenAdapter {
          */
         tiledmap = new TmxMapLoader(new InternalFileHandleResolver()).load("data/tmx/ageei2.tmx");
         mapProperties = tiledmap.getProperties();
-        camera = new OrthographicCamera((Integer) mapProperties.get("tileheight"), (Integer) mapProperties.get("tilewidth"));
+        //camera2 = new OrthographicCamera();
+        //camera2.setToOrtho(false,640, 480);
+        //camera2.update();
+        //camera2 = new OrthographicCamera((Integer) mapProperties.get("tileheight"), (Integer) mapProperties.get("tilewidth"));
         renderer = new OrthogonalTiledMapRenderer(tiledmap, unitScale);
+
 
         /**
          * Tous ce  qui concerne la creation du player
          */
         sprite = new Sprite(new Texture(Gdx.files.internal("data/sprites/alttp-link1.png")));
+        sprite.setSize(2,2);
         myActor = new MyActor(sprite);
-
 
         /**
          * Le directeur s'occupe de passé les event anisi que de faire le draw de model
          */
         director = new Director();
         director.addActor(myActor);
-
+        uiDirector = new Director();
         /**
          * Permet a myActor de recevoir les event du keyboard
          */
-        director.setKeyboardFocus(myActor);
+        uiDirector.setKeyboardFocus(myActor);
 
         /**
          * On peu assi ajouter des listerner a partir de directeur vers un acteur specific voir
@@ -93,35 +100,73 @@ public class Test extends ScreenAdapter {
         touchpadStyle.knob = touchKnob;
         //Create new TouchPad with the created style
         joyPadControleur = new JoypadControleur(10f, touchpadStyle);
-        //setBounds(x,y,width,height)
-        joyPadControleur.setBounds(70, 70, 200, 200);
+
+        joyPadControleur.setBounds(0, 0, 200, 200);
+
 
         joyPadControleur.register(myActor);
 
-        director.addActor(joyPadControleur);
+
+        uiDirector.addActor(joyPadControleur);
     }
 
 
     @Override
     public void render(float delta) {
         draw();
+        /*
+        batch.setProjectionMatrix(camera2.combined);
+        batch.begin();
+        joyPadControleur.draw(batch,1f);
+        batch.end();
+        */
     }
 
     public void draw() {
-
+        /**
+         * Dans ce cas si tous les objet(acteur, joypad et map sont bounder a la
+         * camera de directeur)
+         * Et si on bounday le ui a une autre camera ?
+         */
         Gdx.gl20.glClearColor(0, 0, 0, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        camera.position.set(0f, 0f, 0f);
+        camera = (OrthographicCamera)director.getCamera();
+        camera.setToOrtho(false,30,20);
+
+
+        camera.position.set(myActor.getX(),myActor.getY(),0f);
         camera.update();
+
+        renderer.setView(camera);
+        renderer.render();
+
+        camera2 = (OrthographicCamera)uiDirector.getCamera();
+        //camera2.setToOrtho(false,640,480);
+        uiDirector.act();
+        uiDirector.draw();
+
 
         director.act();
         director.draw();
 
-        batch.begin();
-        renderer.setView(camera);
-        renderer.render();
-        camera.update();
-        batch.end();
+
+
+
+
+        System.out.print("viewportX");
+        System.out.println(director.getViewport().getViewportX());
+
+        System.out.print("viewportY");
+        System.out.println(director.getViewport().getViewportY());
+
+        System.out.print("viewportHeight");
+        System.out.println(director.getViewport().getViewportHeight());
+        System.out.print("viewportWidth");
+        System.out.println(director.getViewport().getViewportWidth());
+
+        System.out.print("world");
+        System.out.println(director.getViewport().getWorldWidth());
+
     }
 }

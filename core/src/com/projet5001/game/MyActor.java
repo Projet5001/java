@@ -7,12 +7,16 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 
 public class MyActor extends Actor {
+    private int fastSpeed;
+    private int slowSpeed;
     private int speed;
     private Sprite sprite;
 
     public MyActor(Sprite sprite) {
         super();
-        speed = 10;
+        this.speed = 1;
+        this.fastSpeed = 1;
+        this.slowSpeed = 1;
         this.sprite = sprite;
         this.setBounds(this.sprite.getX(),this.sprite.getY(),this.sprite.getWidth(),this.sprite.getHeight());
         this.setOrigin(this.sprite.getWidth() / 2, this.sprite.getHeight() / 2);
@@ -40,11 +44,11 @@ public class MyActor extends Actor {
                 return false;
             }
             public boolean moveFast(MovementEvents event) {
-                ((MyActor)event.getTarget()).setSpeed(5);
+                ((MyActor)event.getTarget()).setSpeed(fastSpeed);
                 return false;
             }
             public boolean moveSlow(MovementEvents event) {
-                ((MyActor)event.getTarget()).setSpeed(2);
+                ((MyActor)event.getTarget()).setSpeed(slowSpeed);
                 return false;
             }
 
