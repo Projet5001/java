@@ -16,7 +16,6 @@ public class Director extends Stage {
      */
     public Director() {
         super();
-        Gdx.input.setInputProcessor(this);
     }
 
     /**

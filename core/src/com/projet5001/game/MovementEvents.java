@@ -7,18 +7,18 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * ContainerEvent est un event qui agis de foure tous tout en utilisant le system event driven
+ * Created by macmata on 16/06/14.
  */
-public class ContainerEvent extends Event {
+public class MovementEvents extends Event {
     Map<Objects, Objects> map;
     private Type type;
     private Actor relatedActor;
 
-    public ContainerEvent() {
+    public MovementEvents(Type type){
         super.reset();
         this.map = new HashMap<Objects, Objects>();
         this.relatedActor = null;
-
+        this.type = type;
     }
 
     @Override
@@ -34,10 +34,7 @@ public class ContainerEvent extends Event {
         this.type = type;
     }
 
-    /**
-     * To be modifie with my own type.
-     */
     static public enum Type {
-        SimpleContainer
+        moveLeft, moveRight, moveUp, moveDown, moveSlow, moveFast, idle
     }
 }
