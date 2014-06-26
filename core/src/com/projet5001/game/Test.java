@@ -21,11 +21,11 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 public class Test extends ScreenAdapter {
     SpriteBatch batch;
     OrthogonalTiledMapRenderer renderer;
-    OrthographicCamera camera;
+    OrthographicCamera worldCamera;
     OrthographicCamera uiCamera;
     Sprite sprite;
     MyActor myActor;
-    Director director;
+    Director worldDirector;
     Director uiDirector;
     TiledMap tiledmap;
     MapProperties mapProperties;
@@ -38,8 +38,8 @@ public class Test extends ScreenAdapter {
     public Test(Projet5001 game) {
         this.game = game;
         this.batch = game.batcher;
-        //scale qui represente  le ratio de render de la map
-        float unitScale = 1/32f;
+        //scale qui represente  le ratio de render de la map dans ce cas si 1/4 de taille de tilset
+        float unitScale = 1/16f;
 
         /**
          * La map et son renderer
@@ -53,17 +53,17 @@ public class Test extends ScreenAdapter {
          * Tous ce  qui concerne la creation du player
          */
         sprite = new Sprite(new Texture(Gdx.files.internal("data/sprites/alttp-link1.png")));
-        sprite.setSize(2,2);
+        sprite.setSize(4,4);
         myActor = new MyActor(sprite);
 
         /**
          * Le directeur s'occupe de passé les event anisi que de faire le draw de model
          */
-        director = new Director();
+        worldDirector = new Director();
 
 
         /**
-         * Le ui director va prendre en charge le draw de tous les objets du ui
+         * Le ui worldDirector va prendre en charge le draw de tous les objets du ui
          * va aussi achemier tous les event de keyboard et touch
          */
         uiDirector = new Director();
@@ -76,8 +76,8 @@ public class Test extends ScreenAdapter {
          */
         multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(uiDirector);
-        multiplexer.addProcessor(director);
-        //playerItemMenu = new director()
+        multiplexer.addProcessor(worldDirector);
+        //playerItemMenu = new worldDirector()
         //ex: multiplexer.addProcessor(playerItemMenu);
         Gdx.input.setInputProcessor(multiplexer);
 
@@ -85,7 +85,7 @@ public class Test extends ScreenAdapter {
         /**
          * Permet a myActor de recevoir les event du keyboard
          */
-        director.setKeyboardFocus(myActor);
+        worldDirector.setKeyboardFocus(myActor);
 
         /**
          * On peu assi ajouter des listerner a partir de directeur vers un acteur specific voir
@@ -109,8 +109,8 @@ public class Test extends ScreenAdapter {
         //enregistre le joypad au bon directeur
         uiDirector.addActor(joyPadControleur);
 
-        //enregistre myactor pour etre render dans le director
-        director.addActor(myActor);
+        //enregistre myactor pour etre render dans le worldDirector
+        worldDirector.addActor(myActor);
     }
 
 
@@ -124,15 +124,15 @@ public class Test extends ScreenAdapter {
         Gdx.gl20.glClearColor(0, 0, 0, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        camera = (OrthographicCamera)director.getCamera();
+        worldCamera = (OrthographicCamera) worldDirector.getCamera();
         //render sur la surface de la fenetre le 30x20 de la map
-        camera.setToOrtho(false,30,20);
+        worldCamera.setToOrtho(false, 60, 40);
 
 
-        camera.position.set(myActor.getX(),myActor.getY(),0f);
-        camera.update();
+        worldCamera.position.set(myActor.getX(),myActor.getY(),0f);
+        worldCamera.update();
 
-        renderer.setView(camera);
+        renderer.setView(worldCamera);
         renderer.render();
 
         uiCamera = (OrthographicCamera)uiDirector.getCamera();
@@ -141,9 +141,9 @@ public class Test extends ScreenAdapter {
         uiDirector.act();
         uiDirector.draw();
 
-
-        director.act();
-        director.draw();
+        worldDirector.debug();
+        worldDirector.act();
+        worldDirector.draw();
 
     }
 }

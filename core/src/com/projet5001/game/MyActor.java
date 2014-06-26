@@ -2,6 +2,7 @@ package com.projet5001.game;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -9,10 +10,15 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 
 public class MyActor extends Actor {
+    private  ShapeRenderer rect;
     private int fastSpeed;
     private int slowSpeed;
     private int speed;
     private Sprite sprite;
+
+    public ShapeRenderer getRect() {
+        return rect;
+    }
 
     public MyActor(Sprite sprite) {
         super();
@@ -20,6 +26,7 @@ public class MyActor extends Actor {
         this.fastSpeed = 1;
         this.slowSpeed = 1;
         this.sprite = sprite;
+
         this.setBounds(this.sprite.getX(),this.sprite.getY(),this.sprite.getWidth(),this.sprite.getHeight());
         this.setOrigin(this.sprite.getWidth() / 2, this.sprite.getHeight() / 2);
         this.setTouchable(Touchable.enabled);
