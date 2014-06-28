@@ -15,6 +15,7 @@ public class Director extends Stage {
 
     String ERREUR_EFFACER_ACTEUR = "Impossible d'effacer cet acteur.";
     String ERREUR_EFFACER_TOUS_LES_ACTEUR = "Impossible d'effacer la liste d'acteur";
+    String ERREUR_AJOUT_LISTE_ACTEUR = "Impossible d'ajouter la liste d'acteur.";
 
     private Actor keyboardFocus;
 
@@ -38,6 +39,21 @@ public class Director extends Stage {
             item.fire(e);
         }
         array.end();
+    }
+
+    /**
+     * fonction addActorListToDirector
+     * @param listToAdd
+     * @return boolean true si ajouté, false sinon.
+     */
+    public boolean addActorListToDirector(Array<Actor> listToAdd){
+        try{
+            this.getListeActeur().addAll(listToAdd);
+            return true;
+        }catch(OutOfMemoryError memoryException){
+            System.out.println(ERREUR_AJOUT_LISTE_ACTEUR);
+            return false;
+        }
     }
 
     /**
@@ -92,6 +108,9 @@ public class Director extends Stage {
      }
     }
 
+    /**
+     * fonction debug()
+     */
     public void debug( ) {
         ShapeRenderer rect = new ShapeRenderer();
         rect.setProjectionMatrix(this.getCamera().combined);
