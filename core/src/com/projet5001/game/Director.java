@@ -15,7 +15,6 @@ public class Director extends Stage {
     String ERREUR_EFFACER_ACTEUR = "Impossible d'effacer cet acteur.";
     String ERREUR_EFFACER_TOUS_LES_ACTEUR = "Impossible d'effacer la liste d'acteur";
 
-    Director director;
     private Actor keyboardFocus;
 
     /**
