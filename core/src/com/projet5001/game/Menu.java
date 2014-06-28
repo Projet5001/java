@@ -38,7 +38,6 @@ public class Menu implements Screen {
 
         this.game = game;
 
-        shapeRenderer = new ShapeRenderer();
 
         //test de label
         font = new BitmapFont();
@@ -85,13 +84,10 @@ public class Menu implements Screen {
         gl.glClearColor(0, 0, 0, 0);
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0, 1, 0, 1);
-        shapeRenderer.rect(0, 0, 50, 50);
-        shapeRenderer.end();
+        director.draw();
+        director.debug();
 
         game.batcher.begin();
-        director.draw();
         Table.drawDebug(director);
         game.batcher.end();
 

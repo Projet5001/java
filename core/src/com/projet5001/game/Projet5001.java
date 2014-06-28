@@ -22,7 +22,7 @@ public class Projet5001 extends Game {
          * pour le moment je ne lance que cette fenetre de test mais ca donne un bon exemple.
          * voir https://github.com/libgdx/libgdx-demo-superjumper pour d'autre exemple
          */
-        setScreen(new Menu(this));
+        setScreen(new Test(this));
     }
 
     @Override

@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 
 public class MyActor extends Actor {
+
     private int fastSpeed;
     private int slowSpeed;
     private int speed;
