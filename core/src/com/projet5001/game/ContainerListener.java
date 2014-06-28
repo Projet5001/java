@@ -7,13 +7,16 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
  * Permet d'implanter les nouveau type de eventListener
  */
 public class ContainerListener implements EventListener {
+
+    ContainerEvent containerEvent;
+
     @Override
     public boolean handle(Event e) {
         if (!(e instanceof ContainerEvent)) {
             return false;
         }
         System.out.println(e.toString());
-        ContainerEvent containerEvent = (ContainerEvent) e;
+        containerEvent = (ContainerEvent) e;
         switch (containerEvent.getType()) {
             case SimpleContainer:
                 return SimpleContainer(containerEvent);

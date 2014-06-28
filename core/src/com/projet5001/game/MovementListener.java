@@ -6,13 +6,16 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
  * Permet d'implanter les nouveau type de eventListener
  */
 public class MovementListener implements EventListener {
+
+    MovementEvents event;
+
     @Override
     public boolean handle(Event e) {
         if (!(e instanceof MovementEvents)) {
             return false;
         }
         System.out.println(e.toString());
-        MovementEvents event = (MovementEvents) e;
+        event = (MovementEvents) e;
         switch (event.getType()) {
             case moveLeft:
                 return moveLeft(event);
