@@ -1,6 +1,7 @@
 package com.projet5001.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -90,4 +91,21 @@ public class Director extends Stage {
 
      }
     }
+
+    public void debug( ) {
+        ShapeRenderer rect = new ShapeRenderer();
+        rect.setProjectionMatrix(this.getCamera().combined);
+        Array<Actor> array = this.getActors();
+        for (int i = 0, n = array.size; i < n; i++) {
+
+            Actor actor = array.get(i);
+            if (actor instanceof MyActor){
+                rect.begin(ShapeRenderer.ShapeType.Filled);
+                rect.setColor(0, 1, 0, 1);
+                rect.rect(actor.getX()-0.5f,actor.getY()-0.5f,actor.getWidth()+ 1 ,actor.getHeight()+1);
+                rect.end();
+            }
+        }
+    }
+
 }
