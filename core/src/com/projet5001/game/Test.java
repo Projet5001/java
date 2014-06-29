@@ -19,6 +19,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
  * Created by macmata on 31/05/14.
  */
 public class Test extends ScreenAdapter {
+    TouchpadStyle tps;
     SpriteBatch batch;
     OrthogonalTiledMapRenderer renderer;
     OrthographicCamera worldCamera;
@@ -31,6 +32,7 @@ public class Test extends ScreenAdapter {
     MapProperties mapProperties;
     JoypadControleur joyPadControleur;
     InputMultiplexer multiplexer;
+    KeyboardControleur Keyboard;
 
     private Game game;
 
@@ -92,12 +94,12 @@ public class Test extends ScreenAdapter {
          * 	public void addTouchFocus (EventListener listener, Actor listenerActor, Actor target, int pointer, int button)
          * 	dans stage
          */
-        KeyboardControleur.register(myActor);
+        Keyboard.register(myActor);
 
         /**
          * Cree un nouceau touchpad
          */
-        TouchpadStyle tps  = new TouchpadStyle();
+        tps  = new TouchpadStyle();
         joyPadControleur = new JoypadControleur(10f,tps.getTouchpadStyle());
 
         //set size et position

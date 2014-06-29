@@ -9,9 +9,6 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 
 public class WorldRendere {
-
     OrthogonalTiledMapRenderer renderer;
     OrthographicCamera camera;
-
-
 }

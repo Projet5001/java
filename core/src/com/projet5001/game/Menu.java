@@ -25,6 +25,7 @@ public class Menu implements Screen {
     Director director;
     TextButton button;
     Table table;
+    Test aTest;
 
 
 
@@ -65,7 +66,8 @@ public class Menu implements Screen {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 //Lance le screen test
                 //ajouter une methode qui sauve l'etat du screen actuel
-                game.setScreen(new Test(game));
+                aTest = new Test(game);
+                game.setScreen(aTest);
                 return true;
             }
         });
