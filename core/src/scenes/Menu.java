@@ -1,21 +1,20 @@
-package com.projet5001.game;
+package scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.projet5001.game.Projet5001;
+
+import controls.Director;
 
 
 public class Menu implements Screen {
-
 
     Skin skin;
     BitmapFont font;
@@ -27,11 +26,8 @@ public class Menu implements Screen {
     Table table;
     Test aTest;
 
-
-
-
-
     public Menu(final Projet5001 game) {
+
         String extRoot = Gdx.files.getExternalStoragePath();
         String locRoot = Gdx.files.getLocalStoragePath();
         System.out.println("ext" + extRoot);
@@ -39,11 +35,10 @@ public class Menu implements Screen {
 
         this.game = game;
 
-
         //test de label
         font = new BitmapFont();
         font.setColor(Color.WHITE);
-        label = new Label("Bonjour", new Label.LabelStyle(font, font.getColor()));
+        label = new Label("PROJET5001", new Label.LabelStyle(font, font.getColor()));
 
         //voir le dossier boutton pour les fichier qui sont recquis et aussi le fichier json
         //Le boutton cree une nouvelle vue(screen) qui contient le jeux.
