@@ -7,7 +7,7 @@ public class ScreenFactory extends ScreenAdapter{
 
     private static volatile ScreenAdapter theScreen = null;
 
-    public Screen getInstance(){
+    public ScreenAdapter getInstance(){
 
         if(theScreen == null) {
             theScreen = new ScreenAdapter();
