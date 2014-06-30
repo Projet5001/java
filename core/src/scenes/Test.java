@@ -3,6 +3,7 @@ package scenes;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.GL20;
@@ -25,7 +26,7 @@ import controls.KeyboardControleur;
 /**
  * Created by macmata on 31/05/14.
  */
-public class Test extends ScreenAdapter {
+public class Test implements Screen {
 
     TouchpadStyle tps;
     SpriteBatch batch;
@@ -127,6 +128,36 @@ public class Test extends ScreenAdapter {
     @Override
     public void render(float delta) {
         draw();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
+    }
+
+    @Override
+    public void show() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void dispose() {
+
     }
 
     public void draw() {
