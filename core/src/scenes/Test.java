@@ -1,4 +1,4 @@
-package com.projet5001.game;
+package scenes;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -14,11 +14,19 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import actors.MyActor;
+import com.projet5001.game.Projet5001;
+import views.TouchpadStyle;
+
+import controls.Director;
+import controls.JoypadControleur;
+import controls.KeyboardControleur;
 
 /**
  * Created by macmata on 31/05/14.
  */
 public class Test extends ScreenAdapter {
+
     TouchpadStyle tps;
     SpriteBatch batch;
     OrthogonalTiledMapRenderer renderer;

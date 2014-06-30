@@ -5,6 +5,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import scenes.Menu;
+
 
 /**
  * Classe principale a partir duquelle on a va appeller les autres "screen" comme le menue, le jeu
@@ -22,7 +24,7 @@ public class Projet5001 extends Game {
          * pour le moment je ne lance que cette fenetre de test mais ca donne un bon exemple.
          * voir https://github.com/libgdx/libgdx-demo-superjumper pour d'autre exemple
          */
-        setScreen(new Test(this));
+        setScreen(new Menu(this));
     }
 
     @Override
