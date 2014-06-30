@@ -1,20 +1,25 @@
 package scenes;
 
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.ScreenAdapter;
+import java.util.ArrayList;
 
-public class ScreenFactory extends ScreenAdapter{
+/**
+ * Classe ScreenFactory produit une scene
+ * Patron de conception GoF : Singleton
+ */
+public class ScreenFactory extends SceneTemplate {
 
-    private static volatile ScreenAdapter theScreen = null;
+    private static volatile SceneTemplate theScreen = null;
 
-    public ScreenAdapter getInstance(){
+    private ScreenFactory(){
+        super();
+    }
 
+    public SceneTemplate getInstance(){
         if(theScreen == null) {
-            theScreen = new ScreenAdapter();
+            theScreen = new ScreenFactory();
         }
 
         return theScreen;
-
     }
 
 }
