@@ -137,7 +137,7 @@ public class SceneTemplateTesting extends SceneTemplate implements Screen {
 
         this.cameras.add(worldCamera);
         this.cameras.add(uiCamera);
-        
+
     }
 
     @Override

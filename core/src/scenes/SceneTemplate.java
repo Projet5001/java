@@ -3,6 +3,7 @@ package scenes;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.maps.*;
 
 import java.util.ArrayList;
 
