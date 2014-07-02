@@ -1,8 +1,10 @@
-package com.projet5001.game;
+package controls;
 
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
+import events.MovementEvents;
+import actors.MyActor;
 
 public class JoypadControleur extends Touchpad {
     private Actor myActor;

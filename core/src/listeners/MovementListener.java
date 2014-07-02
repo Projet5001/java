@@ -1,7 +1,10 @@
-package com.projet5001.game;
+package listeners;
 
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
+
+import events.MovementEvents;
+
 /**
  * Permet d'implanter les nouveau type de eventListener
  */

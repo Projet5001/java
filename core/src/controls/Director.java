@@ -1,12 +1,13 @@
-package com.projet5001.game;
+package controls;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.SnapshotArray;
+import actors.MyActor;
 
 import java.util.Arrays;
 import java.util.List;
@@ -62,8 +63,18 @@ public class Director extends Stage {
      *
      * @return Array<Actor> la liste des acteurs.
      */
-    public Array<Actor> getListeActeur(){
-       return this.getActors();
+    public Array<Actor>  getListeActeur(){
+       return this.getRoot().getChildren();
+    }
+
+    /**
+     * fonction getGroupActeurs()
+     * Wrapper pour getRoot() provenant de la super classe.
+     *
+     * @return Group contenant la liste des acteurs.
+     */
+    public Group  getGroupActeurs(){
+        return this.getRoot();
     }
 
     /**
@@ -73,18 +84,7 @@ public class Director extends Stage {
      * @return boolean true si l'acteur à été effacer, false sinon.
      */
     public boolean deleteActor(Actor actorToDelete){
-        try {
-
-            int indexToRemove = Arrays.asList(this.getListeActeur()).indexOf(actorToDelete);
-            this.getActors().removeIndex(indexToRemove);
-            return true;
-
-        } catch (IndexOutOfBoundsException indexException) {
-
-            System.out.println(ERREUR_EFFACER_ACTEUR);
-            return false;
-
-        }
+        return this.getRoot().removeActor(actorToDelete);
     }
 
     /**
@@ -92,20 +92,8 @@ public class Director extends Stage {
      * Efface tous les acteurs d'un director.
      * @return boolean true si la liste d'acteur à été effacer, false sinon.
      */
-    public boolean deleteAllActors(){
-     try {
-
-        List<Array<Actor>> temp =  Arrays.asList(this.getListeActeur());
-        temp.removeAll(Arrays.asList(this.getListeActeur()));
-        assert temp.size() == 0;
-        return true;
-
-     } catch (NullPointerException nullException){
-
-        System.out.println(ERREUR_EFFACER_TOUS_LES_ACTEUR);
-        return false;
-
-     }
+    public void deleteAllActors(){
+        this.getRoot().clear();
     }
 
     /**
