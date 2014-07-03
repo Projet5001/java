@@ -10,6 +10,7 @@ import java.util.LinkedList;
 
 public class WorldCollector {
 
+    public static int hashSize = 64;
     private HashMap<Vector2,LinkedList<MyActor>> collection ;
     public WorldCollector() {
         this.collection = new HashMap<Vector2, LinkedList<MyActor>>();
@@ -17,14 +18,14 @@ public class WorldCollector {
 
     public void add(MyActor actor){
         LinkedList<MyActor> keyList;
-        float x = (float)Math.floor(actor.getX()/64);
-        float y = (float)Math.floor(actor.getY()/64);
+        float x = (float)Math.floor(actor.getX()/hashSize);
+        float y = (float)Math.floor(actor.getY()/hashSize);
         float l = 0;
         float w = 0;
         Vector2 v = new Vector2();
-        for (int i = 0 ; i< Math.ceil(actor.getWidth()/64); i++){
+        for (int i = 0 ; i< Math.ceil(actor.getWidth()/hashSize); i++){
             x += l;
-            for (int j = 0 ; j< Math.ceil(actor.getHeight()/64); j++) {
+            for (int j = 0 ; j< Math.ceil(actor.getHeight()/hashSize); j++) {
                 y += w;
                 v.set(x,y);
                 keyList = this.collection.get(v);
@@ -39,9 +40,9 @@ public class WorldCollector {
                     keyList.add(actor);
                     this.collection.put(v, keyList);
                 }
-                w+=64;
+                w+=hashSize;
             }
-            l+=64;
+            l+=hashSize;
         }
     }
 
@@ -51,8 +52,8 @@ public class WorldCollector {
 
 
     private Vector2 getHashFromVector(MyActor actor){
-        float x = (float)Math.floor(actor.getX()/64);
-        float y = (float)Math.floor(actor.getY()/64);
+        float x = (float)Math.floor(actor.getX()/hashSize);
+        float y = (float)Math.floor(actor.getY()/hashSize);
         return new Vector2(x,y);
     }
 
