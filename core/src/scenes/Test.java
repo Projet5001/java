@@ -1,5 +1,6 @@
 package scenes;
 
+import collisions.WorldCollector;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -41,6 +42,7 @@ public class Test extends ScreenAdapter {
     JoypadControleur joyPadControleur;
     InputMultiplexer multiplexer;
     KeyboardControleur Keyboard;
+    WorldCollector worldCollector;
 
     private Game game;
 
@@ -49,7 +51,7 @@ public class Test extends ScreenAdapter {
         this.game = game;
         this.batch = game.batcher;
         //scale qui represente  le ratio de render de la map dans ce cas si 1/4 de taille de tilset
-        float unitScale = 1/16f;
+        float unitScale = 1/32f;
 
         /**
          * La map et son renderer
@@ -57,13 +59,13 @@ public class Test extends ScreenAdapter {
         tiledmap = new TmxMapLoader(new InternalFileHandleResolver()).load("data/tmx/ageei2.tmx");
         mapProperties = tiledmap.getProperties();
         renderer = new OrthogonalTiledMapRenderer(tiledmap, unitScale);
-
+        worldCollector = new WorldCollector();
 
         /**
          * Tous ce  qui concerne la creation du player
          */
-        sprite = new Sprite(new Texture(Gdx.files.internal("data/sprites/alttp-link1.png")));
-        sprite.setSize(4,4);
+        sprite = new Sprite(new Texture(Gdx.files.internal("data/sprites/perso.png")));
+        sprite.setSize(sprite.getWidth()*unitScale,sprite.getHeight()*unitScale);
         myActor = new MyActor(sprite);
 
         /**
@@ -126,6 +128,7 @@ public class Test extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
+        worldCollector.add(myActor);
         draw();
     }
 
@@ -136,7 +139,7 @@ public class Test extends ScreenAdapter {
 
         worldCamera = (OrthographicCamera) worldDirector.getCamera();
         //render sur la surface de la fenetre le 30x20 de la map
-        worldCamera.setToOrtho(false, 60, 40);
+        worldCamera.setToOrtho(false, 30, 20);
 
 
         worldCamera.position.set(myActor.getX(),myActor.getY(),0f);
