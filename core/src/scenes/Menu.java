@@ -2,6 +2,7 @@ package scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -27,7 +28,7 @@ public class Menu implements Screen {
     Test aTest;
 
     public Menu(final Projet5001 game) {
-
+        Gdx.app.log("AssetPath", Gdx.files.internal("assets/enemy.png").file().getAbsolutePath());
         String extRoot = Gdx.files.getExternalStoragePath();
         String locRoot = Gdx.files.getLocalStoragePath();
         System.out.println("ext" + extRoot);
@@ -45,7 +46,6 @@ public class Menu implements Screen {
 
         // un skin contient toutes les information pour cree le ui d'un boutton, voir le dossier json
         skin = new Skin(Gdx.files.internal("data/button/uiskin.json"));
-
 
         //Le textButton qui contient un text et un skin avec le param default (voir fichier json)
         button = new TextButton("Lance le jeux", skin, "default");
