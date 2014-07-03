@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import events.MovementEvents;
 import actors.MyActor;
 
-public class JoypadControleur extends Touchpad {
+public class JoypadControleur extends Touchpad implements ControlEntity {
     private Actor myActor;
 
     public JoypadControleur(float deadzoneRadius, TouchpadStyle skin) {

@@ -6,12 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import events.MovementEvents;
 import actors.MyActor;
 
-/**
- * Created by macmata on 31/05/14.
- */
-public class KeyboardControleur {
+public class KeyboardControleur implements ControlEntity {
 
-    public static void register(final MyActor myActor) {
+    public void register(final MyActor myActor) {
         myActor.addListener(new InputListener() {
             public boolean keyDown(InputEvent event, int keycode) {
                 switch (keycode){

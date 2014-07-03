@@ -12,7 +12,7 @@ import actors.MyActor;
 import java.util.Arrays;
 import java.util.List;
 
-public class Director extends Stage {
+public class Director extends Stage implements ControlEntity{
 
     String ERREUR_EFFACER_ACTEUR = "Impossible d'effacer cet acteur.";
     String ERREUR_EFFACER_TOUS_LES_ACTEUR = "Impossible d'effacer la liste d'acteur";
@@ -115,4 +115,8 @@ public class Director extends Stage {
         }
     }
 
+    @Override
+    public void register(MyActor myActor) {
+
+    }
 }
