@@ -16,6 +16,9 @@ public class MyActor extends Actor {
     private int speed;
     private Sprite sprite;
     private Rectangle hitbox;
+
+
+
     public MyActor(Sprite sprite) {
         super();
         this.speed = 1;
@@ -65,6 +68,10 @@ public class MyActor extends Actor {
 
         });
     }
+    public Rectangle getHitbox() {
+        return hitbox;
+    }
+
     public void act(float delta){
         super.act(delta);
         this.hitbox.setSize(this.getWidth(),this.getHeight());
