@@ -1,8 +1,11 @@
 package actors;
 
+import collisions.WorldCollector;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import events.MovementEvents;
@@ -16,7 +19,8 @@ public class MyActor extends Actor {
     private int speed;
     private Sprite sprite;
     private Rectangle hitbox;
-
+    private Vector2 old_position;
+    private Vector2 futur_position;
 
 
     public MyActor(Sprite sprite) {
@@ -25,6 +29,9 @@ public class MyActor extends Actor {
         this.fastSpeed = 1;
         this.slowSpeed = 1;
         this.sprite = sprite;
+        this.old_position = new Vector2();
+        this.futur_position = new Vector2();
+
         this.setBounds(this.sprite.getX(),this.sprite.getY(),this.sprite.getWidth(),this.sprite.getHeight());
         this.setOrigin(this.sprite.getWidth() / 2, this.sprite.getHeight() / 2);
         this.setTouchable(Touchable.enabled);
@@ -67,6 +74,7 @@ public class MyActor extends Actor {
             }
 
         });
+        WorldCollector.getInstance().add(this);
     }
     public Rectangle getHitbox() {
         return hitbox;
@@ -90,12 +98,15 @@ public class MyActor extends Actor {
      * @param y
      */
     public void move(float x, float y) {
+        this.old_position.set(this.getX(),this.getY());
+        this.futur_position.set(this.getX()+x,this.getY()+y);
+        WorldCollector.getInstance().hit(this);
         this.moveBy(x, y);
         if (this.sprite != null) {
             this.sprite.translate(x, y);
         }
     }
-
+    
     public void draw (Batch batch, float parentAlpha) {
         if (this.sprite != null) {
             this.sprite.draw(batch);

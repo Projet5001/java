@@ -16,6 +16,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import actors.MyActor;
+import com.badlogic.gdx.math.Vector2;
 import com.projet5001.game.Projet5001;
 import views.TouchpadStyle;
 
@@ -42,7 +43,6 @@ public class Test extends ScreenAdapter {
     JoypadControleur joyPadControleur;
     InputMultiplexer multiplexer;
     KeyboardControleur Keyboard;
-    WorldCollector worldCollector;
 
     private Game game;
 
@@ -59,7 +59,7 @@ public class Test extends ScreenAdapter {
         tiledmap = new TmxMapLoader(new InternalFileHandleResolver()).load("data/tmx/ageei2.tmx");
         mapProperties = tiledmap.getProperties();
         renderer = new OrthogonalTiledMapRenderer(tiledmap, unitScale);
-        worldCollector = new WorldCollector();
+
 
         /**
          * Tous ce  qui concerne la creation du player
@@ -67,6 +67,12 @@ public class Test extends ScreenAdapter {
         sprite = new Sprite(new Texture(Gdx.files.internal("data/sprites/perso.png")));
         sprite.setSize(sprite.getWidth()*unitScale,sprite.getHeight()*unitScale);
         myActor = new MyActor(sprite);
+
+
+        Sprite sprite2 = new Sprite(new Texture(Gdx.files.internal("data/sprites/perso.png")));
+        sprite2.setSize(sprite2.getWidth()*unitScale,sprite2.getHeight()*unitScale);
+        MyActor myActor2 = new MyActor(sprite2);
+
 
         /**
          * Le directeur s'occupe de passé les event anisi que de faire le draw de model
@@ -123,13 +129,19 @@ public class Test extends ScreenAdapter {
 
         //enregistre myactor pour etre render dans le worldDirector
         worldDirector.addActor(myActor);
+
+        worldDirector.addActor(myActor2);
+
+
     }
 
 
     @Override
     public void render(float delta) {
-        worldCollector.add(myActor);
-        draw();
+       WorldCollector.getInstance().clear();
+       WorldCollector.getInstance().addAll(worldDirector.getGroupActeurs());
+       WorldCollector.getInstance().hit(myActor);
+       draw();
     }
 
     public void draw() {
