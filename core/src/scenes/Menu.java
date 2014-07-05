@@ -24,6 +24,7 @@ public class Menu implements Screen {
     Label label;
     Director director;
     TextButton button;
+    TextButton button2;
     Table table;
     Test aTest;
 
@@ -50,11 +51,16 @@ public class Menu implements Screen {
         //Le textButton qui contient un text et un skin avec le param default (voir fichier json)
         button = new TextButton("Lance le jeux", skin, "default");
         button.setPosition(100, 100);
+        button2 = new TextButton("Lance le testCollision", skin, "default");
+        button2.setPosition(100, 200);
         table = new Table();
         table.debug();
         table.setFillParent(true);
         table.add(button);
         table.add(label);
+        table.row();
+        table.add(button2);
+
 
         //n'est pas la seul facon d'ajout les input mais permet de le faire a la vole
         button.addListener(new InputListener() {
@@ -67,7 +73,12 @@ public class Menu implements Screen {
             }
         });
 
-
+        button2.addListener(new InputListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new CollisionTest(game));
+                return true;
+            }
+        });
         director = new Director();
         director.addActor(table);
 

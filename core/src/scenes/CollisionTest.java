@@ -1,5 +1,6 @@
 package scenes;
 
+import actors.MyActor;
 import collisions.WorldCollector;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -15,125 +16,101 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import actors.MyActor;
-import com.badlogic.gdx.math.Vector2;
 import com.projet5001.game.Projet5001;
-import views.TouchpadStyle;
-
 import controls.Director;
 import controls.JoypadControleur;
 import controls.KeyboardControleur;
+import views.TouchpadStyle;
 
 /**
  * Created by macmata on 31/05/14.
  */
-public class Test extends ScreenAdapter {
+public class CollisionTest extends ScreenAdapter {
 
     TouchpadStyle tps;
     SpriteBatch batch;
     OrthogonalTiledMapRenderer renderer;
     OrthographicCamera worldCamera;
     OrthographicCamera uiCamera;
-    Sprite sprite;
-    MyActor myActor;
+
+
     Director worldDirector;
     Director uiDirector;
+
     TiledMap tiledmap;
     MapProperties mapProperties;
     JoypadControleur joyPadControleur;
     InputMultiplexer multiplexer;
     KeyboardControleur Keyboard;
 
+    Sprite sprite;
+    Sprite sprite2;
+
+    MyActor myActor;
+    MyActor myActor2;
+
+
     private Game game;
 
 
-    public Test(Projet5001 game) {
+    public CollisionTest(Projet5001 game) {
         this.game = game;
         this.batch = game.batcher;
-        //scale qui represente  le ratio de render de la map dans ce cas si 1/4 de taille de tilset
         float unitScale = 1/32f;
 
-        /**
-         * La map et son renderer
-         */
         tiledmap = new TmxMapLoader(new InternalFileHandleResolver()).load("data/tmx/ageei2.tmx");
         mapProperties = tiledmap.getProperties();
         renderer = new OrthogonalTiledMapRenderer(tiledmap, unitScale);
 
-
-        /**
-         * Tous ce  qui concerne la creation du player
-         */
         sprite = new Sprite(new Texture(Gdx.files.internal("data/sprites/perso.png")));
         sprite.setSize(sprite.getWidth()*unitScale,sprite.getHeight()*unitScale);
         myActor = new MyActor(sprite);
 
 
-       
 
-
-        /**
-         * Le directeur s'occupe de passé les event anisi que de faire le draw de model
-         */
         worldDirector = new Director();
 
-
-        /**
-         * Le ui worldDirector va prendre en charge le draw de tous les objets du ui
-         * va aussi achemier tous les event de keyboard et touch
-         */
         uiDirector = new Director();
-
-        /***
-         * il est important d'utiliser un multiplexer pour
-         * enregister tous les inputs. Pour le moment il est ici  mais idealement
-         * il fautdrait avoir une seul multiplexeur pour le jeux sachant que l'on va
-         * changer les "screen" souvent
-         */
         multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(uiDirector);
         multiplexer.addProcessor(worldDirector);
-        //playerItemMenu = new worldDirector()
-        //ex: multiplexer.addProcessor(playerItemMenu);
+
         Gdx.input.setInputProcessor(multiplexer);
 
-
-        /**
-         * Permet a myActor de recevoir les event du keyboard
-         */
         worldDirector.setKeyboardFocus(myActor);
 
-        /**
-         * On peu assi ajouter des listerner a partir de directeur vers un acteur specific voir
-         * 	public void addTouchFocus (EventListener listener, Actor listenerActor, Actor target, int pointer, int button)
-         * 	dans stage
-         */
         Keyboard.register(myActor);
 
-        /**
-         * Cree un nouceau touchpad
-         */
         tps  = new TouchpadStyle();
         joyPadControleur = new JoypadControleur(10f,tps.getTouchpadStyle());
 
-        //set size et position
         joyPadControleur.setBounds(0, 0, 200, 200);
 
-        //enregister l'acteur qui va recevoir les evenements
         joyPadControleur.register(myActor);
 
-        //enregistre le joypad au bon directeur
         uiDirector.addActor(joyPadControleur);
 
-        //enregistre myactor pour etre render dans le worldDirector
         worldDirector.addActor(myActor);
-        
+
+        for (int i = 3; i< 10; i ++ ){
+
+            sprite2 = new Sprite(new Texture(Gdx.files.internal("data/sprites/perso.png")));
+            sprite2.setSize(sprite2.getWidth()*unitScale,sprite2.getHeight()*unitScale);
+            myActor2 = new MyActor(sprite2);
+            myActor2.setPosition(i,i);
+            worldDirector.addActor(myActor2);
+
+        }
 
     }
 
 
     @Override
     public void render(float delta) {
+       WorldCollector.collection().addAll(worldDirector.getGroupActeurs());
+       //WorldCollector.collection().hit(myActor);
+       worldDirector.act();
+       uiDirector.act();
        draw();
     }
 
@@ -143,10 +120,7 @@ public class Test extends ScreenAdapter {
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         worldCamera = (OrthographicCamera) worldDirector.getCamera();
-        //render sur la surface de la fenetre le 30x20 de la map
         worldCamera.setToOrtho(false, 30, 20);
-
-
         worldCamera.position.set(myActor.getX(),myActor.getY(),0f);
         worldCamera.update();
 
@@ -155,13 +129,11 @@ public class Test extends ScreenAdapter {
 
         uiCamera = (OrthographicCamera)uiDirector.getCamera();
         uiCamera.setToOrtho(false, 640, 480);
-
-        uiDirector.act();
-        uiDirector.draw();
+        uiCamera.update();
 
         worldDirector.debug();
-        worldDirector.act();
         worldDirector.draw();
+        uiDirector.draw();
 
     }
 }

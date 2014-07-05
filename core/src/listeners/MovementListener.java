@@ -17,7 +17,6 @@ public class MovementListener implements EventListener {
         if (!(e instanceof MovementEvents)) {
             return false;
         }
-        System.out.println(e.toString());
         event = (MovementEvents) e;
         switch (event.getType()) {
             case moveLeft:
