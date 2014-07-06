@@ -10,7 +10,6 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -43,9 +42,6 @@ public class CollisionTest extends ScreenAdapter {
     InputMultiplexer multiplexer;
     KeyboardControleur Keyboard;
 
-    Sprite sprite;
-    Sprite sprite2;
-
     MyActor myActor;
     MyActor myActor2;
 
@@ -62,15 +58,13 @@ public class CollisionTest extends ScreenAdapter {
         mapProperties = tiledmap.getProperties();
         renderer = new OrthogonalTiledMapRenderer(tiledmap, unitScale);
 
-        sprite = new Sprite(new Texture(Gdx.files.internal("data/sprites/perso.png")));
-        sprite.setSize(sprite.getWidth()*unitScale,sprite.getHeight()*unitScale);
-        myActor = new MyActor(sprite);
 
-
+        myActor = new MyActor(new Texture(Gdx.files.internal("data/sprites/perso.png")));
 
         worldDirector = new Director();
 
         uiDirector = new Director();
+
         multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(uiDirector);
         multiplexer.addProcessor(worldDirector);
@@ -93,10 +87,7 @@ public class CollisionTest extends ScreenAdapter {
         worldDirector.addActor(myActor);
 
         for (int i = 3; i< 10; i ++ ){
-
-            sprite2 = new Sprite(new Texture(Gdx.files.internal("data/sprites/perso.png")));
-            sprite2.setSize(sprite2.getWidth()*unitScale,sprite2.getHeight()*unitScale);
-            myActor2 = new MyActor(sprite2);
+            myActor2 = new MyActor(new Texture(Gdx.files.internal("data/sprites/perso.png")));
             myActor2.setPosition(i,i);
             worldDirector.addActor(myActor2);
 

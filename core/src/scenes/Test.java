@@ -34,7 +34,6 @@ public class Test extends ScreenAdapter {
     OrthogonalTiledMapRenderer renderer;
     OrthographicCamera worldCamera;
     OrthographicCamera uiCamera;
-    Sprite sprite;
     MyActor myActor;
     Director worldDirector;
     Director uiDirector;
@@ -50,7 +49,7 @@ public class Test extends ScreenAdapter {
     public Test(Projet5001 game) {
         this.game = game;
         this.batch = game.batcher;
-        //scale qui represente  le ratio de render de la map dans ce cas si 1/4 de taille de tilset
+
         float unitScale = 1/32f;
 
         /**
@@ -64,13 +63,8 @@ public class Test extends ScreenAdapter {
         /**
          * Tous ce  qui concerne la creation du player
          */
-        sprite = new Sprite(new Texture(Gdx.files.internal("data/sprites/perso.png")));
-        sprite.setSize(sprite.getWidth()*unitScale,sprite.getHeight()*unitScale);
-        myActor = new MyActor(sprite);
 
-
-       
-
+        myActor = new MyActor(new Texture(Gdx.files.internal("data/sprites/perso.png")));
 
         /**
          * Le directeur s'occupe de passé les event anisi que de faire le draw de model
