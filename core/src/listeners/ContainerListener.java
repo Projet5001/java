@@ -21,12 +21,17 @@ public class ContainerListener implements EventListener {
         containerEvent = (ContainerEvent) e;
         switch (containerEvent.getType()) {
             case SimpleContainer:
-                return SimpleContainer(containerEvent);
+                return simpleContainer(containerEvent);
+            case collision:
+                return collision(containerEvent);
         }
         return false;
     }
 
-    public boolean SimpleContainer(ContainerEvent containerEvent) {
+    public boolean simpleContainer(ContainerEvent containerEvent) {
+        return false;
+    }
+    public boolean collision(ContainerEvent containerEvent) {
         return false;
     }
 }

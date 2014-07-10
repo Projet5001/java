@@ -6,13 +6,15 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+import events.ContainerEvent;
 import events.MovementEvents;
+import listeners.ContainerListener;
 import listeners.MovementListener;
+
+import java.util.ArrayList;
 
 
 public class MyActor extends Actor {
@@ -26,6 +28,9 @@ public class MyActor extends Actor {
     private Vector2 futur_position;
     private float unitScale;
 
+    public MyActor(){
+        this(null);
+    }
     public MyActor(Texture texture) {
         super();
         this.speed = 1/3f;
@@ -74,6 +79,13 @@ public class MyActor extends Actor {
             }
 
         });
+        addListener(new ContainerListener(){
+            //todo changer une fois que l'on sait comment les acteur reagise au collision
+            public boolean collision(ContainerEvent containerEvent) {
+                ((MyActor) containerEvent.getTarget()).collide(containerEvent.getList());
+                return false;
+            }
+        });
     }
     public void options (float unitScale, Texture texture){
         if (texture!=null){
@@ -101,17 +113,21 @@ public class MyActor extends Actor {
     }
 
     public void move(float x, float y) {
-        this.old_position.set(this.getX(),this.getY());
-        this.futur_position.set(this.getX()+x,this.getY()+y);
-
-        this.setHitbox(this.futur_position);
-
-        if (!(WorldCollector.collection().hit(this))){
+        savePosition(x, y);
+        setHitboxPosition(this.futur_position);
+        if ( WorldCollector.collection().hit(this.getHitbox()) == null){
             MoveByAction moveAction = new MoveByAction();
             moveAction.setAmount(x,y);
             this.addAction(moveAction);
+        }else{
+            collide(WorldCollector.collection().hit(this.getHitbox()));
         }
-        this.updateHitbox();
+        updateHitbox();
+    }
+
+    private void savePosition(float x, float y) {
+        this.old_position.set(this.getX(),this.getY());
+        this.futur_position.set(this.getX()+x,this.getY()+y);
     }
 
     public void resetPosition(){
@@ -130,13 +146,25 @@ public class MyActor extends Actor {
         this.hitbox.setPosition(this.getX(), this.getY());
     }
 
-    public void setHitbox(Vector2 vector2){
+    public void setHitboxPosition(Vector2 vector2){
         this.hitbox.setPosition(vector2.x, vector2.y);
     }
 
-    public void collide(MyActor collidedActor){
-        resetPosition();
-        System.out.println("collide");
+    public void setHitbox(Rectangle rect){
+        this.hitbox = rect;
+    }
+
+    public void collide(Actor actors){
+        //todo to remove this is just a basic test
+        System.out.println("collide item");
+    }
+
+    public void collide(ArrayList<Actor> actors){
+        //todo to remove this is just a basic test
+        if (actors.size() == 1){
+            collide(actors.get(0));
+        }
+        System.out.println("collide" + ((MyActor)actors.get(0)).getVector());
     }
 
     public void moveLeft(){

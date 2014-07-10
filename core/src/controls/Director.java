@@ -9,9 +9,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.SnapshotArray;
 import actors.MyActor;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class Director extends Stage {
 
     String ERREUR_EFFACER_ACTEUR = "Impossible d'effacer cet acteur.";
@@ -105,8 +102,9 @@ public class Director extends Stage {
         Array<Actor> array = this.getActors();
         for (int i = 0, n = array.size; i < n; i++) {
 
-            Actor actor = array.get(i);
-            if (actor instanceof MyActor){
+
+            if (array.get(i) instanceof MyActor){
+                Actor actor = array.get(i);
                 rect.begin(ShapeRenderer.ShapeType.Filled);
                 rect.setColor(0, 1, 0, 1);
                 rect.rect(actor.getX(),actor.getY(),actor.getWidth() ,actor.getHeight());

@@ -7,8 +7,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Array;
+import events.ContainerEvent;
+
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Objects;
 
 
 public class WorldCollector {
@@ -81,26 +84,29 @@ public class WorldCollector {
         return vectorKeys;
     }
 
-    private Vector2 getKeyFromVector(MyActor actor){
-        float x = (float)Math.floor(actor.getX()/hashSize);
-        float y = (float)Math.floor(actor.getY()/hashSize);
+    private Vector2 getKeyFromVector(Rectangle rect){
+        float x = (float)Math.floor(rect.getX()/hashSize);
+        float y = (float)Math.floor(rect.getY()/hashSize);
         return new Vector2(x,y);
     }
 
-    public Boolean hit(MyActor actor){
-        Vector2 keyVector2 = getKeyFromVector(actor);
+    public MyActor hit(Rectangle rectangle){
+        Vector2 keyVector2 = getKeyFromVector(rectangle);
         if (isHit(keyVector2)){
             LinkedList<MyActor> keyList = this.actor_collection.get(keyVector2);
             Rectangle rect =  new Rectangle();
             for (MyActor aKeyList : keyList) {
-                if (aKeyList != actor){
-                    if (Intersector.intersectRectangles(actor.getHitbox(), aKeyList.getHitbox(), rect)) {
-                        return true;
-                        //actor.collide(aKeyList);
+                if (aKeyList.getHitbox() != rectangle){
+                    if (Intersector.intersectRectangles(rectangle, aKeyList.getHitbox(), rect)) {
+                        //todo doit etre improve plus tard
+                        ContainerEvent e = new ContainerEvent(ContainerEvent.Type.collision);
+                        e.add(aKeyList);
+                        aKeyList.fire(e);
+                        return aKeyList;
                     }
                 }
             }
         }
-        return false;
+        return null;
     }
 }

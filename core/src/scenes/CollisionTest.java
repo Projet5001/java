@@ -92,14 +92,12 @@ public class CollisionTest extends ScreenAdapter {
             worldDirector.addActor(myActor2);
 
         }
-
     }
 
 
     @Override
     public void render(float delta) {
        WorldCollector.collection().addAll(worldDirector.getGroupActeurs());
-       //WorldCollector.collection().hit(myActor);
        worldDirector.act();
        uiDirector.act();
        draw();
