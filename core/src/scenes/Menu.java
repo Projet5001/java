@@ -2,6 +2,7 @@ package scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -23,11 +24,12 @@ public class Menu implements Screen {
     Label label;
     Director director;
     TextButton button;
+    TextButton button2;
     Table table;
     Test aTest;
 
     public Menu(final Projet5001 game) {
-
+        Gdx.app.log("AssetPath", Gdx.files.internal("assets/enemy.png").file().getAbsolutePath());
         String extRoot = Gdx.files.getExternalStoragePath();
         String locRoot = Gdx.files.getLocalStoragePath();
         System.out.println("ext" + extRoot);
@@ -46,15 +48,19 @@ public class Menu implements Screen {
         // un skin contient toutes les information pour cree le ui d'un boutton, voir le dossier json
         skin = new Skin(Gdx.files.internal("data/button/uiskin.json"));
 
-
         //Le textButton qui contient un text et un skin avec le param default (voir fichier json)
         button = new TextButton("Lance le jeux", skin, "default");
         button.setPosition(100, 100);
+        button2 = new TextButton("Lance le testCollision", skin, "default");
+        button2.setPosition(100, 200);
         table = new Table();
         table.debug();
         table.setFillParent(true);
         table.add(button);
         table.add(label);
+        table.row();
+        table.add(button2);
+
 
         //n'est pas la seul facon d'ajout les input mais permet de le faire a la vole
         button.addListener(new InputListener() {
@@ -67,7 +73,12 @@ public class Menu implements Screen {
             }
         });
 
-
+        button2.addListener(new InputListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new CollisionTest(game));
+                return true;
+            }
+        });
         director = new Director();
         director.addActor(table);
 

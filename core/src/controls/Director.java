@@ -109,8 +109,15 @@ public class Director extends Stage {
             if (actor instanceof MyActor){
                 rect.begin(ShapeRenderer.ShapeType.Filled);
                 rect.setColor(0, 1, 0, 1);
-                rect.rect(actor.getX()-0.5f,actor.getY()-0.5f,actor.getWidth()+ 1 ,actor.getHeight()+1);
+                rect.rect(actor.getX(),actor.getY(),actor.getWidth() ,actor.getHeight());
+                rect.setColor(1, 0, 0, 1);
+                rect.rect(((MyActor)actor).getX(),
+                         ((MyActor)actor).getY(),
+                         ((MyActor)actor).getHitbox().getWidth() ,
+                         ((MyActor)actor).getHitbox().getHeight());
                 rect.end();
+
+
             }
         }
     }
