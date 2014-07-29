@@ -1,4 +1,4 @@
-package com.projet5001.game;
+package com.projet5001.game.scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.projet5001.game.controleur.Director;
+import com.projet5001.game.Main;
 
 
 public class Menu implements Screen {
@@ -25,11 +27,6 @@ public class Menu implements Screen {
     Test aTest;
 
     public Menu(final Main game) {
-        Gdx.app.log("AssetPath", Gdx.files.internal("assets/enemy.png").file().getAbsolutePath());
-        String extRoot = Gdx.files.getExternalStoragePath();
-        String locRoot = Gdx.files.getLocalStoragePath();
-        System.out.println("ext" + extRoot);
-        System.out.println("loc" + locRoot);
 
         this.game = game;
 

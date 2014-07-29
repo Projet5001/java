@@ -1,4 +1,4 @@
-package com.projet5001.game;
+package com.projet5001.game.views;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;

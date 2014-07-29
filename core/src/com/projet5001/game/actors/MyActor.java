@@ -1,4 +1,4 @@
-package com.projet5001.game;
+package com.projet5001.game.actors;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -8,6 +8,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
+import com.projet5001.game.collisions.WorldCollector;
+import com.projet5001.game.events.ContainerEvent;
+import com.projet5001.game.events.MovementEvents;
+import com.projet5001.game.listeners.ContainerListener;
+import com.projet5001.game.listeners.MovementListener;
 
 import java.util.ArrayList;
 

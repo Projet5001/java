@@ -1,9 +1,9 @@
-package com.projet5001.game;
+package com.projet5001.game.controleur;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
-import com.projet5001.game.MyActor;
+import com.projet5001.game.actors.MyActor;
 
 /**
  * Created by macmata on 31/05/14.

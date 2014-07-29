@@ -1,4 +1,4 @@
-package com.projet5001.game;
+package com.projet5001.game.controleur;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.SnapshotArray;
-import com.projet5001.game.MyActor;
+import com.projet5001.game.actors.MyActor;
 
 public class Director extends Stage {
 
