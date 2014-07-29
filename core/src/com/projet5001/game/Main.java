@@ -13,11 +13,10 @@ import com.projet5001.game.scenes.Menu;
  */
 public class Main extends Game {
     public SpriteBatch batcher;
-    Application.ApplicationType osType;
+    public static float unitScale = 1/32f;
     @Override
     public void create () {
         batcher = new SpriteBatch();
-        osType = Gdx.app.getType();
 
         /**
          * pour le moment je ne lance que cette fenetre de test mais ca donne un bon exemple.

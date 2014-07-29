@@ -18,7 +18,7 @@ import com.projet5001.game.Main;
 import com.projet5001.game.actors.MyActor;
 import com.projet5001.game.views.TouchpadStyle;
 import com.projet5001.game.controleur.JoypadControleur;
-import com.projet5001.game.controleur.KeyboardControleur;
+import com.projet5001.game.controleur.KeyboardControleurNEW;
 
 /**
  * Created by macmata on 31/05/14.
@@ -37,7 +37,7 @@ public class Test extends ScreenAdapter {
     MapProperties mapProperties;
     JoypadControleur joyPadControleur;
     InputMultiplexer multiplexer;
-    KeyboardControleur Keyboard;
+    KeyboardControleurNEW Keyboard;
 
     private Game game;
 

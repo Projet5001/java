@@ -4,22 +4,19 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.projet5001.game.Main;
 import com.projet5001.game.actors.MyActor;
+import com.projet5001.game.controleur.MapControleur;
 import com.projet5001.game.views.TouchpadStyle;
 import com.projet5001.game.collisions.WorldCollector;
 import com.projet5001.game.controleur.Director;
 import com.projet5001.game.controleur.JoypadControleur;
-import com.projet5001.game.controleur.KeyboardControleur;
+import com.projet5001.game.controleur.KeyboardControleurNEW;
 
 /**
  * Created by macmata on 31/05/14.
@@ -36,15 +33,13 @@ public class CollisionTest extends ScreenAdapter {
     Director worldDirector;
     Director uiDirector;
 
-    TiledMap tiledmap;
-    MapProperties mapProperties;
     JoypadControleur joyPadControleur;
     InputMultiplexer multiplexer;
-    KeyboardControleur Keyboard;
+    KeyboardControleurNEW Keyboard;
 
     MyActor myActor;
     MyActor myActor2;
-
+    MapControleur mapControleur;
 
     private Game game;
 
@@ -52,12 +47,8 @@ public class CollisionTest extends ScreenAdapter {
     public CollisionTest(Main game) {
         this.game = game;
         this.batch = game.batcher;
-        float unitScale = 1/32f;
 
-        tiledmap = new TmxMapLoader(new InternalFileHandleResolver()).load("data/tmx/ageei2.tmx");
-        mapProperties = tiledmap.getProperties();
-        renderer = new OrthogonalTiledMapRenderer(tiledmap, unitScale);
-
+        mapControleur = new MapControleur("data/tmx/ageei2.tmx");
 
         myActor = new MyActor(new Texture(Gdx.files.internal("data/sprites/perso.png")));
 
@@ -72,7 +63,7 @@ public class CollisionTest extends ScreenAdapter {
         Gdx.input.setInputProcessor(multiplexer);
 
         worldDirector.setKeyboardFocus(myActor);
-
+        Keyboard = new KeyboardControleurNEW();
         Keyboard.register(myActor);
 
         tps  = new TouchpadStyle();
@@ -83,7 +74,7 @@ public class CollisionTest extends ScreenAdapter {
         joyPadControleur.register(myActor);
 
         uiDirector.addActor(joyPadControleur);
-
+        uiDirector.addActor(Keyboard);
         worldDirector.addActor(myActor);
 
         for (int i = 3; i< 10; i ++ ){
@@ -113,8 +104,8 @@ public class CollisionTest extends ScreenAdapter {
         worldCamera.position.set(myActor.getX(),myActor.getY(),0f);
         worldCamera.update();
 
-        renderer.setView(worldCamera);
-        renderer.render();
+        mapControleur.setView(worldCamera);
+        mapControleur.render();
 
         uiCamera = (OrthographicCamera)uiDirector.getCamera();
         uiCamera.setToOrtho(false, 640, 480);
