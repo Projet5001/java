@@ -1,13 +1,16 @@
 package com.projet5001.game.collisions;
 
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Array;
+import com.projet5001.game.Projet5001;
 import com.projet5001.game.actors.MyActor;
 import com.projet5001.game.events.ContainerEvent;
+import com.projet5001.game.scenes.CollisionTest;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -15,12 +18,15 @@ import java.util.LinkedList;
 
 public class WorldCollector {
 
-    private int hashSize = 64;
+    private int hashSize = 128;
     private HashMap<Vector2,LinkedList<MyActor>> actor_collection;
+    private HashMap<Vector2,LinkedList<RectangleMapObject>> rectangleMapObject_collection;
     private static WorldCollector controls = null;
 
     public WorldCollector() {
+
         this.actor_collection = new HashMap<Vector2, LinkedList<MyActor>>();
+        this.rectangleMapObject_collection = new HashMap<Vector2, LinkedList<RectangleMapObject>>();
     }
 
 
@@ -34,41 +40,70 @@ public class WorldCollector {
         this.clear();
         Array<Actor> actors = group.getChildren();
         for(Actor actor:actors){
-            add((MyActor)actor);
+            add((MyActor) actor);
         }
     }
     public void add(MyActor actor){
-        LinkedList<MyActor> keyList;
-        float x = (float)Math.floor(actor.getX()/hashSize);
-        float y = (float)Math.floor(actor.getY()/hashSize);
-        float l = 0;
-        float w = 0;
-        Vector2 vector2 = new Vector2();
+        LinkedList<MyActor> list;
+        float x = ((float)Math.floor(actor.getX()/hashSize));
+        float y = ((float)Math.floor(actor.getY()/hashSize));
         for (int i = 0 ; i< Math.ceil(actor.getWidth()/hashSize); i++){
-            x += l;
             for (int j = 0 ; j< Math.ceil(actor.getHeight()/hashSize); j++) {
-                y += w;
-                vector2.set(x, y);
-                keyList = this.actor_collection.get(vector2);
-                if (keyList != null) {
-                    if (!keyList.contains(actor)) {
-                        keyList.add(actor);
-                        this.actor_collection.remove(vector2);
-                        this.actor_collection.put(vector2, keyList);
+                Vector2 vector_key = new Vector2();
+                vector_key.set(x, y);
+                list = this.actor_collection.get(vector_key);
+                if (list != null) {
+                    if (!list.contains(actor)) {
+                        list.add(actor);
+                        this.actor_collection.remove(vector_key);
+                        this.actor_collection.put(vector_key, list);
                     }
                 } else {
-                    keyList = new LinkedList<MyActor>();
-                    keyList.add(actor);
-                    this.actor_collection.put(vector2, keyList);
+                    LinkedList<MyActor>  newList  = new LinkedList<MyActor>();
+                    newList.add(actor);
+                    this.actor_collection.put(vector_key, newList);
                 }
-                w+=hashSize;
+                y++;
             }
-            l+=hashSize;
+            x++;
         }
     }
 
-    public boolean isHit (Vector2 v){
+
+    public void add(RectangleMapObject recObj){
+        LinkedList<RectangleMapObject> list;
+        Rectangle rect = recObj.getRectangle();
+
+        float x = ((float)Math.floor(rect.getX()/hashSize));
+        float y = ((float)Math.floor(rect.getY()/hashSize));
+        for (int i = 0 ; i< Math.ceil(rect.getWidth()/hashSize); i++){
+            for (int j = 0 ; j< Math.ceil(rect.getHeight()/hashSize); j++) {
+                Vector2 vector_key = new Vector2();
+                vector_key.set(x, y);
+                list = this.rectangleMapObject_collection.get(vector_key);
+                if (list != null) {
+                    if (!list.contains(recObj)) {
+                        list.add(recObj);
+                        this.rectangleMapObject_collection.remove(vector_key);
+                        this.rectangleMapObject_collection.put(vector_key, list);
+                    }
+                } else {
+                    LinkedList<RectangleMapObject> newList = new LinkedList<RectangleMapObject>();
+                    newList.add(recObj);
+                    this.rectangleMapObject_collection.put(vector_key, newList);
+                }
+                y++;
+            }
+            x++;
+        }
+    }
+
+    public boolean isHitActor(Vector2 v){
         return this.actor_collection.containsKey(v);
+    }
+
+    public boolean isHitMap(Vector2 v){
+        return this.rectangleMapObject_collection.containsKey(v);
     }
 
     public void clear (){
@@ -82,30 +117,71 @@ public class WorldCollector {
         }
         return vectorKeys;
     }
+    private Vector2 rectHit(Rectangle rect){
+        //check 4 corver of rect
+        Vector2 vector2 = new Vector2(rect.getX(),rect.getY());
+        vector2 = getKeyFromVector(vector2);
+        if (isHitActor(vector2)||isHitMap(vector2)) {
+            return vector2;
+        }
+        vector2.set(rect.getX()+rect.getWidth(),rect.getY());
+        vector2 = getKeyFromVector(vector2);
+        if (isHitActor(vector2)||isHitMap(vector2)) {
+            return vector2;
+        }
 
-    private Vector2 getKeyFromVector(Rectangle rect){
-        float x = (float)Math.floor(rect.getX()/hashSize);
-        float y = (float)Math.floor(rect.getY()/hashSize);
-        return new Vector2(x,y);
+        vector2.set(rect.getX()+rect.getWidth(),rect.getY()+rect.getHeight());
+        vector2 = getKeyFromVector(vector2);
+        if (isHitActor(vector2)||isHitMap(vector2)) {
+            return vector2;
+        }
+
+        vector2.set(rect.getX()+rect.getWidth()+rect.getWidth() ,rect.getY()+rect.getHeight());
+        vector2 = getKeyFromVector(vector2);
+        if (isHitActor(vector2)||isHitMap(vector2)) {
+            return vector2;
+        }
+
+        return null;
+    }
+    private Vector2 getKeyFromVector(Vector2 vector2){
+        float x = (float)Math.floor(vector2.x/hashSize);
+        float y = (float)Math.floor(vector2.y/hashSize);
+        return vector2.set(x, y);
     }
 
-    public MyActor hit(Rectangle rectangle){
-        Vector2 keyVector2 = getKeyFromVector(rectangle);
-        if (isHit(keyVector2)){
-            LinkedList<MyActor> keyList = this.actor_collection.get(keyVector2);
-            Rectangle rect =  new Rectangle();
-            for (MyActor aKeyList : keyList) {
-                if (aKeyList.getHitbox() != rectangle){
-                    if (Intersector.intersectRectangles(rectangle, aKeyList.getHitbox(), rect)) {
-                        //todo doit etre improve plus tard
-                        ContainerEvent e = new ContainerEvent(ContainerEvent.Type.collision);
-                        e.add(aKeyList);
-                        aKeyList.fire(e);
-                        return aKeyList;
+    public boolean hit(Rectangle actor_rect){
+        Vector2 keyVector2 = rectHit(actor_rect);
+        if(keyVector2 != null){
+            if (isHitActor(keyVector2)){
+                LinkedList<MyActor> actor_list = this.actor_collection.get(keyVector2);
+                Rectangle rect =  new Rectangle();
+                for (MyActor enemie : actor_list) {
+                    //security to make sure we are not testing a self hit
+                    if (enemie.getHitbox() != actor_rect){
+                        if (Intersector.intersectRectangles(actor_rect, enemie.getHitbox(), rect)) {
+                            //todo doit etre improve plus tard
+                            ContainerEvent e = new ContainerEvent(ContainerEvent.Type.collision);
+                            e.add(enemie);
+                            enemie.fire(e);
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            if (isHitMap(keyVector2)){
+                LinkedList<RectangleMapObject> mapObjList = this.rectangleMapObject_collection.get(keyVector2);
+                Rectangle rect =  new Rectangle();
+
+                for (RectangleMapObject rectObj : mapObjList) {
+                    if (Intersector.intersectRectangles(actor_rect, rectObj.getRectangle(), rect)) {
+                        return true;
                     }
                 }
             }
         }
-        return null;
+
+        return false;
     }
 }

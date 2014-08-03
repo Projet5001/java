@@ -13,8 +13,8 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.projet5001.game.Projet5001;
 import com.projet5001.game.controleur.Director;
-import com.projet5001.game.Main;
 import com.projet5001.game.actors.MyActor;
 import com.projet5001.game.views.TouchpadStyle;
 import com.projet5001.game.controleur.JoypadControleur;
@@ -42,7 +42,7 @@ public class Test extends ScreenAdapter {
     private Game game;
 
 
-    public Test(Main game) {
+    public Test(Projet5001 game) {
         this.game = game;
         this.batch = game.batcher;
 

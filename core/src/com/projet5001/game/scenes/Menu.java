@@ -10,14 +10,14 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.projet5001.game.controleur.Director;
-import com.projet5001.game.Main;
+import com.projet5001.game.Projet5001;
 
 
 public class Menu implements Screen {
 
     Skin skin;
     BitmapFont font;
-    Main game;
+    Projet5001 game;
     ShapeRenderer shapeRenderer;
     Label label;
     Director director;
@@ -26,7 +26,7 @@ public class Menu implements Screen {
     Table table;
     Test aTest;
 
-    public Menu(final Main game) {
+    public Menu(final Projet5001 game) {
 
         this.game = game;
 

@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.projet5001.game.Main;
+import com.projet5001.game.Projet5001;
 import com.projet5001.game.actors.MyActor;
 import com.projet5001.game.controleur.MapControleur;
 import com.projet5001.game.views.TouchpadStyle;
@@ -28,11 +28,6 @@ public class CollisionTest extends ScreenAdapter {
     OrthogonalTiledMapRenderer renderer;
     OrthographicCamera worldCamera;
     OrthographicCamera uiCamera;
-
-
-    Director worldDirector;
-    Director uiDirector;
-
     JoypadControleur joyPadControleur;
     InputMultiplexer multiplexer;
     KeyboardControleurNEW Keyboard;
@@ -44,25 +39,23 @@ public class CollisionTest extends ScreenAdapter {
     private Game game;
 
 
-    public CollisionTest(Main game) {
+    public CollisionTest(Projet5001 game) {
         this.game = game;
         this.batch = game.batcher;
 
-        mapControleur = new MapControleur("data/tmx/ageei2.tmx");
+        mapControleur = new MapControleur("data/tmx/sandbox.tmx");
 
         myActor = new MyActor(new Texture(Gdx.files.internal("data/sprites/perso.png")));
 
-        worldDirector = new Director();
 
-        uiDirector = new Director();
 
         multiplexer = new InputMultiplexer();
-        multiplexer.addProcessor(uiDirector);
-        multiplexer.addProcessor(worldDirector);
+        multiplexer.addProcessor(Projet5001.uiDirector);
+        multiplexer.addProcessor(Projet5001.worldDirector);
 
         Gdx.input.setInputProcessor(multiplexer);
 
-        worldDirector.setKeyboardFocus(myActor);
+        Projet5001.worldDirector.setKeyboardFocus(myActor);
         Keyboard = new KeyboardControleurNEW();
         Keyboard.register(myActor);
 
@@ -73,14 +66,14 @@ public class CollisionTest extends ScreenAdapter {
 
         joyPadControleur.register(myActor);
 
-        uiDirector.addActor(joyPadControleur);
-        uiDirector.addActor(Keyboard);
-        worldDirector.addActor(myActor);
+        Projet5001.uiDirector.addActor(joyPadControleur);
+        Projet5001.uiDirector.addActor(Keyboard);
+        Projet5001.worldDirector.addActor(myActor);
 
-        for (int i = 3; i< 10; i ++ ){
+        for (int i = 1; i< 3; i ++ ){
             myActor2 = new MyActor(new Texture(Gdx.files.internal("data/sprites/perso.png")));
-            myActor2.setPosition(i,i);
-            worldDirector.addActor(myActor2);
+            myActor2.setPosition(i*100,i*100);
+            Projet5001.worldDirector.addActor(myActor2);
 
         }
     }
@@ -88,9 +81,9 @@ public class CollisionTest extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-       WorldCollector.collection().addAll(worldDirector.getGroupActeurs());
-       worldDirector.act();
-       uiDirector.act();
+       WorldCollector.collection().addAll(Projet5001.worldDirector.getGroupActeurs());
+       Projet5001.worldDirector.act();
+       Projet5001.uiDirector.act();
        draw();
     }
 
@@ -98,22 +91,21 @@ public class CollisionTest extends ScreenAdapter {
 
         Gdx.gl20.glClearColor(0, 0, 0, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        worldCamera = (OrthographicCamera) worldDirector.getCamera();
-        worldCamera.setToOrtho(false, 30, 20);
+        worldCamera = (OrthographicCamera) Projet5001.worldDirector.getCamera();
+        worldCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         worldCamera.position.set(myActor.getX(),myActor.getY(),0f);
         worldCamera.update();
 
         mapControleur.setView(worldCamera);
         mapControleur.render();
 
-        uiCamera = (OrthographicCamera)uiDirector.getCamera();
-        uiCamera.setToOrtho(false, 640, 480);
+        uiCamera = (OrthographicCamera)Projet5001.uiDirector.getCamera();
+        uiCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         uiCamera.update();
 
-        worldDirector.debug();
-        worldDirector.draw();
-        uiDirector.draw();
+        Projet5001.worldDirector.debug();
+        Projet5001.worldDirector.draw();
+        Projet5001.uiDirector.draw();
 
     }
 }
