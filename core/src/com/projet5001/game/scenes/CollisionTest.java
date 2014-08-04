@@ -8,7 +8,14 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Array;
 import com.projet5001.game.Projet5001;
 import com.projet5001.game.actors.MyActor;
 import com.projet5001.game.controleur.MapControleur;
@@ -107,5 +114,18 @@ public class CollisionTest extends ScreenAdapter {
         Projet5001.worldDirector.draw();
         Projet5001.uiDirector.draw();
 
+
+
+        ShapeRenderer rect = new ShapeRenderer();
+        rect.setProjectionMatrix(worldCamera.combined);
+        MapObjects mapObjects = mapControleur.mapCollidable.getObjects();
+        for (MapObject mapObject : mapObjects) {
+            RectangleMapObject rectObj = ((RectangleMapObject) mapObject);
+            Rectangle rectangle = rectObj.getRectangle();
+                rect.begin(ShapeRenderer.ShapeType.Line);
+                rect.setColor(1, 1, 0, 1);
+                rect.rect(rectangle.getX(),rectangle.getY(),rectangle.getWidth() ,rectangle.getHeight());
+                rect.end();
+        }
     }
 }

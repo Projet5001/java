@@ -173,10 +173,9 @@ public class MyActor extends Actor {
 
     @Override
     public void act(float delta){
+        this.setZIndex((int)this.getY());
         this.updateHitbox();
         super.act(delta);
-
-
     }
 
     @Override
