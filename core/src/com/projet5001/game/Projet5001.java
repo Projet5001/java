@@ -1,6 +1,7 @@
 package com.projet5001.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.projet5001.game.controleur.Director;
 import com.projet5001.game.scenes.Menu;
@@ -15,12 +16,14 @@ public class Projet5001 extends Game {
     public static float unitScale = 1/32f;
     public static Director worldDirector;
     public static Director uiDirector;
-
+    public static boolean devMode;
     @Override
     public void create () {
         batcher = new SpriteBatch();
         worldDirector = new Director();
         uiDirector = new Director();
+        devMode = false;
+
 
         /**
          * pour le moment je ne lance que cette fenetre de test mais ca donne un bon exemple.
@@ -33,4 +36,5 @@ public class Projet5001 extends Game {
     public void render () {
         super.render();
     }
+
 }

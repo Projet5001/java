@@ -4,6 +4,9 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.assets.loaders.FileHandleResolver;
+import com.badlogic.gdx.assets.loaders.resolvers.ExternalFileHandleResolver;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,6 +18,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
 import com.badlogic.gdx.utils.Array;
 import com.projet5001.game.Projet5001;
 import com.projet5001.game.actors.MyActor;
@@ -25,14 +29,14 @@ import com.projet5001.game.controleur.Director;
 import com.projet5001.game.controleur.JoypadControleur;
 import com.projet5001.game.controleur.KeyboardControleurNEW;
 
+
+
 /**
  * Created by macmata on 31/05/14.
  */
-public class CollisionTest extends ScreenAdapter {
+public class SandBox extends ScreenAdapter {
 
     TouchpadStyle tps;
-    SpriteBatch batch;
-    OrthogonalTiledMapRenderer renderer;
     OrthographicCamera worldCamera;
     OrthographicCamera uiCamera;
     JoypadControleur joyPadControleur;
@@ -40,17 +44,38 @@ public class CollisionTest extends ScreenAdapter {
     KeyboardControleurNEW Keyboard;
 
     MyActor myActor;
-    MyActor myActor2;
+
     MapControleur mapControleur;
 
-    private Game game;
+    private Projet5001 game;
 
 
-    public CollisionTest(Projet5001 game) {
-        this.game = game;
-        this.batch = game.batcher;
+    public SandBox(Projet5001 p) {
+        this.game = p;
+        if(Projet5001.devMode){
 
-        mapControleur = new MapControleur("data/tmx/sandbox.tmx");
+
+            if(UIUtils.isWindows){
+
+                System.out.println("dev mode sandbox loaded");
+                mapControleur = new MapControleur(new ExternalFileHandleResolver(),"projet5001\\tmx\\sandbox.tmx");
+
+            }else if(UIUtils.isLinux||UIUtils.isMac){
+
+                System.out.println("dev mode sandbox loaded");
+                mapControleur = new MapControleur(new ExternalFileHandleResolver(),"projet5001/tmx/sandbox.tmx");
+
+            }else{
+
+                System.out.println("os not compatible");
+                game.setScreen(new Menu(game));
+
+            }
+
+        }else{
+            mapControleur = new MapControleur("data/tmx/sandbox.tmx");
+        }
+
 
         myActor = new MyActor(new Texture(Gdx.files.internal("data/sprites/perso.png")));
 
@@ -78,7 +103,7 @@ public class CollisionTest extends ScreenAdapter {
         Projet5001.worldDirector.addActor(myActor);
 
         for (int i = 1; i< 3; i ++ ){
-            myActor2 = new MyActor(new Texture(Gdx.files.internal("data/sprites/perso.png")));
+            MyActor myActor2 = new MyActor(new Texture(Gdx.files.internal("data/sprites/perso.png")));
             myActor2.setPosition(i*100,i*100);
             Projet5001.worldDirector.addActor(myActor2);
 
@@ -105,6 +130,7 @@ public class CollisionTest extends ScreenAdapter {
 
         mapControleur.setView(worldCamera);
         mapControleur.render();
+        mapControleur.debug(worldCamera);
 
         uiCamera = (OrthographicCamera)Projet5001.uiDirector.getCamera();
         uiCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -116,16 +142,6 @@ public class CollisionTest extends ScreenAdapter {
 
 
 
-        ShapeRenderer rect = new ShapeRenderer();
-        rect.setProjectionMatrix(worldCamera.combined);
-        MapObjects mapObjects = mapControleur.mapCollidable.getObjects();
-        for (MapObject mapObject : mapObjects) {
-            RectangleMapObject rectObj = ((RectangleMapObject) mapObject);
-            Rectangle rectangle = rectObj.getRectangle();
-                rect.begin(ShapeRenderer.ShapeType.Line);
-                rect.setColor(1, 1, 0, 1);
-                rect.rect(rectangle.getX(),rectangle.getY(),rectangle.getWidth() ,rectangle.getHeight());
-                rect.end();
-        }
+
     }
 }
