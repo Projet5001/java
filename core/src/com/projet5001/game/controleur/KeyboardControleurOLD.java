@@ -3,13 +3,13 @@ package com.projet5001.game.controleur;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.projet5001.game.events.MovementEvents;
 import com.projet5001.game.actors.MyActor;
+import com.projet5001.game.events.MovementEvents;
 
 /**
  * Created by macmata on 31/05/14.
  */
-public class KeyboardControleur {
+public class KeyboardControleurOLD {
 
     public static void register(final MyActor myActor) {
         myActor.addListener(new InputListener() {

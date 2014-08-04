@@ -33,9 +33,9 @@ public class MyActor extends Actor {
     }
     public MyActor(Texture texture) {
         super();
-        this.speed = 1/3f;
-        this.fastSpeed = 1;
-        this.slowSpeed = 1;
+        this.speed = 5;
+        this.fastSpeed = 10;
+        this.slowSpeed = 10;
         this.unitScale = 1/32f;
         this.sprite =  null;
         this.old_position = new Vector2();
@@ -82,7 +82,7 @@ public class MyActor extends Actor {
         addListener(new ContainerListener(){
             //todo changer une fois que l'on sait comment les acteur reagise au collision
             public boolean collision(ContainerEvent containerEvent) {
-                ((MyActor) containerEvent.getTarget()).collide(containerEvent.getList());
+                //((MyActor) containerEvent.getTarget()).collide(containerEvent.getList());
                 return false;
             }
         });
@@ -90,7 +90,7 @@ public class MyActor extends Actor {
     public void options (float unitScale, Texture texture){
         if (texture!=null){
             this.sprite = new Sprite(texture);
-            this.sprite.setSize(this.sprite.getWidth() * unitScale, this.sprite.getHeight() * unitScale);
+            this.sprite.setSize(this.sprite.getWidth() , this.sprite.getHeight());
             this.setBounds(getX(),getY(),this.sprite.getWidth(),this.sprite.getHeight());
         }
         this.setTouchable(Touchable.enabled);
@@ -115,12 +115,12 @@ public class MyActor extends Actor {
     public void move(float x, float y) {
         savePosition(x, y);
         setHitboxPosition(this.futur_position);
-        if ( WorldCollector.collection().hit(this.getHitbox()) == null){
+        if ( WorldCollector.collection().hit(this.getHitbox())){
+            resetPosition();
+        }else{
             MoveByAction moveAction = new MoveByAction();
             moveAction.setAmount(x,y);
             this.addAction(moveAction);
-        }else{
-            collide(WorldCollector.collection().hit(this.getHitbox()));
         }
         updateHitbox();
     }
@@ -154,17 +154,8 @@ public class MyActor extends Actor {
         this.hitbox = rect;
     }
 
-    public void collide(Actor actors){
-        //todo to remove this is just a basic test
-        System.out.println("collide item");
-    }
+    public void collide(Boolean bool){
 
-    public void collide(ArrayList<Actor> actors){
-        //todo to remove this is just a basic test
-        if (actors.size() == 1){
-            collide(actors.get(0));
-        }
-        System.out.println("collide" + ((MyActor)actors.get(0)).getVector());
     }
 
     public void moveLeft(){
@@ -182,6 +173,7 @@ public class MyActor extends Actor {
 
     @Override
     public void act(float delta){
+        this.setZIndex((int)this.getY());
         this.updateHitbox();
         super.act(delta);
     }
