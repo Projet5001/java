@@ -123,7 +123,6 @@ public class WorldCollector {
         v1 = getKeyFromVector(v1);
         if (isHitingActor(v1)|| isHitingMap(v1)) {
             vector2Array.add(v1);
-            System.out.println("gb");
         }
         Vector2 v2 = new Vector2(rect.getX()+rect.getWidth(),rect.getY());
         v2 = getKeyFromVector(v2);
@@ -135,15 +134,12 @@ public class WorldCollector {
         v3 = getKeyFromVector(v3);
         if (isHitingActor(v3)|| isHitingMap(v3)) {
             vector2Array.add(v3);
-            System.out.println("gh");
         }
 
         Vector2 v4 = new Vector2(rect.getX()+rect.getWidth() ,rect.getY()+rect.getHeight());
         v4 = getKeyFromVector(v4);
         if (isHitingActor(v4)|| isHitingMap(v4)) {
             vector2Array.add(v4);
-            System.out.print("dh");
-            System.out.println(v4);
         }
         return vector2Array;
     }

@@ -18,22 +18,20 @@ public class Menu implements Screen {
     Skin skin;
     BitmapFont font;
     Projet5001 game;
-    ShapeRenderer shapeRenderer;
-    Label label;
     Director director;
     TextButton button;
     TextButton button2;
-    Table table;
-    Test aTest;
+    TextButton button3;
 
-    public Menu(final Projet5001 game) {
+    public Menu( Projet5001 p) {
+        this.game = p;
 
-        this.game = game;
 
         //test de label
         font = new BitmapFont();
         font.setColor(Color.WHITE);
-        label = new Label("PROJET5001", new Label.LabelStyle(font, font.getColor()));
+
+        director = new Director();
 
         //voir le dossier boutton pour les fichier qui sont recquis et aussi le fichier json
         //Le boutton cree une nouvelle vue(screen) qui contient le jeux.
@@ -43,16 +41,27 @@ public class Menu implements Screen {
 
         //Le textButton qui contient un text et un skin avec le param default (voir fichier json)
         button = new TextButton("Lance le jeux", skin, "default");
-        button.setPosition(100, 100);
+        button.setWidth(200);
+        button.setCenterPosition(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/3);
+        director.addActor(button);
+
         button2 = new TextButton("Lance le testCollision", skin, "default");
-        button2.setPosition(100, 200);
-        table = new Table();
-        table.debug();
-        table.setFillParent(true);
-        table.add(button);
-        table.add(label);
-        table.row();
-        table.add(button2);
+        button2.setWidth(200);
+        button2.setCenterPosition(button.getCenterX(),button.getCenterY()+100);
+        director.addActor(button2);
+
+        button3 = new TextButton("Options", skin, "default");
+        button3.setWidth(200);
+        button3.setCenterPosition(button2.getCenterX(),button2.getCenterY()+100);
+        director.addActor(button3);
+
+        final CheckBox checkBox = new CheckBox("dev",skin, "default");
+        checkBox.setBounds(100,100,50,50);
+        director.addActor(checkBox);
+
+        Label label = new Label(Gdx.files.getExternalStoragePath(), new Label.LabelStyle(font, font.getColor()));
+        label.setPosition(10, 10);
+        director.addActor(label);
 
 
         //n'est pas la seul facon d'ajout les input mais permet de le faire a la vole
@@ -60,20 +69,24 @@ public class Menu implements Screen {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 //Lance le screen test
                 //ajouter une methode qui sauve l'etat du screen actuel
-                aTest = new Test(game);
-                game.setScreen(aTest);
+                game.setScreen(new Test(game));
                 return true;
             }
         });
 
         button2.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new CollisionTest(game));
+                game.setScreen(new SandBox(game));
                 return true;
             }
         });
-        director = new Director();
-        director.addActor(table);
+
+        checkBox.addListener(new InputListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                Projet5001.devMode = !Projet5001.devMode;
+                return false;
+            }
+        });
 
         //enregistre un seul input processor
         Gdx.input.setInputProcessor(director);
@@ -81,23 +94,16 @@ public class Menu implements Screen {
     }
 
     public void draw() {
+    }
+
+    @Override
+    public void render(float delta) {
         GL20 gl = Gdx.gl20;
         gl.glClearColor(0, 0, 0, 0);
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         director.draw();
         director.debug();
-
-        game.batcher.begin();
-        Table.drawDebug(director);
-        game.batcher.end();
-
-
-    }
-
-    @Override
-    public void render(float delta) {
-        draw();
         director.act();
     }
 

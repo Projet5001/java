@@ -42,9 +42,8 @@ public class Test extends ScreenAdapter {
     private Game game;
 
 
-    public Test(Projet5001 game) {
-        this.game = game;
-        this.batch = game.batcher;
+    public Test(Projet5001 p) {
+        this.game = p;
 
         float unitScale = 1/32f;
 
