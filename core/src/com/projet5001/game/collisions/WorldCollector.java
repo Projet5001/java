@@ -44,8 +44,8 @@ public class WorldCollector {
         LinkedList<MyActor> list;
         float x = ((float)Math.floor(actor.getX()/hashSize));
         float y = ((float)Math.floor(actor.getY()/hashSize));
-        for (int i = 0 ; i< Math.ceil(actor.getWidth()/hashSize); i++){
-            for (int j = 0 ; j< Math.ceil(actor.getHeight()/hashSize); j++) {
+        for (int i = 0 ; i<= Math.ceil(actor.getWidth()/hashSize); i++){
+            for (int j = 0 ; j<= Math.ceil(actor.getHeight()/hashSize); j++) {
                 Vector2 vector_key = new Vector2();
                 vector_key.set(x, y);
                 list = this.actor_collection.get(vector_key);
@@ -62,6 +62,7 @@ public class WorldCollector {
                 }
                 y++;
             }
+            y = ((float)Math.floor(actor.getY()/hashSize));
             x++;
         }
     }
@@ -92,6 +93,7 @@ public class WorldCollector {
                 }
                 y++;
             }
+            y = ((float)Math.floor(rect.getY() / hashSize));
             x++;
         }
     }

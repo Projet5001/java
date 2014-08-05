@@ -55,9 +55,13 @@ public class Menu implements Screen {
         button3.setCenterPosition(button2.getCenterX(),button2.getCenterY()+100);
         director.addActor(button3);
 
-        final CheckBox checkBox = new CheckBox("dev",skin, "default");
-        checkBox.setBounds(100,100,50,50);
+        CheckBox checkBox = new CheckBox("dev",skin, "default");
+        checkBox.setBounds(100,100,75,75);
         director.addActor(checkBox);
+
+        CheckBox checkBox2 = new CheckBox("debug",skin, "default");
+        checkBox2.setBounds(100,120,75,75);
+        director.addActor(checkBox2);
 
         Label label = new Label(Gdx.files.getExternalStoragePath(), new Label.LabelStyle(font, font.getColor()));
         label.setPosition(10, 10);
@@ -88,6 +92,12 @@ public class Menu implements Screen {
             }
         });
 
+        checkBox2.addListener(new InputListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                Projet5001.debugMode = !Projet5001.debugMode;
+                return false;
+            }
+        });
         //enregistre un seul input processor
         Gdx.input.setInputProcessor(director);
 

@@ -20,6 +20,8 @@ public class Projet5001 extends Game {
     public static Director worldDirector;
     public static Director uiDirector;
     public static boolean devMode;
+    public static boolean debugMode;
+
     public static JoypadControleur joyPadControleur;
     public static KeyboardControleurNEW Keyboard;
     public TouchpadStyle touchpadStyle;
@@ -39,7 +41,7 @@ public class Projet5001 extends Game {
         uiDirector.addActor(joyPadControleur);
 
         devMode = false;
-
+        debugMode = false;
         /**
          * pour le moment je ne lance que cette fenetre de test mais ca donne un bon exemple.
          * voir https://github.com/libgdx/libgdx-demo-superjumper pour d'autre exemple

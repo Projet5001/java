@@ -42,15 +42,41 @@
     <property name="test" value="001"/>
    </properties>
   </object>
-  <object name="eve" type="npc" x="49" y="629" width="32" height="41">
+  <object name="eve" type="npc" x="49" y="879" width="32" height="32">
    <properties>
     <property name="test" value="001"/>
    </properties>
   </object>
-  <object name="jack" type="npc" x="64" y="501" width="32" height="41">
+  <object name="eve" type="npc" x="138" y="728" width="32" height="32">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
+  <object name="eve" type="npc" x="239" y="813" width="32" height="32">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
+  <object name="eve" type="npc" x="224" y="563" width="32" height="32">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
+  <object name="eve" type="npc" x="141" y="579" width="32" height="32">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
+  <object name="eve" type="npc" x="534" y="703" width="32" height="32">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
+  <object name="eve" type="npc" x="374" y="728" width="32" height="32">
    <properties>
     <property name="test" value="001"/>
    </properties>
   </object>
  </objectgroup>
+ <objectgroup name="Object Layer 4"/>
 </map>
