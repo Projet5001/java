@@ -56,11 +56,11 @@ public class Menu implements Screen {
         director.addActor(button3);
 
         CheckBox checkBox = new CheckBox("dev",skin, "default");
-        checkBox.setBounds(100,100,75,75);
+        checkBox.setPosition(100,100);
         director.addActor(checkBox);
 
         CheckBox checkBox2 = new CheckBox("debug",skin, "default");
-        checkBox2.setBounds(100,120,75,75);
+        checkBox2.setPosition(100,130);
         director.addActor(checkBox2);
 
         Label label = new Label(Gdx.files.getExternalStoragePath(), new Label.LabelStyle(font, font.getColor()));
