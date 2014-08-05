@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.SnapshotArray;
 import com.projet5001.game.actors.MyActor;
-import com.projet5001.game.collisions.WorldCollector;
 
 public class Director extends Stage {
 

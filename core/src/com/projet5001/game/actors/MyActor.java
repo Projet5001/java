@@ -14,8 +14,6 @@ import com.projet5001.game.events.MovementEvents;
 import com.projet5001.game.listeners.ContainerListener;
 import com.projet5001.game.listeners.MovementListener;
 
-import java.util.ArrayList;
-
 
 public class MyActor extends Actor {
 
@@ -122,7 +120,7 @@ public class MyActor extends Actor {
             moveAction.setAmount(x,y);
             this.addAction(moveAction);
         }
-        updateHitbox();
+        updateHitboxPosition();
     }
 
     private void savePosition(float x, float y) {
@@ -132,17 +130,19 @@ public class MyActor extends Actor {
 
     public void resetPosition(){
         this.setPosition(this.old_position);
+        this.updateHitboxPosition();
     }
 
     public void setPosition(float x, float y) {
         super.setPosition(x,y);
+        this.updateHitboxPosition();
     }
 
     public void setPosition(Vector2 vector) {
         this.setPosition(vector.x, vector.y);
     }
 
-    public void updateHitbox(){
+    public void updateHitboxPosition(){
         this.hitbox.setPosition(this.getX(), this.getY());
     }
 
@@ -174,7 +174,7 @@ public class MyActor extends Actor {
     @Override
     public void act(float delta){
         this.setZIndex((int)this.getY());
-        this.updateHitbox();
+        this.updateHitboxPosition();
         super.act(delta);
     }
 

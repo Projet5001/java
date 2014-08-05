@@ -4,7 +4,10 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.projet5001.game.controleur.Director;
+import com.projet5001.game.controleur.JoypadControleur;
+import com.projet5001.game.controleur.KeyboardControleurNEW;
 import com.projet5001.game.scenes.Menu;
+import com.projet5001.game.views.TouchpadStyle;
 
 
 /**
@@ -17,13 +20,25 @@ public class Projet5001 extends Game {
     public static Director worldDirector;
     public static Director uiDirector;
     public static boolean devMode;
+    public static JoypadControleur joyPadControleur;
+    public static KeyboardControleurNEW Keyboard;
+    public TouchpadStyle touchpadStyle;
+
     @Override
     public void create () {
         batcher = new SpriteBatch();
         worldDirector = new Director();
         uiDirector = new Director();
-        devMode = false;
 
+        Keyboard = new KeyboardControleurNEW();
+        touchpadStyle  = new TouchpadStyle();
+        joyPadControleur = new JoypadControleur(10f,touchpadStyle.getTouchpadStyle());
+        joyPadControleur.setBounds(0, 0, 200, 200);
+
+        uiDirector.addActor(Keyboard);
+        uiDirector.addActor(joyPadControleur);
+
+        devMode = false;
 
         /**
          * pour le moment je ne lance que cette fenetre de test mais ca donne un bon exemple.
