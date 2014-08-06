@@ -1,5 +1,6 @@
 package com.projet5001.game.actors;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -26,9 +27,35 @@ public class MyActor extends Actor {
     private Vector2 futur_position;
     private float unitScale;
 
+    public movement getMove() {
+        return move;
+    }
+
+    public void setMove(movement move) {
+        this.move = move;
+    }
+
+    @Override
+    public String toString() {
+        return "MyActor{" +
+                "fastSpeed=" + fastSpeed +
+                ", slowSpeed=" + slowSpeed +
+                ", speed=" + speed +
+                ", sprite=" + sprite +
+                ", hitbox=" + hitbox +
+                ", old_position=" + old_position +
+                ", futur_position=" + futur_position +
+                ", unitScale=" + unitScale +
+                ", move=" + move +
+                '}';
+    }
+
+    private movement move;
+
     public MyActor(){
         this(null);
     }
+
     public MyActor(Texture texture) {
         super();
         this.speed = 5;
@@ -36,6 +63,7 @@ public class MyActor extends Actor {
         this.slowSpeed = 10;
         this.unitScale = 1/32f;
         this.sprite =  null;
+        this.move = movement.idle;
         this.old_position = new Vector2();
         this.futur_position = new Vector2();
         this.options(this.unitScale, texture);
@@ -43,26 +71,30 @@ public class MyActor extends Actor {
 
             public boolean moveLeft(MovementEvents event) {
                 ((MyActor) event.getTarget()).moveLeft();
+                setMove(movement.left);
                 return false;
             }
 
             public boolean moveRight(MovementEvents event) {
                 ((MyActor) event.getTarget()).moveRight();
+                setMove(movement.right);
                 return false;
             }
 
             public boolean moveUp(MovementEvents event) {
                 ((MyActor) event.getTarget()).moveUp();
+                setMove(movement.up);
                 return false;
             }
 
             public boolean moveDown(MovementEvents event) {
                 ((MyActor) event.getTarget()).moveDown();
+                setMove(movement.down);
                 return false;
             }
 
             public boolean idle(MovementEvents event) {
-                ((MyActor) event.getTarget()).setSpeed(0);
+                //((MyActor) event.getTarget()).setSpeed(0);
                 return false;
             }
 
@@ -154,10 +186,6 @@ public class MyActor extends Actor {
         this.hitbox = rect;
     }
 
-    public void collide(Boolean bool){
-
-    }
-
     public void moveLeft(){
         move(-speed,0);
     }
@@ -175,7 +203,16 @@ public class MyActor extends Actor {
     public void act(float delta){
         this.setZIndex((int)this.getY());
         this.updateHitboxPosition();
+        this.isIdle();
         super.act(delta);
+        System.out.println(getMove());
+
+    }
+
+    private void isIdle(){
+        if(this.getActions().size == 0){
+            setMove(movement.idle);
+        }
     }
 
     @Override
@@ -184,5 +221,8 @@ public class MyActor extends Actor {
             this.sprite.setPosition(getX(),getY());
             this.sprite.draw(batch);
         }
+    }
+    private enum movement {
+        left, down, up, right, idle
     }
 }

@@ -20,17 +20,23 @@ public class KeyboardControleurNEW extends Actor{
     }
     public void act (float delta) {
         super.act(delta);
-        if(Gdx.input.isKeyPressed(Input.Keys.DPAD_LEFT))
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
             this.myActor.fire(new MovementEvents(MovementEvents.Type.moveLeft));
 
-        if(Gdx.input.isKeyPressed(Input.Keys.DPAD_RIGHT))
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
             this.myActor.fire(new MovementEvents(MovementEvents.Type.moveRight));
 
-        if(Gdx.input.isKeyPressed(Input.Keys.DPAD_UP))
+        if(Gdx.input.isKeyPressed(Input.Keys.UP))
             this.myActor.fire(new MovementEvents(MovementEvents.Type.moveUp));
 
-        if(Gdx.input.isKeyPressed(Input.Keys.DPAD_DOWN))
+        if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
             this.myActor.fire(new MovementEvents(MovementEvents.Type.moveDown));
+
+
+        if(!(Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)
+             && Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.DOWN))){
+            this.myActor.fire(new MovementEvents(MovementEvents.Type.idle));
+        }
 
     }
 }

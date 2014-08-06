@@ -83,7 +83,9 @@ public class MapControleur {
 
                 if(type.equalsIgnoreCase("player")){
                     System.out.println("we have found the master");
+
                     player = new MyActor(new Texture(Gdx.files.internal("data/sprites/perso.png")));
+
                     player.setPosition(((RectangleMapObject)mapActor).getRectangle().getX(),
                             ((RectangleMapObject)mapActor).getRectangle().getY());
                     Projet5001.worldDirector.addActor(player);

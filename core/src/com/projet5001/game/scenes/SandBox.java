@@ -7,13 +7,15 @@ import com.badlogic.gdx.assets.loaders.resolvers.ExternalFileHandleResolver;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
 import com.projet5001.game.Projet5001;
 import com.projet5001.game.actors.MyActor;
 import com.projet5001.game.controleur.MapControleur;
 import com.projet5001.game.collisions.WorldCollector;
-
-
+import com.projet5001.game.multithread.*;
 
 
 /**
@@ -25,7 +27,10 @@ public class SandBox extends ScreenAdapter {
     OrthographicCamera uiCamera;
     InputMultiplexer multiplexer;
     MapControleur mapControleur;
+    TextureAtlas textureAtlas;
+    Animation animation;
     private Projet5001 game;
+    private float elapsedTime = 0;
 
     public SandBox(Projet5001 p) {
         this.game = p;
@@ -53,6 +58,8 @@ public class SandBox extends ScreenAdapter {
             mapControleur = new MapControleur("data/tmx/sandbox.tmx");
         }
 
+
+
         multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(Projet5001.uiDirector);
         multiplexer.addProcessor(Projet5001.worldDirector);
@@ -64,10 +71,10 @@ public class SandBox extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-       WorldCollector.collection().addAll(Projet5001.worldDirector.getGroupActeurs());
-       Projet5001.worldDirector.act();
-       Projet5001.uiDirector.act();
-       draw();
+        WorldCollector.collection().addAll(Projet5001.worldDirector.getGroupActeurs());
+        Projet5001.worldDirector.act();
+        Projet5001.uiDirector.act();
+        draw();
     }
 
     public void draw() {
@@ -79,12 +86,15 @@ public class SandBox extends ScreenAdapter {
         worldCamera.position.set(mapControleur.getPlayer().getX(),mapControleur.getPlayer().getY(),0f);
         worldCamera.update();
 
+
+
         mapControleur.setView(worldCamera);
         mapControleur.render();
 
         uiCamera = (OrthographicCamera)Projet5001.uiDirector.getCamera();
         uiCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         uiCamera.update();
+
 
         if(Projet5001.debugMode){
             mapControleur.debug(worldCamera);
