@@ -9,6 +9,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.SnapshotArray;
 import com.projet5001.game.actors.MyActor;
 
+import java.util.Comparator;
+
 public class Director extends Stage {
 
     String ERREUR_EFFACER_ACTEUR = "Impossible d'effacer cet acteur.";
@@ -96,8 +98,15 @@ public class Director extends Stage {
     /**
      * fonction debug()
      */
+
+    public void sort(){
+        Array<Actor> tes = this.getActors();
+        tes.sort(new ZIndexComparator());
+        tes.reverse();
+    }
     public void debug( ) {
-        ShapeRenderer rect = new ShapeRenderer();
+        ShapeRenderer rect = new
+                ShapeRenderer();
         rect.setProjectionMatrix(this.getCamera().combined);
         Array<Actor> array = this.getActors();
         for (int i = 0, n = array.size; i < n; i++) {
@@ -117,6 +126,12 @@ public class Director extends Stage {
 
 
             }
+        }
+    }
+    class ZIndexComparator implements Comparator<Actor> {
+        @Override
+        public int compare(Actor a, Actor b) {
+            return a.getZIndex() < b.getZIndex() ? -1 : a.getZIndex() == b.getZIndex() ? 0 : 1;
         }
     }
 }

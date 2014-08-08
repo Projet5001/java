@@ -1,0 +1,53 @@
+walk_up.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+walk_up/walk_up0
+  rotate: false
+  xy: 2, 2
+  size: 47, 77
+  orig: 47, 77
+  offset: 0, 0
+  index: -1
+walk_up/walk_up1
+  rotate: false
+  xy: 2, 81
+  size: 46, 77
+  orig: 46, 77
+  offset: 0, 0
+  index: -1
+walk_up/walk_up2
+  rotate: false
+  xy: 2, 160
+  size: 45, 77
+  orig: 45, 77
+  offset: 0, 0
+  index: -1
+walk_up/walk_up3
+  rotate: false
+  xy: 2, 239
+  size: 45, 77
+  orig: 45, 77
+  offset: 0, 0
+  index: -1
+walk_up/walk_up4
+  rotate: false
+  xy: 2, 318
+  size: 44, 77
+  orig: 44, 77
+  offset: 0, 0
+  index: -1
+walk_up/walk_up5
+  rotate: false
+  xy: 2, 397
+  size: 44, 77
+  orig: 44, 77
+  offset: 0, 0
+  index: -1
+walk_up/walk_up6
+  rotate: false
+  xy: 2, 476
+  size: 45, 76
+  orig: 45, 76
+  offset: 0, 0
+  index: -1
