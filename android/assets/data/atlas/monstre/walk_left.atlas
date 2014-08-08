@@ -1,0 +1,53 @@
+walk_left.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+walk_left/walk_left0
+  rotate: false
+  xy: 2, 2
+  size: 51, 82
+  orig: 51, 82
+  offset: 0, 0
+  index: -1
+walk_left/walk_left1
+  rotate: false
+  xy: 2, 86
+  size: 46, 82
+  orig: 46, 82
+  offset: 0, 0
+  index: -1
+walk_left/walk_left2
+  rotate: false
+  xy: 2, 170
+  size: 46, 82
+  orig: 46, 82
+  offset: 0, 0
+  index: -1
+walk_left/walk_left3
+  rotate: false
+  xy: 2, 254
+  size: 46, 83
+  orig: 46, 83
+  offset: 0, 0
+  index: -1
+walk_left/walk_left4
+  rotate: false
+  xy: 2, 339
+  size: 47, 83
+  orig: 47, 83
+  offset: 0, 0
+  index: -1
+walk_left/walk_left5
+  rotate: false
+  xy: 2, 424
+  size: 52, 83
+  orig: 52, 83
+  offset: 0, 0
+  index: -1
+walk_left/walk_left6
+  rotate: false
+  xy: 2, 509
+  size: 54, 81
+  orig: 54, 81
+  offset: 0, 0
+  index: -1

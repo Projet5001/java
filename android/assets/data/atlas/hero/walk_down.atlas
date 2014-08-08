@@ -1,0 +1,53 @@
+walk_down.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+walk_down0
+  rotate: false
+  xy: 2, 2
+  size: 43, 82
+  orig: 43, 82
+  offset: 0, 0
+  index: -1
+walk_down1
+  rotate: false
+  xy: 2, 86
+  size: 45, 81
+  orig: 45, 81
+  offset: 0, 0
+  index: -1
+walk_down2
+  rotate: false
+  xy: 2, 169
+  size: 43, 82
+  orig: 43, 82
+  offset: 0, 0
+  index: -1
+walk_down3
+  rotate: false
+  xy: 2, 253
+  size: 44, 82
+  orig: 44, 82
+  offset: 0, 0
+  index: -1
+walk_down4
+  rotate: false
+  xy: 2, 337
+  size: 43, 82
+  orig: 43, 82
+  offset: 0, 0
+  index: -1
+walk_down5
+  rotate: false
+  xy: 2, 421
+  size: 44, 82
+  orig: 44, 82
+  offset: 0, 0
+  index: -1
+walk_down6
+  rotate: false
+  xy: 2, 505
+  size: 43, 82
+  orig: 43, 82
+  offset: 0, 0
+  index: -1

@@ -1,15 +1,16 @@
 package com.projet5001.game.actors;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 import com.projet5001.game.collisions.WorldCollector;
+import com.projet5001.game.controleur.AnimationControleur;
 import com.projet5001.game.events.ContainerEvent;
 import com.projet5001.game.events.MovementEvents;
 import com.projet5001.game.listeners.ContainerListener;
@@ -18,39 +19,21 @@ import com.projet5001.game.listeners.MovementListener;
 
 public class MyActor extends Actor {
 
+    private int ZIndex;
     private int fastSpeed;
     private int slowSpeed;
     private float speed;
     private Sprite sprite;
+    private TextureRegion textureRegion;
     private Rectangle hitbox;
     private Vector2 old_position;
     private Vector2 futur_position;
     private float unitScale;
+    private AnimationControleur animationControleur;
 
-    public movement getMove() {
-        return move;
-    }
 
-    public void setMove(movement move) {
-        this.move = move;
-    }
 
-    @Override
-    public String toString() {
-        return "MyActor{" +
-                "fastSpeed=" + fastSpeed +
-                ", slowSpeed=" + slowSpeed +
-                ", speed=" + speed +
-                ", sprite=" + sprite +
-                ", hitbox=" + hitbox +
-                ", old_position=" + old_position +
-                ", futur_position=" + futur_position +
-                ", unitScale=" + unitScale +
-                ", move=" + move +
-                '}';
-    }
-
-    private movement move;
+    private String move;
 
     public MyActor(){
         this(null);
@@ -63,33 +46,36 @@ public class MyActor extends Actor {
         this.slowSpeed = 10;
         this.unitScale = 1/32f;
         this.sprite =  null;
-        this.move = movement.idle;
+        this.textureRegion = null;
+        this.move = "idle";
+        this.ZIndex = 0;
         this.old_position = new Vector2();
         this.futur_position = new Vector2();
+        this.animationControleur = null;
         this.options(this.unitScale, texture);
         addListener(new MovementListener() {
 
             public boolean moveLeft(MovementEvents event) {
                 ((MyActor) event.getTarget()).moveLeft();
-                setMove(movement.left);
+                setMove("walk_left");
                 return false;
             }
 
             public boolean moveRight(MovementEvents event) {
                 ((MyActor) event.getTarget()).moveRight();
-                setMove(movement.right);
+                setMove("walk_right");
                 return false;
             }
 
             public boolean moveUp(MovementEvents event) {
                 ((MyActor) event.getTarget()).moveUp();
-                setMove(movement.up);
+                setMove("walk_up");
                 return false;
             }
 
             public boolean moveDown(MovementEvents event) {
                 ((MyActor) event.getTarget()).moveDown();
-                setMove(movement.down);
+                setMove("walk_down");
                 return false;
             }
 
@@ -120,14 +106,43 @@ public class MyActor extends Actor {
     public void options (float unitScale, Texture texture){
         if (texture!=null){
             this.sprite = new Sprite(texture);
-            this.sprite.setSize(this.sprite.getWidth() , this.sprite.getHeight());
             this.setBounds(getX(),getY(),this.sprite.getWidth(),this.sprite.getHeight());
+            this.hitbox = new Rectangle(this.getX(), this.getY(),this.getWidth(), this.getHeight()/4);
         }
         this.setTouchable(Touchable.enabled);
-        this.hitbox = new Rectangle(this.getX(), this.getY(),this.getWidth(), this.getHeight()/3);
     }
     public Rectangle getHitbox() {
         return hitbox;
+    }
+
+    public String getMove() {
+        return move;
+    }
+
+    public void setMove(String move) {
+        this.move = move;
+    }
+
+    @Override
+    public String toString() {
+        return "MyActor{" +
+                "fastSpeed=" + fastSpeed +
+                ", slowSpeed=" + slowSpeed +
+                ", speed=" + speed +
+                ", sprite=" + sprite +
+                ", hitbox=" + hitbox +
+                ", old_position=" + old_position +
+                ", futur_position=" + futur_position +
+                ", unitScale=" + unitScale +
+                ", move=" + move +
+                '}';
+    }
+
+    public void setAnimationControleur( AnimationControleur animationControleur){
+        this.animationControleur = animationControleur;
+        this.textureRegion = animationControleur.getCurrentTexture(this.move);
+        this.setBounds(getX(),getY(),this.textureRegion.getRegionWidth(),this.textureRegion.getRegionHeight());
+        this.hitbox = new Rectangle(this.getX(), this.getY(),this.getWidth(), this.getHeight()/4);
     }
 
     public float getSpeed(){
@@ -199,6 +214,7 @@ public class MyActor extends Actor {
         move(0,-speed);
     }
 
+
     @Override
     public void act(float delta){
         this.setZIndex((int)this.getY());
@@ -206,12 +222,21 @@ public class MyActor extends Actor {
         this.isIdle();
         super.act(delta);
         System.out.println(getMove());
+        System.out.println(this.getZIndex());
 
+    }
+
+
+    public void setZIndex (int index) {
+        this.ZIndex = index;
+    }
+    public int getZIndex () {
+        return this.ZIndex;
     }
 
     private void isIdle(){
         if(this.getActions().size == 0){
-            setMove(movement.idle);
+            setMove("idle");
         }
     }
 
@@ -221,8 +246,10 @@ public class MyActor extends Actor {
             this.sprite.setPosition(getX(),getY());
             this.sprite.draw(batch);
         }
-    }
-    private enum movement {
-        left, down, up, right, idle
+        if (this.animationControleur !=null){
+            this.textureRegion = this.animationControleur.getCurrentTexture(move);
+            batch.draw(textureRegion,getX(),getY());
+
+        }
     }
 }

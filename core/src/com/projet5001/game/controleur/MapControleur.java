@@ -84,8 +84,8 @@ public class MapControleur {
                 if(type.equalsIgnoreCase("player")){
                     System.out.println("we have found the master");
 
-                    player = new MyActor(new Texture(Gdx.files.internal("data/sprites/perso.png")));
-
+                    player = new MyActor();
+                    player.setAnimationControleur(new AnimationControleur(mapActor.getName(),7,0.033f,4));
                     player.setPosition(((RectangleMapObject)mapActor).getRectangle().getX(),
                             ((RectangleMapObject)mapActor).getRectangle().getY());
                     Projet5001.worldDirector.addActor(player);
@@ -94,9 +94,11 @@ public class MapControleur {
                 }
                 if(type.equalsIgnoreCase("npc")){
                     System.out.println("we have found the others");
-                    MyActor npc = new MyActor(new Texture(Gdx.files.internal("data/sprites/perso.png")));
+                    MyActor npc = new MyActor();
+
+                    npc.setAnimationControleur(new AnimationControleur(mapActor.getName(),7,0.033f,4));
                     npc.setPosition(((RectangleMapObject)mapActor).getRectangle().getX(),
-                                    ((RectangleMapObject)mapActor).getRectangle().getY());
+                            ((RectangleMapObject)mapActor).getRectangle().getY());
                     Projet5001.worldDirector.addActor(npc);
                 }
             }

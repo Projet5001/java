@@ -1,0 +1,53 @@
+walk_right.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+walk_right0
+  rotate: false
+  xy: 2, 2
+  size: 53, 83
+  orig: 53, 83
+  offset: 0, 0
+  index: -1
+walk_right1
+  rotate: false
+  xy: 2, 87
+  size: 42, 83
+  orig: 42, 83
+  offset: 0, 0
+  index: -1
+walk_right2
+  rotate: false
+  xy: 2, 172
+  size: 42, 83
+  orig: 42, 83
+  offset: 0, 0
+  index: -1
+walk_right3
+  rotate: false
+  xy: 2, 257
+  size: 42, 83
+  orig: 42, 83
+  offset: 0, 0
+  index: -1
+walk_right4
+  rotate: false
+  xy: 2, 342
+  size: 40, 83
+  orig: 40, 83
+  offset: 0, 0
+  index: -1
+walk_right5
+  rotate: false
+  xy: 2, 427
+  size: 43, 83
+  orig: 43, 83
+  offset: 0, 0
+  index: -1
+walk_right6
+  rotate: false
+  xy: 2, 512
+  size: 53, 83
+  orig: 53, 83
+  offset: 0, 0
+  index: -1
