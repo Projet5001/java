@@ -11,11 +11,9 @@ import com.projet5001.game.views.TouchpadStyle;
 
 public class Projet5001 extends Game {
     public SpriteBatch batcher;
-    public static float unitScale = 1/32f;
+
     public static Director worldDirector;
     public static Director uiDirector;
-    public static boolean devMode;
-    public static boolean debugMode;
     public static JoypadControleur joyPadControleur;
     public static KeyboardControleurNEW Keyboard;
     public TouchpadStyle touchpadStyle;
@@ -25,7 +23,6 @@ public class Projet5001 extends Game {
         batcher = new SpriteBatch();
         worldDirector = new Director();
         uiDirector = new Director();
-
         Keyboard = new KeyboardControleurNEW();
         touchpadStyle  = new TouchpadStyle();
         joyPadControleur = new JoypadControleur(10f,touchpadStyle.getTouchpadStyle());
@@ -34,15 +31,19 @@ public class Projet5001 extends Game {
         uiDirector.addActor(Keyboard);
         uiDirector.addActor(joyPadControleur);
 
-        devMode = false;
-        debugMode = false;
-
         setScreen(new Menu(this));
     }
 
     @Override
     public void render () {
         super.render();
+    }
+    @Override
+    public void dispose() {
+        uiDirector.dispose();
+        worldDirector.dispose();
+        batcher.dispose();
+
     }
 
 }

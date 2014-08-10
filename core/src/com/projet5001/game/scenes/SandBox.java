@@ -6,16 +6,12 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.loaders.resolvers.ExternalFileHandleResolver;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
+import com.projet5001.game.Config.GameConfig;
+import com.projet5001.game.Config.GameConfigView;
 import com.projet5001.game.Projet5001;
-import com.projet5001.game.actors.MyActor;
 import com.projet5001.game.controleur.MapControleur;
 import com.projet5001.game.collisions.WorldCollector;
-import com.projet5001.game.multithread.*;
 
 
 /**
@@ -27,22 +23,22 @@ public class SandBox extends ScreenAdapter {
     OrthographicCamera uiCamera;
     InputMultiplexer multiplexer;
     MapControleur mapControleur;
-    TextureAtlas textureAtlas;
-    Animation animation;
+    GameConfigView gameConfig;
+
     private Projet5001 game;
     private float elapsedTime = 0;
 
     public SandBox(Projet5001 p) {
         this.game = p;
-        if(Projet5001.devMode){
+        if(GameConfig.devMode){
 
 
-            if(UIUtils.isWindows){
+            if(GameConfig.isWindows){
 
                 System.out.println("dev mode sandbox loaded");
                 mapControleur = new MapControleur(new ExternalFileHandleResolver(),"projet5001\\tmx\\sandbox.tmx");
 
-            }else if(UIUtils.isLinux||UIUtils.isMac){
+            }else if(GameConfig.isPosix){
 
                 System.out.println("dev mode sandbox loaded");
                 mapControleur = new MapControleur(new ExternalFileHandleResolver(),"projet5001/tmx/sandbox.tmx");
@@ -57,9 +53,7 @@ public class SandBox extends ScreenAdapter {
         }else{
             mapControleur = new MapControleur("data/tmx/sandbox.tmx");
         }
-
-
-
+        gameConfig = new GameConfigView();
         multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(Projet5001.uiDirector);
         multiplexer.addProcessor(Projet5001.worldDirector);
@@ -81,30 +75,27 @@ public class SandBox extends ScreenAdapter {
 
         Gdx.gl20.glClearColor(0, 0, 0, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         worldCamera = (OrthographicCamera) Projet5001.worldDirector.getCamera();
         worldCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         worldCamera.position.set(mapControleur.getPlayer().getX(),mapControleur.getPlayer().getY(),0f);
         worldCamera.update();
 
-
-
         mapControleur.setView(worldCamera);
-        mapControleur.render();
+        mapControleur.renderGround();
 
         uiCamera = (OrthographicCamera)Projet5001.uiDirector.getCamera();
         uiCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         uiCamera.update();
 
-        Projet5001.worldDirector.sort();
-
-        if(Projet5001.debugMode){
+        if(GameConfig.debugMode){
             mapControleur.debug(worldCamera);
             Projet5001.worldDirector.debug();
         }
 
         Projet5001.worldDirector.draw();
+        this.mapControleur.renderTop();
         Projet5001.uiDirector.draw();
-
 
     }
 }

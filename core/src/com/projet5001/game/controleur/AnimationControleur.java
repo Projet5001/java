@@ -2,11 +2,8 @@ package com.projet5001.game.controleur;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.projet5001.game.actors.MyActor;
 
 import java.util.HashMap;
 
@@ -21,13 +18,13 @@ public class AnimationControleur {
     private String last_move;
     private float speed;
     private int frame_number;
-    private HashMap<String,Animation> animationHashMap;
+    private HashMap<String, Animation> animationHashMap;
     private float stateTime;
 
-    public AnimationControleur(String sprite_name, int frame_number,float speed, int animation_number){
+    public AnimationControleur(String sprite_name, int frame_number, float speed, int animation_number) {
         this.speed = speed;
         this.actor_name = sprite_name;
-        this.frame_number =  frame_number;
+        this.frame_number = frame_number;
         this.animation_number = animation_number;
         this.last_move = "walk_down";
         this.animationHashMap = new HashMap<>(animation_number);
@@ -35,21 +32,21 @@ public class AnimationControleur {
         this.generateAnimationCycle();
     }
 
-    private void generateAnimationCycle(){
-            String[] arr = {"walk_left","walk_right","walk_up","walk_down"};
-            for(String cycle: arr){
-                TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("data/atlas/"+this.actor_name+"/"+cycle+".atlas"));
-                this.animationHashMap.put(cycle,new Animation(this.speed, textureAtlas.getRegions()));
-            }
+    private void generateAnimationCycle() {
+        String[] arr = {"walk_left", "walk_right", "walk_up", "walk_down"};
+        for (String cycle : arr) {
+            TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("data/atlas/" + this.actor_name + "/" + cycle + ".atlas"));
+            this.animationHashMap.put(cycle, new Animation(this.speed, textureAtlas.getRegions()));
+        }
     }
 
-    public TextureRegion getCurrentTexture(String move){
-        if (move.equalsIgnoreCase("idle")){
-            TextureRegion []textureRegion = this.animationHashMap.get(this.last_move).getKeyFrames();
+    public TextureRegion getCurrentTexture(String move) {
+        if (move.equalsIgnoreCase("idle")) {
+            TextureRegion[] textureRegion = this.animationHashMap.get(this.last_move).getKeyFrames();
             return textureRegion[3];
         }
         this.last_move = move;
         stateTime += Gdx.graphics.getDeltaTime();
-        return  this.animationHashMap.get(move).getKeyFrame(stateTime,true);
+        return this.animationHashMap.get(move).getKeyFrame(stateTime, true);
     }
 }

@@ -128,6 +128,10 @@ public class Director extends Stage {
             }
         }
     }
+    public void draw(){
+        sort();
+        super.draw();
+    }
     class ZIndexComparator implements Comparator<Actor> {
         @Override
         public int compare(Actor a, Actor b) {

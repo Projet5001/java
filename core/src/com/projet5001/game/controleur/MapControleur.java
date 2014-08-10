@@ -1,17 +1,17 @@
 package com.projet5001.game.controleur;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.loaders.resolvers.ExternalFileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.*;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
 import com.badlogic.gdx.math.Rectangle;
 import com.projet5001.game.Projet5001;
 import com.projet5001.game.actors.MyActor;
@@ -27,10 +27,15 @@ public class MapControleur {
     public MapLayer mapActors;
     public MapLayer mapCollidable;
     private MyActor player;
+    private TiledMapTileLayer tileMapLayerGround;
+    private TiledMapTileLayer tileMapLayerGroundStatic;
+    private TiledMapTileLayer tileMapLayerGroundTop;
+    private TiledMapTileLayer tileMapLayerGroundBase;
 
-    public MapControleur(String mapFilePath){
-
-        tiledmap = new TmxMapLoader(new InternalFileHandleResolver()).load(mapFilePath);
+    public MapControleur(String mapFilePath) {
+        TmxMapLoader.Parameters parameters =  new TmxMapLoader.Parameters();
+        parameters.generateMipMaps = true;
+        tiledmap = new TmxMapLoader(new InternalFileHandleResolver()).load(mapFilePath,parameters);
         properties = tiledmap.getProperties();
         renderer = new OrthogonalTiledMapRenderer(tiledmap);
         getMapLayers();
@@ -38,7 +43,7 @@ public class MapControleur {
 
     }
 
-    public MapControleur(ExternalFileHandleResolver externalFileHandleResolver,String mapFilePath){
+    public MapControleur(ExternalFileHandleResolver externalFileHandleResolver, String mapFilePath) {
 
         tiledmap = new TmxMapLoader(externalFileHandleResolver).load(mapFilePath);
         properties = tiledmap.getProperties();
@@ -47,20 +52,30 @@ public class MapControleur {
         processMapLayer();
 
     }
-    public MyActor getPlayer(){
+
+    public MyActor getPlayer() {
         return player;
     }
-    private void getMapLayers(){
+
+    private void getMapLayers() {
 
         mapLayers = tiledmap.getLayers();
-        mapCollidable = (MapLayer)mapLayers.get("obstacles");
-        mapItems = (MapLayer)mapLayers.get("items");
-        mapTrigger = (MapLayer)mapLayers.get("trigger");
-        mapActors = (MapLayer)mapLayers.get("actors");
+        MapObject mo = new MapObject();
+        mo.setName("testAlex");
+        mapCollidable = (MapLayer) mapLayers.get("obstacles");
+        mapItems = (MapLayer) mapLayers.get("items");
+        MapObjects mapObjects = mapItems.getObjects();
+        mapObjects.add(mo);
+        mapTrigger = (MapLayer) mapLayers.get("trigger");
+        mapActors = (MapLayer) mapLayers.get("actors");
+        tileMapLayerGround = (TiledMapTileLayer) mapLayers.get("ground");
+        tileMapLayerGroundBase = (TiledMapTileLayer) mapLayers.get("objets_static_base");
+        tileMapLayerGroundTop = (TiledMapTileLayer) mapLayers.get("objets_static_top");
+        tileMapLayerGroundStatic = (TiledMapTileLayer) mapLayers.get("top-objet");
     }
 
-    private void processMapLayer(){
-        if (mapCollidable != null){
+    private void processMapLayer() {
+        if (mapCollidable != null) {
             MapObjects mapObjects = mapCollidable.getObjects();
             for (MapObject mapObject : mapObjects) {
                 String s = mapObject.getName();
@@ -69,49 +84,84 @@ public class MapControleur {
                 WorldCollector.collection().add(rect);
             }
         }
-        if (mapItems != null){
+        if (mapItems != null) {
             MapObjects mapObjects = mapItems.getObjects();
             for (MapObject mapItem : mapObjects) {
-                MapProperties mapItemProperties= mapItem.getProperties();
+                MapProperties mapItemProperties = mapItem.getProperties();
             }
         }
-        if (mapActors != null){
+        if (mapActors != null) {
             MapObjects mapObjects = mapActors.getObjects();
             for (MapObject mapActor : mapObjects) {
-                MapProperties mapActorProperties= mapActor.getProperties();
-                String type =(String) mapActorProperties.get("type");
+                MapProperties mapActorProperties = mapActor.getProperties();
+                String type = (String) mapActorProperties.get("type");
 
-                if(type.equalsIgnoreCase("player")){
-                    System.out.println("we have found the master");
+                switch (type) {
+                    case "player":
+                        extractPlayer(mapActor);
+                        break;
 
-                    player = new MyActor();
-                    player.setAnimationControleur(new AnimationControleur(mapActor.getName(),7,0.033f,4));
-                    player.setPosition(((RectangleMapObject)mapActor).getRectangle().getX(),
-                            ((RectangleMapObject)mapActor).getRectangle().getY());
-                    Projet5001.worldDirector.addActor(player);
-                    Projet5001.Keyboard.register(player);
-                    Projet5001.joyPadControleur.register(player);
-                }
-                if(type.equalsIgnoreCase("npc")){
-                    System.out.println("we have found the others");
-                    MyActor npc = new MyActor();
+                    case "npc":
+                        extractNpc(mapActor);
+                        break;
+                    case "itemActor":
 
-                    npc.setAnimationControleur(new AnimationControleur(mapActor.getName(),7,0.033f,4));
-                    npc.setPosition(((RectangleMapObject)mapActor).getRectangle().getX(),
-                            ((RectangleMapObject)mapActor).getRectangle().getY());
-                    Projet5001.worldDirector.addActor(npc);
                 }
             }
         }
     }
 
-    public void setView(OrthographicCamera camera){
-        this.renderer.setView(camera);
-    }
-    public void render(){
-        this.renderer.render();
+    private void extractItemActor(MapObject mapActor) {
+        System.out.println("we have found the itemsActor");
+        MyActor itemActor = new MyActor();
+        //determiner si il y a animation ou pas.
+        //itemActor.setAnimationControleur(new AnimationControleur(mapActor.getName(), 7, 0.033f, 4));
+        itemActor.setPosition(((RectangleMapObject) mapActor).getRectangle().getX(),
+                ((RectangleMapObject) mapActor).getRectangle().getY());
+        Projet5001.worldDirector.addActor(itemActor);
     }
 
+    private void extractNpc(MapObject mapActor) {
+        System.out.println("we have found the others");
+        MyActor npc = new MyActor();
+
+        npc.setAnimationControleur(new AnimationControleur(mapActor.getName(), 7, 0.033f, 4));
+        npc.setPosition(((RectangleMapObject) mapActor).getRectangle().getX(),
+                ((RectangleMapObject) mapActor).getRectangle().getY());
+        Projet5001.worldDirector.addActor(npc);
+    }
+
+    private void extractPlayer(MapObject mapActor) {
+        System.out.println("we have found the master");
+
+        player = new MyActor();
+        player.setAnimationControleur(new AnimationControleur(mapActor.getName(), 7, 0.033f, 4));
+        player.setPosition(((RectangleMapObject) mapActor).getRectangle().getX(),
+                ((RectangleMapObject) mapActor).getRectangle().getY());
+        Projet5001.worldDirector.addActor(player);
+        Projet5001.Keyboard.register(player);
+        Projet5001.joyPadControleur.register(player);
+    }
+
+    public void setView(OrthographicCamera camera) {
+        this.renderer.setView(camera);
+    }
+
+    public void renderGround() {
+        this.renderer.getSpriteBatch().begin();
+        AnimatedTiledMapTile.updateAnimationBaseTime();
+        this.renderer.renderTileLayer(this.tileMapLayerGround);
+        this.renderer.renderTileLayer(this.tileMapLayerGroundBase);
+        this.renderer.renderTileLayer(tileMapLayerGroundStatic);
+        this.renderer.getSpriteBatch().end();
+    }
+    public void renderTop(){
+        this.renderer.getSpriteBatch().begin();
+        AnimatedTiledMapTile.updateAnimationBaseTime();
+        this.renderer.renderTileLayer(this.tileMapLayerGroundTop);
+        this.renderer.getSpriteBatch().end();
+
+    }
     public void debug(Camera camera) {
         ShapeRenderer shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(camera.combined);
