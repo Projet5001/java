@@ -5,10 +5,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.projet5001.game.Config.GameConfig;
 import com.projet5001.game.controleur.Director;
 import com.projet5001.game.Projet5001;
 
@@ -59,9 +59,6 @@ public class Menu implements Screen {
         checkBox.setPosition(100,100);
         director.addActor(checkBox);
 
-        CheckBox checkBox2 = new CheckBox("debug",skin, "default");
-        checkBox2.setPosition(100,130);
-        director.addActor(checkBox2);
 
         Label label = new Label(Gdx.files.getExternalStoragePath(), new Label.LabelStyle(font, font.getColor()));
         label.setPosition(10, 10);
@@ -87,23 +84,15 @@ public class Menu implements Screen {
 
         checkBox.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Projet5001.devMode = !Projet5001.devMode;
+                GameConfig.devMode = !GameConfig.devMode;
                 return false;
             }
         });
 
-        checkBox2.addListener(new InputListener() {
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Projet5001.debugMode = !Projet5001.debugMode;
-                return false;
-            }
-        });
+
         //enregistre un seul input processor
         Gdx.input.setInputProcessor(director);
 
-    }
-
-    public void draw() {
     }
 
     @Override

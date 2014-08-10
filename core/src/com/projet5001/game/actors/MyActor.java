@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 import com.projet5001.game.collisions.WorldCollector;
@@ -19,6 +21,7 @@ import com.projet5001.game.listeners.MovementListener;
 
 public class MyActor extends Actor {
 
+    private final int collisionSize;
     private int ZIndex;
     private int fastSpeed;
     private int slowSpeed;
@@ -30,12 +33,9 @@ public class MyActor extends Actor {
     private Vector2 futur_position;
     private float unitScale;
     private AnimationControleur animationControleur;
-
-
-
     private String move;
 
-    public MyActor(){
+    public MyActor() {
         this(null);
     }
 
@@ -44,8 +44,8 @@ public class MyActor extends Actor {
         this.speed = 5;
         this.fastSpeed = 10;
         this.slowSpeed = 10;
-        this.unitScale = 1/32f;
-        this.sprite =  null;
+        this.unitScale = 1 / 32f;
+        this.sprite = null;
         this.textureRegion = null;
         this.move = "idle";
         this.ZIndex = 0;
@@ -95,24 +95,39 @@ public class MyActor extends Actor {
             }
 
         });
-        addListener(new ContainerListener(){
+        addListener(new ContainerListener() {
             //todo changer une fois que l'on sait comment les acteur reagise au collision
             public boolean collision(ContainerEvent containerEvent) {
                 //((MyActor) containerEvent.getTarget()).collide(containerEvent.getList());
                 return false;
             }
         });
+
+        addListener(new InputListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println(((MyActor) event.getTarget()).toString());
+                return false;
+            }
+        });
+
+        collisionSize = 4;
     }
-    public void options (float unitScale, Texture texture){
-        if (texture!=null){
+
+    public void options(float unitScale, Texture texture) {
+        if (texture != null) {
             this.sprite = new Sprite(texture);
-            this.setBounds(getX(),getY(),this.sprite.getWidth(),this.sprite.getHeight());
-            this.hitbox = new Rectangle(this.getX(), this.getY(),this.getWidth(), this.getHeight()/4);
+            this.setBounds(getX(), getY(), this.sprite.getWidth(), this.sprite.getHeight());
+            this.hitbox = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight() / collisionSize);
         }
         this.setTouchable(Touchable.enabled);
     }
+
     public Rectangle getHitbox() {
         return hitbox;
+    }
+
+    public void setHitbox(Rectangle rect) {
+        this.hitbox = rect;
     }
 
     public String getMove() {
@@ -138,50 +153,59 @@ public class MyActor extends Actor {
                 '}';
     }
 
-    public void setAnimationControleur( AnimationControleur animationControleur){
-        this.animationControleur = animationControleur;
-        this.textureRegion = animationControleur.getCurrentTexture(this.move);
-        this.setBounds(getX(),getY(),this.textureRegion.getRegionWidth(),this.textureRegion.getRegionHeight());
-        this.hitbox = new Rectangle(this.getX(), this.getY(),this.getWidth(), this.getHeight()/4);
+    public void setFastSpeed(int fastSpeed) {
+        this.fastSpeed = fastSpeed;
     }
 
-    public float getSpeed(){
+    public int getCollisionSize() {
+
+        return collisionSize;
+    }
+
+    public void setAnimationControleur(AnimationControleur animationControleur) {
+        this.animationControleur = animationControleur;
+        this.textureRegion = animationControleur.getCurrentTexture(this.move);
+        this.setBounds(getX(), getY(), this.textureRegion.getRegionWidth(), this.textureRegion.getRegionHeight());
+        this.hitbox = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight() / collisionSize);
+    }
+
+    public float getSpeed() {
         return this.speed;
     }
 
-    public Vector2 getVector(){
-        return new Vector2(getX(),getY());
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 
-    public void setSpeed(int speed){
-        this.speed = speed;
+    public Vector2 getVector() {
+        return new Vector2(getX(), getY());
     }
 
     public void move(float x, float y) {
         savePosition(x, y);
         setHitboxPosition(this.futur_position);
-        if ( WorldCollector.collection().hit(this.getHitbox())){
+        if (WorldCollector.collection().hit(this.getHitbox())) {
             resetPosition();
-        }else{
+        } else {
             MoveByAction moveAction = new MoveByAction();
-            moveAction.setAmount(x,y);
+            moveAction.setAmount(x, y);
             this.addAction(moveAction);
         }
         updateHitboxPosition();
     }
 
     private void savePosition(float x, float y) {
-        this.old_position.set(this.getX(),this.getY());
-        this.futur_position.set(this.getX()+x,this.getY()+y);
+        this.old_position.set(this.getX(), this.getY());
+        this.futur_position.set(this.getX() + x, this.getY() + y);
     }
 
-    public void resetPosition(){
+    public void resetPosition() {
         this.setPosition(this.old_position);
         this.updateHitboxPosition();
     }
 
     public void setPosition(float x, float y) {
-        super.setPosition(x,y);
+        super.setPosition(x, y);
         this.updateHitboxPosition();
     }
 
@@ -189,66 +213,62 @@ public class MyActor extends Actor {
         this.setPosition(vector.x, vector.y);
     }
 
-    public void updateHitboxPosition(){
+    public void updateHitboxPosition() {
         this.hitbox.setPosition(this.getX(), this.getY());
     }
 
-    public void setHitboxPosition(Vector2 vector2){
+    public void setHitboxPosition(Vector2 vector2) {
         this.hitbox.setPosition(vector2.x, vector2.y);
     }
 
-    public void setHitbox(Rectangle rect){
-        this.hitbox = rect;
+    public void moveLeft() {
+        move(-speed, 0);
     }
 
-    public void moveLeft(){
-        move(-speed,0);
+    public void moveRight() {
+        move(speed, 0);
     }
-    public void moveRight(){
-        move(speed,0);
-    }
-    public void moveUp(){
+
+    public void moveUp() {
         move(0, speed);
     }
-    public void moveDown(){
-        move(0,-speed);
+
+    public void moveDown() {
+        move(0, -speed);
     }
 
 
     @Override
-    public void act(float delta){
-        this.setZIndex((int)this.getY());
+    public void act(float delta) {
+        this.setZIndex((int) this.getY());
         this.updateHitboxPosition();
         this.isIdle();
         super.act(delta);
-        System.out.println(getMove());
-        System.out.println(this.getZIndex());
-
     }
 
-
-    public void setZIndex (int index) {
-        this.ZIndex = index;
-    }
-    public int getZIndex () {
+    public int getZIndex() {
         return this.ZIndex;
     }
 
-    private void isIdle(){
-        if(this.getActions().size == 0){
+    public void setZIndex(int index) {
+        this.ZIndex = index;
+    }
+
+    private void isIdle() {
+        if (this.getActions().size == 0) {
             setMove("idle");
         }
     }
 
     @Override
-    public void draw (Batch batch, float parentAlpha) {
+    public void draw(Batch batch, float parentAlpha) {
         if (this.sprite != null) {
-            this.sprite.setPosition(getX(),getY());
+            this.sprite.setPosition(getX(), getY());
             this.sprite.draw(batch);
         }
-        if (this.animationControleur !=null){
+        if (this.animationControleur != null) {
             this.textureRegion = this.animationControleur.getCurrentTexture(move);
-            batch.draw(textureRegion,getX(),getY());
+            batch.draw(textureRegion, getX(), getY());
 
         }
     }
