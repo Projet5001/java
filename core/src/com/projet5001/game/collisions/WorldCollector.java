@@ -15,9 +15,9 @@ import java.util.LinkedList;
 
 public class WorldCollector {
 
-    private int hashSize = 64;
-    private HashMap<Vector2,LinkedList<MyActor>> actor_collection;
-    private HashMap<Vector2,LinkedList<RectangleMapObject>> rectangleMapObject_collection;
+    private static int hashSize = 64;
+    private  HashMap<Vector2,LinkedList<MyActor>> actor_collection;
+    private  HashMap<Vector2,LinkedList<RectangleMapObject>> rectangleMapObject_collection;
     private static WorldCollector controls = null;
 
     public WorldCollector() {
@@ -98,11 +98,11 @@ public class WorldCollector {
         }
     }
 
-    public boolean isHitingActor(Vector2 v){
+    public boolean containActor(Vector2 v){
         return this.actor_collection.containsKey(v);
     }
 
-    public boolean isHitingMap(Vector2 v){
+    public boolean containMap(Vector2 v){
         return this.rectangleMapObject_collection.containsKey(v);
     }
 
@@ -123,24 +123,24 @@ public class WorldCollector {
         Array<Vector2> vector2Array =  new Array<>();
         Vector2 v1 = new Vector2(rect.getX(),rect.getY());
         v1 = getKeyFromVector(v1);
-        if (isHitingActor(v1)|| isHitingMap(v1)) {
+        if (containActor(v1)|| containMap(v1)) {
             vector2Array.add(v1);
         }
         Vector2 v2 = new Vector2(rect.getX()+rect.getWidth(),rect.getY());
         v2 = getKeyFromVector(v2);
-        if (isHitingActor(v2)|| isHitingMap(v2)) {
+        if (containActor(v2)|| containMap(v2)) {
             vector2Array.add(v2);
         }
 
         Vector2 v3 = new Vector2(rect.getX(),rect.getY()+rect.getHeight());
         v3 = getKeyFromVector(v3);
-        if (isHitingActor(v3)|| isHitingMap(v3)) {
+        if (containActor(v3)|| containMap(v3)) {
             vector2Array.add(v3);
         }
 
         Vector2 v4 = new Vector2(rect.getX()+rect.getWidth() ,rect.getY()+rect.getHeight());
         v4 = getKeyFromVector(v4);
-        if (isHitingActor(v4)|| isHitingMap(v4)) {
+        if (containActor(v4)|| containMap(v4)) {
             vector2Array.add(v4);
         }
         return vector2Array;
@@ -156,7 +156,7 @@ public class WorldCollector {
         Array<Vector2> keyVector2List = rectHit(actor_rect);
         if (keyVector2List != null){
             for(Vector2 keyVector2: keyVector2List){
-                if (isHitingActor(keyVector2)){
+                if (containActor(keyVector2)){
                     LinkedList<MyActor> actor_list = this.actor_collection.get(keyVector2);
                     Rectangle rect =  new Rectangle();
                     for (MyActor enemie : actor_list) {
@@ -173,7 +173,7 @@ public class WorldCollector {
                     }
                 }
 
-                if (isHitingMap(keyVector2)){
+                if (containMap(keyVector2)){
                     LinkedList<RectangleMapObject> mapObjList = this.rectangleMapObject_collection.get(keyVector2);
                     Rectangle rect =  new Rectangle();
                     for (RectangleMapObject rectObj : mapObjList) {

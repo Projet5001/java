@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.loaders.resolvers.ExternalFileHandleResolver;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
@@ -51,7 +52,7 @@ public class SandBox extends ScreenAdapter {
             }
 
         }else{
-            mapControleur = new MapControleur("data/tmx/sandbox.tmx");
+            mapControleur = new MapControleur(new InternalFileHandleResolver(),"data/tmx/sandbox.tmx");
         }
         gameConfig = new GameConfigView();
         multiplexer = new InputMultiplexer();
@@ -61,14 +62,22 @@ public class SandBox extends ScreenAdapter {
         Gdx.input.setInputProcessor(multiplexer);
 
     }
-
+    public void dispose () {
+        Projet5001.worldDirector.dispose();
+        Projet5001.uiDirector.dispose();
+    }
 
     @Override
     public void render(float delta) {
         WorldCollector.collection().addAll(Projet5001.worldDirector.getGroupActeurs());
+        act();
+        draw();
+        WorldCollector.collection().clear();
+    }
+
+    public void act(){
         Projet5001.worldDirector.act();
         Projet5001.uiDirector.act();
-        draw();
     }
 
     public void draw() {

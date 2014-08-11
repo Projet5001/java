@@ -1,5 +1,6 @@
 package com.projet5001.game.controleur;
 
+import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.ExternalFileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Camera;
@@ -31,26 +32,20 @@ public class MapControleur {
     private TiledMapTileLayer tileMapLayerGroundStatic;
     private TiledMapTileLayer tileMapLayerGroundTop;
     private TiledMapTileLayer tileMapLayerGroundBase;
+    private TmxMapLoader.Parameters parameters;
 
-    public MapControleur(String mapFilePath) {
-        TmxMapLoader.Parameters parameters =  new TmxMapLoader.Parameters();
+    public MapControleur(){
+        parameters =  new TmxMapLoader.Parameters();
         parameters.generateMipMaps = true;
-        tiledmap = new TmxMapLoader(new InternalFileHandleResolver()).load(mapFilePath,parameters);
-        properties = tiledmap.getProperties();
-        renderer = new OrthogonalTiledMapRenderer(tiledmap);
-        getMapLayers();
-        processMapLayer();
 
     }
 
-    public MapControleur(ExternalFileHandleResolver externalFileHandleResolver, String mapFilePath) {
-
-        tiledmap = new TmxMapLoader(externalFileHandleResolver).load(mapFilePath);
-        properties = tiledmap.getProperties();
+    public MapControleur(FileHandleResolver fileHandleResolver, String mapFilePath) {
+        this();
+        tiledmap = new TmxMapLoader(fileHandleResolver).load(mapFilePath);
         renderer = new OrthogonalTiledMapRenderer(tiledmap);
         getMapLayers();
         processMapLayer();
-
     }
 
     public MyActor getPlayer() {
@@ -60,12 +55,8 @@ public class MapControleur {
     private void getMapLayers() {
 
         mapLayers = tiledmap.getLayers();
-        MapObject mo = new MapObject();
-        mo.setName("testAlex");
         mapCollidable = (MapLayer) mapLayers.get("obstacles");
         mapItems = (MapLayer) mapLayers.get("items");
-        MapObjects mapObjects = mapItems.getObjects();
-        mapObjects.add(mo);
         mapTrigger = (MapLayer) mapLayers.get("trigger");
         mapActors = (MapLayer) mapLayers.get("actors");
         tileMapLayerGround = (TiledMapTileLayer) mapLayers.get("ground");
