@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
+import com.projet5001.game.ai.Ai;
 import com.projet5001.game.collisions.WorldCollector;
 import com.projet5001.game.controleur.AnimationControleur;
 import com.projet5001.game.events.ContainerEvent;
@@ -21,7 +22,8 @@ import com.projet5001.game.listeners.MovementListener;
 
 public class MyActor extends Actor {
 
-    private final int collisionSize;
+    private int collisionSize;
+    private Ai fsm;
     private int ZIndex;
     private int fastSpeed;
     private int slowSpeed;
@@ -52,6 +54,7 @@ public class MyActor extends Actor {
         this.old_position = new Vector2();
         this.futur_position = new Vector2();
         this.animationControleur = null;
+        this.fsm = new Ai(this);
         this.options(this.unitScale, texture);
         addListener(new MovementListener() {
 
@@ -254,10 +257,30 @@ public class MyActor extends Actor {
         this.ZIndex = index;
     }
 
-    private void isIdle() {
+    //todo changer isIdle pour ne pas se base sur les actions
+    private boolean isIdle() {
         if (this.getActions().size == 0) {
             setMove("idle");
+            return true;
         }
+        return false;
+    }
+
+    public boolean isSeeingEnemies() {
+        return false;
+    }
+
+    public void changeState(MyActorEnumState state) {
+        fsm.changeState(state);
+    }
+
+    public void update(float delta) {
+        fsm.update();
+    }
+
+    public boolean isSafe() {
+
+        return true;
     }
 
     @Override
