@@ -152,7 +152,7 @@ public class MyActor extends Actor {
                 ", old_position=" + old_position +
                 ", futur_position=" + futur_position +
                 ", unitScale=" + unitScale +
-                ", move=" + move +
+                ", moveValid=" + move +
                 '}';
     }
 
@@ -182,6 +182,22 @@ public class MyActor extends Actor {
 
     public Vector2 getVector() {
         return new Vector2(getX(), getY());
+    }
+
+    public void moveLeft() {
+        move(-speed, 0);
+    }
+
+    public void moveRight() {
+        move(speed, 0);
+    }
+
+    public void moveUp() {
+        move(0, speed);
+    }
+
+    public void moveDown() {
+        move(0, -speed);
     }
 
     public void move(float x, float y) {
@@ -223,23 +239,6 @@ public class MyActor extends Actor {
     public void setHitboxPosition(Vector2 vector2) {
         this.hitbox.setPosition(vector2.x, vector2.y);
     }
-
-    public void moveLeft() {
-        move(-speed, 0);
-    }
-
-    public void moveRight() {
-        move(speed, 0);
-    }
-
-    public void moveUp() {
-        move(0, speed);
-    }
-
-    public void moveDown() {
-        move(0, -speed);
-    }
-
 
     @Override
     public void act(float delta) {

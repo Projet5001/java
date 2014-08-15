@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.projet5001.game.actors.MyActor;
 import com.projet5001.game.events.ContainerEvent;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 
@@ -153,6 +154,7 @@ public class WorldCollector {
     }
 
     public boolean hit(Rectangle actor_rect){
+
         Array<Vector2> keyVector2List = rectHit(actor_rect);
         if (keyVector2List != null){
             for(Vector2 keyVector2: keyVector2List){
