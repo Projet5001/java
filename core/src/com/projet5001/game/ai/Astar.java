@@ -17,7 +17,13 @@ public class Astar {
     public Node depart;
     public Node arrive;
 
-    public static void run(Node nodeStart, Node nodeGoal){
+    public void run(Node nodeStart, Node nodeGoal){
+
+        openList = new ArrayList<>();
+        while (!openList.isEmpty()){
+
+        }
+
         /**
          Okay, now that you have gone through the explanation, let’s lay out the step-by-step method all in one place:
          1) Add the starting square (or node) to the open list.
@@ -58,8 +64,10 @@ public class Astar {
         return null;
     }
 
-    public ArrayList<Node> findVoisin(Node current){
+    public ArrayList<Node> findVoisin(Node node){
         ArrayList<Node> voisins = new ArrayList<Node>();
+
+
         return voisins;
     }
 

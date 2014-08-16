@@ -4,6 +4,8 @@ import com.badlogic.gdx.math.*;
 import com.projet5001.game.collisions.WorldCollector;
 import com.badlogic.gdx.math.Rectangle;
 
+import java.util.ArrayList;
+
 public class Node {
 
     public final int LIBRE  = 0;
@@ -18,6 +20,7 @@ public class Node {
     private Node parent;
     private float x;
     private float y;
+    private Vector2 vector;
     private Vector2 futur_position;
     private Vector2 old_position;
     private Rectangle hitbox;
@@ -27,6 +30,7 @@ public class Node {
     public Node(float x, float y){
         this.x = x;
         this.y = y;
+        this.vector = new Vector2(x,y);
         this.speed = 5;
         this.g_movementCost = speed;
     }
