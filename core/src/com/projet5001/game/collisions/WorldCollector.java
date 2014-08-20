@@ -10,7 +10,6 @@ import com.badlogic.gdx.utils.Array;
 import com.projet5001.game.actors.MyActor;
 import com.projet5001.game.events.ContainerEvent;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 

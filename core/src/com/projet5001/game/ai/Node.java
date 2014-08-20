@@ -1,65 +1,85 @@
 package com.projet5001.game.ai;
 
-import com.badlogic.gdx.math.*;
-import com.projet5001.game.collisions.WorldCollector;
 import com.badlogic.gdx.math.Rectangle;
-
-import java.util.ArrayList;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+import com.projet5001.game.collisions.WorldCollector;
 
 public class Node {
 
-    public final int LIBRE  = 0;
-    public final int BLOCK  = 1;
-    public final int START  = 2;
-    public final int ARRIVE = 3;
-
+    public boolean block;
     private double h_heuristique =0;
-    private int g_movementCost =10;
-    private int f_totalCost =0;
-
+    private int gCost =0;
+    private double f_totalCost = 0;
     private Node parent;
     private float x;
     private float y;
-    private Vector2 vector;
+    private float width;
+    private float height;
+    private Vector2 position;
     private Vector2 futur_position;
     private Vector2 old_position;
     private Rectangle hitbox;
     private int speed;
+    private Array<Node> neighbours;
 
 
-    public Node(float x, float y){
+    public Node(float x, float y, float width, float height, int speed){
         this.x = x;
         this.y = y;
-        this.vector = new Vector2(x,y);
-        this.speed = 5;
-        this.g_movementCost = speed;
-    }
-    public boolean moveLeft() {
-        return moveValid(-speed, 0);
-    }
-
-    public boolean moveRight() {
-        return moveValid(speed, 0);
+        this.width = width;
+        this.height = height;
+        this.speed = speed;
+        this.gCost = 0;
+        this.block = false;
+        this.neighbours = null;
+        this.hitbox  =  new Rectangle(this.x,this.y,this.width,this.height);
+        this.position = new Vector2(this.x,this.y);
     }
 
-    public boolean moveUp() {
-       return  moveValid(0, speed);
+    public void moveLeft() {
+        moveValid(-speed, 0);
     }
 
-    public boolean moveDown() {
-        return moveValid(0, -speed);
+    public void moveRight() {
+        moveValid(speed, 0);
     }
 
-    public boolean moveValid(float x, float y) {
+    public void moveUp() {
+        moveValid(0, speed);
+    }
+
+    public void moveDown() {
+        moveValid(0, -speed);
+    }
+
+    public void moveValid(float x, float y) {
         savePosition(x, y);
         setHitboxPosition(this.futur_position);
-        if (WorldCollector.collection().hit(this.hitbox)) {
-            resetPosition();
-            return false;
-        } else {
-            resetPosition();
-            return true;
+        if (this.neighbours == null) {
+            this.neighbours = new Array<>();
         }
+        Node node = new Node(this.futur_position.x, this.futur_position.y, this.width, this.height, this.speed);
+        if (!WorldCollector.collection().hit(this.hitbox)) {
+
+            node.block = false;
+            resetPosition();
+            this.neighbours.add(node);
+        } else {
+            //ici changer le g cost en fonction de ce qui est hit
+            node.block = true;
+            resetPosition();
+            this.neighbours.add(node);
+        }
+    }
+
+    public Array<Node> getneighbours(){
+        moveDown();
+        moveLeft();
+        moveRight();
+        moveUp();
+
+        return this.neighbours;
     }
 
     public void setHitboxPosition(Vector2 vector2) {
@@ -90,16 +110,36 @@ public class Node {
         this.setPosition(vector.x, vector.y);
     }
 
-    public double getH_heuristique() {
+    public Vector2 getVector(){
+        return this.position.set(this.x,this.y);
+    }
+
+    public double getH() {
         return this.h_heuristique;
     }
 
-    public int getG_movementCost() {
-        return g_movementCost;
+    public void setH(double h_heuristique) {
+        this.h_heuristique = h_heuristique;
     }
 
-    public double getF_totalCost(){
-        return g_movementCost + h_heuristique;
+    public int getG() {
+        return gCost;
+    }
+
+    public int getSpeed(){
+        return speed;
+    }
+
+    public void setG(int g_movementCost) {
+        this.gCost = g_movementCost;
+    }
+
+    public double getF() {
+        return f_totalCost;
+    }
+
+    public void setF(double f_totalCost) {
+        this.f_totalCost = f_totalCost;
     }
 
     public float getXpos() {
@@ -110,30 +150,15 @@ public class Node {
         return this.y;
     }
 
-    public void setH_heuristique(double h_heuristique) {
-        this.h_heuristique = h_heuristique;
-    }
-
-    public void setG_movementCost(int g_movementCost) {
-        this.g_movementCost = g_movementCost;
-    }
-
-    public void setF_totalCost(int f_totalCost) {
-        this.f_totalCost = f_totalCost;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
+    public Node getParent() {
+        return this.parent;
     }
 
     public void setParent(Node p){
         this.parent = p;
     }
-    public Node getParent(){
-        return this.parent;
+
+    public boolean equals(Node node){
+        return this.position.x == node.getVector().x && this.position.y == node.getVector().y;
     }
 }
