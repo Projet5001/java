@@ -7,13 +7,12 @@ import com.projet5001.game.collisions.WorldCollector;
 
 public class Node extends Rectangle{
 
-    public boolean block;
+    public  boolean block;
     private double h_heuristique;
     private int gCost;
     private double f_totalCost;
     private Node parent;
     private Vector2 futur_position;
-    private Vector2 old_position;
     private int speed;
     private Array<Node> neighbours;
 
@@ -26,7 +25,6 @@ public class Node extends Rectangle{
         this.f_totalCost = 0;
         this.block = false;
         this.neighbours = new Array<>();
-        this.old_position = new Vector2(this.x,this.y);
         this.futur_position = new Vector2(this.x,this.y);
     }
 
@@ -57,7 +55,6 @@ public class Node extends Rectangle{
     }
 
     public void move(float x, float y) {
-        old_position.set(this.getX(), this.getY());
         futur_position.set(this.getX() + x, this.getY() + y);
         Rectangle rectangle = new Rectangle(futur_position.x,futur_position.y,Math.max(this.width,this.height),Math.max(this.width,this.height));
         this.neighbours.add(new Node(rectangle));

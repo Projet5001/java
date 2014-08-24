@@ -31,6 +31,7 @@ public class MyActor extends Actor {
     private Sprite sprite;
     private TextureRegion textureRegion;
     private Rectangle hitbox;
+    private Rectangle futurHitbox;
     private Vector2 old_position;
     private Vector2 futur_position;
     private float unitScale;
@@ -117,6 +118,8 @@ public class MyActor extends Actor {
             this.sprite = new Sprite(texture);
             this.setBounds(getX(), getY(), this.sprite.getWidth(), this.sprite.getHeight());
             this.hitbox = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight() / collisionSize);
+            this.futurHitbox = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight() / collisionSize);
+
         }
         this.setTouchable(Touchable.enabled);
     }
@@ -166,6 +169,8 @@ public class MyActor extends Actor {
         this.textureRegion = animationControleur.getCurrentTexture(this.move);
         this.setBounds(getX(), getY(), this.textureRegion.getRegionWidth(), this.textureRegion.getRegionHeight());
         this.hitbox = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight() / collisionSize);
+        this.futurHitbox = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight() / collisionSize);
+
     }
 
     public float getSpeed() {
@@ -242,10 +247,13 @@ public class MyActor extends Actor {
 
     @Override
     public void act(float delta) {
+        this.fsmUpdate(delta);
         this.setZIndex((int) this.getY());
-        this.updateHitboxPosition();
         this.isIdle();
         super.act(delta);
+
+        //important puisque les actions ne son pas déclenché tjs au meme moment.
+        this.updateHitboxPosition();
     }
 
     public int getZIndex() {
@@ -273,7 +281,7 @@ public class MyActor extends Actor {
         fsm.changeState(state);
     }
 
-    public void update(float delta) {
+    public void fsmUpdate(float delta) {
         fsm.update();
     }
 

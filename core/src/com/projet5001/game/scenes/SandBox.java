@@ -87,7 +87,7 @@ public class SandBox extends ScreenAdapter {
 
         worldCamera = (OrthographicCamera) Projet5001.worldDirector.getCamera();
         worldCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        worldCamera.position.set(mapControleur.getPlayer().getX(),mapControleur.getPlayer().getY(),0f);
+        worldCamera.position.set(Projet5001.worldDirector.getPlayer().getX(),Projet5001.worldDirector.getPlayer().getY(),0f);
         worldCamera.update();
 
         mapControleur.setView(worldCamera);

@@ -47,9 +47,6 @@ public class MapControleur {
         processMapLayer();
     }
 
-    public MyActor getPlayer() {
-        return player;
-    }
 
     private void getMapLayers() {
 
@@ -124,10 +121,11 @@ public class MapControleur {
     private void extractPlayer(MapObject mapActor) {
         System.out.println("we have found the master");
 
-        player = new MyActor();
+        MyActor player = new MyActor();
         player.setAnimationControleur(new AnimationControleur(mapActor.getName(), 7, 0.063f, 4));
         player.setPosition(((RectangleMapObject) mapActor).getRectangle().getX(),
                 ((RectangleMapObject) mapActor).getRectangle().getY());
+        Projet5001.worldDirector.player = player;
         Projet5001.worldDirector.addActor(player);
         Projet5001.Keyboard.register(player);
         Projet5001.joyPadControleur.register(player);

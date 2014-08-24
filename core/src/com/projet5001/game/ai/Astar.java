@@ -24,7 +24,7 @@ public class Astar {
         while (!openList.isEmpty()){
             current = openList.get(0);
 
-            if (calculHeuristique(current,dest) < 1){
+            if (calculHeuristique(current,dest) == 0){
                 openList.clear();
                 closeList.clear();
                 return reconstruct_path(path, current);
@@ -39,17 +39,18 @@ public class Astar {
                     neighbour.setG(current.getG() + movementCost(current, neighbour));
                 }
 
-                if (lisContains(closeList,neighbour)){
+                if (lisContains(neighbour,closeList)){
+
                     continue;
                 }
 
                 int tentativeGCost = current.getG() + movementCost(current, neighbour);
 
-                if (!lisContains(openList,neighbour) || tentativeGCost < neighbour.getG()){
+                if (!lisContains(neighbour,openList) || tentativeGCost < neighbour.getG()){
                     neighbour.setParent(current);
                     neighbour.setG(tentativeGCost);
                     neighbour.setF(neighbour.getG() + calculHeuristique(neighbour,dest));
-                    if (!lisContains(openList,neighbour)){
+                    if (!lisContains(neighbour,openList)){
                         openList.add(neighbour);
                         Collections.sort(openList,new FValueComarator());
                     }
@@ -71,7 +72,7 @@ public class Astar {
     }
 
 
-    private static Boolean lisContains(ArrayList<Node> list, Node node){
+    private static Boolean lisContains(Node node, ArrayList<Node> list){
         for (Node n: list){
           if(n.equals(node)){
               return true;
