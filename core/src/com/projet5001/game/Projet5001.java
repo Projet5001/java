@@ -3,6 +3,7 @@ package com.projet5001.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.AtomicQueue;
+import com.projet5001.game.ai.Astar;
 import com.projet5001.game.controleur.Director;
 import com.projet5001.game.controleur.JoypadControleur;
 import com.projet5001.game.controleur.KeyboardControleurNEW;

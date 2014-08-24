@@ -117,7 +117,7 @@ public class WorldCollector {
         }
         return vectorKeys;
     }
-
+    //todo separé en 4 fonctions
     private Array<Vector2> rectHit(Rectangle rect){
         //check 4 corver of rect
         Array<Vector2> vector2Array =  new Array<>();
@@ -153,6 +153,7 @@ public class WorldCollector {
     }
 
     public boolean hit(Rectangle actor_rect){
+
         Array<Vector2> keyVector2List = rectHit(actor_rect);
         if (keyVector2List != null){
             for(Vector2 keyVector2: keyVector2List){

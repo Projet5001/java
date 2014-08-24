@@ -17,13 +17,17 @@ public class Director extends Stage {
     String ERREUR_EFFACER_TOUS_LES_ACTEUR = "Impossible d'effacer la liste d'acteur";
     String ERREUR_AJOUT_LISTE_ACTEUR = "Impossible d'ajouter la liste d'acteur.";
 
-    private Actor keyboardFocus;
+    public MyActor player;
 
     /**
      * Constructeur Director
      * Crée un nouveau directeur et l'enregistre automatique au system de input
      */
     public Director() { super(); }
+
+    public MyActor getPlayer() {
+        return player;
+    }
 
     /**
      * Fonction fire(...)

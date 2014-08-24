@@ -32,7 +32,7 @@ public class KeyboardControleurNEW extends Actor{
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
             this.myActor.fire(new MovementEvents(MovementEvents.Type.moveDown));
 
-
+        //idle
         if(!(Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)
              && Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.DOWN))){
             this.myActor.fire(new MovementEvents(MovementEvents.Type.idle));

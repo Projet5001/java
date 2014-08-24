@@ -22,6 +22,7 @@ public class Menu implements Screen {
     TextButton button;
     TextButton button2;
     TextButton button3;
+    TextButton button4;
 
     public Menu( Projet5001 p) {
         this.game = p;
@@ -55,6 +56,12 @@ public class Menu implements Screen {
         button3.setCenterPosition(button2.getCenterX(),button2.getCenterY()+100);
         director.addActor(button3);
 
+
+        button4 = new TextButton("Aitest", skin, "default");
+        button4.setWidth(200);
+        button4.setCenterPosition(button3.getCenterX(),button3.getCenterY()+100);
+        director.addActor(button4);
+
         CheckBox checkBox = new CheckBox("dev",skin, "default");
         checkBox.setPosition(100,100);
         director.addActor(checkBox);
@@ -78,6 +85,13 @@ public class Menu implements Screen {
         button2.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(new SandBox(game));
+                return true;
+            }
+        });
+
+        button4.addListener(new InputListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new AiTest(game));
                 return true;
             }
         });

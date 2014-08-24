@@ -31,6 +31,7 @@ public class MyActor extends Actor {
     private Sprite sprite;
     private TextureRegion textureRegion;
     private Rectangle hitbox;
+    private Rectangle futurHitbox;
     private Vector2 old_position;
     private Vector2 futur_position;
     private float unitScale;
@@ -43,7 +44,7 @@ public class MyActor extends Actor {
 
     public MyActor(Texture texture) {
         super();
-        this.speed = 5;
+        this.speed = 32/16;
         this.fastSpeed = 10;
         this.slowSpeed = 10;
         this.unitScale = 1 / 32f;
@@ -60,25 +61,21 @@ public class MyActor extends Actor {
 
             public boolean moveLeft(MovementEvents event) {
                 ((MyActor) event.getTarget()).moveLeft();
-                setMove("walk_left");
                 return false;
             }
 
             public boolean moveRight(MovementEvents event) {
                 ((MyActor) event.getTarget()).moveRight();
-                setMove("walk_right");
                 return false;
             }
 
             public boolean moveUp(MovementEvents event) {
                 ((MyActor) event.getTarget()).moveUp();
-                setMove("walk_up");
                 return false;
             }
 
             public boolean moveDown(MovementEvents event) {
                 ((MyActor) event.getTarget()).moveDown();
-                setMove("walk_down");
                 return false;
             }
 
@@ -121,6 +118,8 @@ public class MyActor extends Actor {
             this.sprite = new Sprite(texture);
             this.setBounds(getX(), getY(), this.sprite.getWidth(), this.sprite.getHeight());
             this.hitbox = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight() / collisionSize);
+            this.futurHitbox = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight() / collisionSize);
+
         }
         this.setTouchable(Touchable.enabled);
     }
@@ -152,7 +151,7 @@ public class MyActor extends Actor {
                 ", old_position=" + old_position +
                 ", futur_position=" + futur_position +
                 ", unitScale=" + unitScale +
-                ", move=" + move +
+                ", moveValid=" + move +
                 '}';
     }
 
@@ -170,6 +169,8 @@ public class MyActor extends Actor {
         this.textureRegion = animationControleur.getCurrentTexture(this.move);
         this.setBounds(getX(), getY(), this.textureRegion.getRegionWidth(), this.textureRegion.getRegionHeight());
         this.hitbox = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight() / collisionSize);
+        this.futurHitbox = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight() / collisionSize);
+
     }
 
     public float getSpeed() {
@@ -182,6 +183,26 @@ public class MyActor extends Actor {
 
     public Vector2 getVector() {
         return new Vector2(getX(), getY());
+    }
+
+    public void moveLeft() {
+        setMove("walk_left");
+        move(-speed, 0);
+    }
+
+    public void moveRight() {
+        setMove("walk_right");
+        move(speed, 0);
+    }
+
+    public void moveUp() {
+        setMove("walk_up");
+        move(0, speed);
+    }
+
+    public void moveDown() {
+        setMove("walk_down");
+        move(0, -speed);
     }
 
     public void move(float x, float y) {
@@ -224,29 +245,15 @@ public class MyActor extends Actor {
         this.hitbox.setPosition(vector2.x, vector2.y);
     }
 
-    public void moveLeft() {
-        move(-speed, 0);
-    }
-
-    public void moveRight() {
-        move(speed, 0);
-    }
-
-    public void moveUp() {
-        move(0, speed);
-    }
-
-    public void moveDown() {
-        move(0, -speed);
-    }
-
-
     @Override
     public void act(float delta) {
+        this.fsmUpdate(delta);
         this.setZIndex((int) this.getY());
-        this.updateHitboxPosition();
         this.isIdle();
         super.act(delta);
+
+        //important puisque les actions ne son pas déclenché tjs au meme moment.
+        this.updateHitboxPosition();
     }
 
     public int getZIndex() {
@@ -274,7 +281,7 @@ public class MyActor extends Actor {
         fsm.changeState(state);
     }
 
-    public void update(float delta) {
+    public void fsmUpdate(float delta) {
         fsm.update();
     }
 

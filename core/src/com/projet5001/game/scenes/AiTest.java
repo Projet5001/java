@@ -1,24 +1,19 @@
 package com.projet5001.game.scenes;
 
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.assets.loaders.resolvers.ExternalFileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
 import com.projet5001.game.Config.GameConfig;
 import com.projet5001.game.Config.GameConfigView;
 import com.projet5001.game.Projet5001;
-import com.projet5001.game.controleur.MapControleur;
 import com.projet5001.game.collisions.WorldCollector;
+import com.projet5001.game.controleur.MapControleur;
 
-
-/**
- * Created by macmata on 31/05/14.
- */
-public class SandBox extends ScreenAdapter {
+public class AiTest extends ScreenAdapter {
 
     OrthographicCamera worldCamera;
     OrthographicCamera uiCamera;
@@ -27,34 +22,13 @@ public class SandBox extends ScreenAdapter {
     GameConfigView gameConfig;
 
     private Projet5001 game;
-    private float elapsedTime = 0;
 
-    public SandBox(Projet5001 p) {
+    public AiTest(Projet5001 p) {
         this.game = p;
-        if(GameConfig.devMode){
 
-
-            if(GameConfig.isWindows){
-
-                System.out.println("dev mode sandbox loaded");
-                mapControleur = new MapControleur(new ExternalFileHandleResolver(),"projet5001\\tmx\\sandbox.tmx");
-
-            }else if(GameConfig.isPosix){
-
-                System.out.println("dev mode sandbox loaded");
-                mapControleur = new MapControleur(new ExternalFileHandleResolver(),"projet5001/tmx/sandbox.tmx");
-
-            }else{
-
-                System.out.println("os not compatible");
-                game.setScreen(new Menu(game));
-
-            }
-
-        }else{
-            mapControleur = new MapControleur(new InternalFileHandleResolver(),"data/tmx/sandbox.tmx");
-        }
+        mapControleur = new MapControleur(new InternalFileHandleResolver(),"data/tmx/sandbox2.tmx");
         gameConfig = new GameConfigView();
+
         multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(Projet5001.uiDirector);
         multiplexer.addProcessor(Projet5001.worldDirector);
@@ -108,3 +82,4 @@ public class SandBox extends ScreenAdapter {
 
     }
 }
+
