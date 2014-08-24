@@ -5,113 +5,78 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.projet5001.game.collisions.WorldCollector;
 
-public class Node {
+public class Node extends Rectangle{
 
     public boolean block;
-    private double h_heuristique =0;
-    private int gCost =0;
-    private double f_totalCost = 0;
+    private double h_heuristique;
+    private int gCost;
+    private double f_totalCost;
     private Node parent;
-    private float x;
-    private float y;
-    private float width;
-    private float height;
-    private Vector2 position;
     private Vector2 futur_position;
     private Vector2 old_position;
-    private Rectangle hitbox;
     private int speed;
     private Array<Node> neighbours;
 
 
-    public Node(float x, float y, float width, float height, int speed){
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.speed = speed;
+    public Node(Rectangle rect){
+        super(rect.x,rect.y,Math.max(rect.width,rect.height),Math.max(rect.width,rect.height));
+        this.speed = (int)Math.max(rect.width,rect.height);
         this.gCost = 0;
+        this.h_heuristique =0;
+        this.f_totalCost = 0;
         this.block = false;
-        this.neighbours = null;
-        this.hitbox  =  new Rectangle(this.x,this.y,this.width,this.height);
-        this.position = new Vector2(this.x,this.y);
+        this.neighbours = new Array<>();
+        this.old_position = new Vector2(this.x,this.y);
+        this.futur_position = new Vector2(this.x,this.y);
     }
 
-    public void moveLeft() {
-        moveValid(-speed, 0);
-    }
 
-    public void moveRight() {
-        moveValid(speed, 0);
-    }
-
-    public void moveUp() {
-        moveValid(0, speed);
-    }
-
-    public void moveDown() {
-        moveValid(0, -speed);
-    }
-
-    public void moveValid(float x, float y) {
-        savePosition(x, y);
-        setHitboxPosition(this.futur_position);
-        if (this.neighbours == null) {
-            this.neighbours = new Array<>();
-        }
-        Node node = new Node(this.futur_position.x, this.futur_position.y, this.width, this.height, this.speed);
-        if (!WorldCollector.collection().hit(this.hitbox)) {
-
-            node.block = false;
-            resetPosition();
-            this.neighbours.add(node);
-        } else {
-            //ici changer le g cost en fonction de ce qui est hit
-            node.block = true;
-            resetPosition();
-            this.neighbours.add(node);
-        }
-    }
 
     public Array<Node> getneighbours(){
         moveDown();
         moveLeft();
-        moveRight();
         moveUp();
+        moveRight();
 
         return this.neighbours;
     }
-
-    public void setHitboxPosition(Vector2 vector2) {
-        this.hitbox.setPosition(vector2.x, vector2.y);
+    public void moveLeft() {
+        move(-speed, 0);
     }
 
-    public void resetPosition() {
-        this.setPosition(this.old_position);
-        this.updateHitboxPosition();
+    public void moveRight() {
+        move(speed, 0);
     }
 
-    public void updateHitboxPosition() {
-        this.hitbox.setPosition(x, y);
+    public void moveUp() {
+        move(0, speed);
     }
 
-
-    private void savePosition(float x, float y) {
-        this.old_position.set(this.x, this.y);
-        this.futur_position.set(this.x + x, this.y + y);
-    }
-    public void setPosition(float x, float y) {
-        this.x = x;
-        this.y = y;
-        this.updateHitboxPosition();
+    public void moveDown() {
+        move(0, -speed);
     }
 
-    public void setPosition(Vector2 vector) {
-        this.setPosition(vector.x, vector.y);
+    public void move(float x, float y) {
+        old_position.set(this.getX(), this.getY());
+        futur_position.set(this.getX() + x, this.getY() + y);
+        Rectangle rectangle = new Rectangle(futur_position.x,futur_position.y,Math.max(this.width,this.height),Math.max(this.width,this.height));
+        this.neighbours.add(new Node(rectangle));
+
     }
 
-    public Vector2 getVector(){
-        return this.position.set(this.x,this.y);
+    public Vector2 getVector2() {
+
+        return new Vector2(x,y);
+    }
+
+    public Vector2 getKeyFromVector(Node node){
+        float x = (float)Math.floor(node.x / speed);
+        float y = (float)Math.floor(node.y / speed);
+        return new Vector2(x,y);
+    }
+
+    public Rectangle getRectangle (){
+        return this;
     }
 
     public double getH() {
@@ -142,14 +107,6 @@ public class Node {
         this.f_totalCost = f_totalCost;
     }
 
-    public float getXpos() {
-        return this.x;
-    }
-
-    public float getYpos() {
-        return this.y;
-    }
-
     public Node getParent() {
         return this.parent;
     }
@@ -159,6 +116,6 @@ public class Node {
     }
 
     public boolean equals(Node node){
-        return this.position.x == node.getVector().x && this.position.y == node.getVector().y;
+        return this.x == node.x && this.y == node.y;
     }
 }

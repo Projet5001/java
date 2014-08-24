@@ -43,7 +43,7 @@ public class MyActor extends Actor {
 
     public MyActor(Texture texture) {
         super();
-        this.speed = 5;
+        this.speed = 32/16;
         this.fastSpeed = 10;
         this.slowSpeed = 10;
         this.unitScale = 1 / 32f;
@@ -60,25 +60,21 @@ public class MyActor extends Actor {
 
             public boolean moveLeft(MovementEvents event) {
                 ((MyActor) event.getTarget()).moveLeft();
-                setMove("walk_left");
                 return false;
             }
 
             public boolean moveRight(MovementEvents event) {
                 ((MyActor) event.getTarget()).moveRight();
-                setMove("walk_right");
                 return false;
             }
 
             public boolean moveUp(MovementEvents event) {
                 ((MyActor) event.getTarget()).moveUp();
-                setMove("walk_up");
                 return false;
             }
 
             public boolean moveDown(MovementEvents event) {
                 ((MyActor) event.getTarget()).moveDown();
-                setMove("walk_down");
                 return false;
             }
 
@@ -185,18 +181,22 @@ public class MyActor extends Actor {
     }
 
     public void moveLeft() {
+        setMove("walk_left");
         move(-speed, 0);
     }
 
     public void moveRight() {
+        setMove("walk_right");
         move(speed, 0);
     }
 
     public void moveUp() {
+        setMove("walk_up");
         move(0, speed);
     }
 
     public void moveDown() {
+        setMove("walk_down");
         move(0, -speed);
     }
 

@@ -1,8 +1,6 @@
 package com.projet5001.game.controleur;
 
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
-import com.badlogic.gdx.assets.loaders.resolvers.ExternalFileHandleResolver;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -16,6 +14,7 @@ import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
 import com.badlogic.gdx.math.Rectangle;
 import com.projet5001.game.Projet5001;
 import com.projet5001.game.actors.MyActor;
+import com.projet5001.game.actors.Npc;
 import com.projet5001.game.collisions.WorldCollector;
 
 public class MapControleur {
@@ -114,9 +113,9 @@ public class MapControleur {
 
     private void extractNpc(MapObject mapActor) {
         System.out.println("we have found the others");
-        MyActor npc = new MyActor();
+        MyActor npc = new Npc();
 
-        npc.setAnimationControleur(new AnimationControleur(mapActor.getName(), 7, 0.033f, 4));
+        npc.setAnimationControleur(new AnimationControleur(mapActor.getName(), 7, 0.063f, 4));
         npc.setPosition(((RectangleMapObject) mapActor).getRectangle().getX(),
                 ((RectangleMapObject) mapActor).getRectangle().getY());
         Projet5001.worldDirector.addActor(npc);
@@ -126,7 +125,7 @@ public class MapControleur {
         System.out.println("we have found the master");
 
         player = new MyActor();
-        player.setAnimationControleur(new AnimationControleur(mapActor.getName(), 7, 0.033f, 4));
+        player.setAnimationControleur(new AnimationControleur(mapActor.getName(), 7, 0.063f, 4));
         player.setPosition(((RectangleMapObject) mapActor).getRectangle().getX(),
                 ((RectangleMapObject) mapActor).getRectangle().getY());
         Projet5001.worldDirector.addActor(player);
@@ -141,15 +140,15 @@ public class MapControleur {
     public void renderGround() {
         this.renderer.getSpriteBatch().begin();
         AnimatedTiledMapTile.updateAnimationBaseTime();
-        this.renderer.renderTileLayer(this.tileMapLayerGround);
-        this.renderer.renderTileLayer(this.tileMapLayerGroundBase);
-        this.renderer.renderTileLayer(tileMapLayerGroundStatic);
+        if (this.tileMapLayerGround!=null)this.renderer.renderTileLayer(this.tileMapLayerGround);
+        if (this.tileMapLayerGroundBase!=null)this.renderer.renderTileLayer(this.tileMapLayerGroundBase);
+        if (this.tileMapLayerGroundStatic!=null)this.renderer.renderTileLayer(tileMapLayerGroundStatic);
         this.renderer.getSpriteBatch().end();
     }
     public void renderTop(){
         this.renderer.getSpriteBatch().begin();
         AnimatedTiledMapTile.updateAnimationBaseTime();
-        this.renderer.renderTileLayer(this.tileMapLayerGroundTop);
+        if (this.tileMapLayerGroundTop!=null)this.renderer.renderTileLayer(this.tileMapLayerGroundTop);
         this.renderer.getSpriteBatch().end();
 
     }
