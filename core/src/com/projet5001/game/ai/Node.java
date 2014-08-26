@@ -24,8 +24,8 @@ public class Node extends Rectangle{
     public Node(Rectangle rect){
         super(rect.x,rect.y,Math.max(rect.width,rect.height),Math.max(rect.width,rect.height));
         this.state = "";
-        this.speed = 64;
-        this.walkingCost = 64;
+        this.speed = 32;
+        this.walkingCost = 32;
         this.gCost = 0;
         this.h_heuristique =0;
         this.f_totalCost = 0;
@@ -76,14 +76,12 @@ public class Node extends Rectangle{
         Rectangle rectangle = new Rectangle(futur_position.x,futur_position.y,Math.max(this.width,this.height),Math.max(this.width,this.height));
 
         if (this.getX() + x < 0 || this.getY() + y < 0 ){
-            System.out.println("out of map  negatif");
             Node node = new Node(rectangle);
             node.block = true;
             return node ;
         }
 
         if (this.getX() + x > 3000 || this.getY() + y> 3000 ){
-            System.out.println("out of map positif");
             Node node = new Node(rectangle);
             node.block = true;
             this.neighbours.add(node);

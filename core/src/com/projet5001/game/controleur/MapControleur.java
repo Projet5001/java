@@ -67,8 +67,6 @@ public class MapControleur {
         if (mapCollidable != null) {
             MapObjects mapObjects = mapCollidable.getObjects();
             for (MapObject mapObject : mapObjects) {
-                String s = mapObject.getName();
-                System.out.println(s);
                 RectangleMapObject rect = ((RectangleMapObject) mapObject);
                 WorldCollector.collection().add(rect);
             }
