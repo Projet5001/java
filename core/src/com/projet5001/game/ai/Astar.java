@@ -12,21 +12,22 @@ public class Astar {
         ArrayList<Node> openList = new ArrayList<>();
         ArrayList<Node> closeList = new ArrayList<>();
         ArrayList<Node> path  = new ArrayList<>();
-
         Node current;
-
+        int exitH = 3;
         openList.add(nodeStart);
 
         nodeStart.setG(0);
         nodeStart.setH(calculHeuristique(nodeStart, dest));
         nodeStart.setF(nodeStart.getG() + calculHeuristique(nodeStart, dest));
-
         while (!openList.isEmpty()){
+
             Collections.sort(openList,new FValueComarator());
 
             current = openList.get(0);
             System.out.println(calculHeuristique(current,dest));
-            if (calculHeuristique(current,dest) < 3){
+
+
+            if (calculHeuristique(current,dest) < exitH){
                 openList.clear();
                 closeList.clear();
                 System.out.println("where out");
@@ -40,7 +41,6 @@ public class Astar {
 
             for(int i = 0; i < 4;i++ ){
                 Node neighbour = neighbours.get(i);
-
 
                 if(neighbour.block){
                     closeList.add(neighbour);
@@ -74,7 +74,7 @@ public class Astar {
     }
 
     private static int movementCost(Node current, Node neighbour){
-        return current.getSpeed(); //-neighbour malus cost
+        return current.walkingCost; //-neighbour malus cost
     }
 
 
