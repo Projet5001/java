@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -22,7 +23,7 @@ import com.projet5001.game.listeners.MovementListener;
 
 public class MyActor extends Actor {
 
-    private int collisionSize;
+    private int collisionBoxSize;
     private Ai fsm;
     private int ZIndex;
     private int fastSpeed;
@@ -32,9 +33,11 @@ public class MyActor extends Actor {
     private TextureRegion textureRegion;
     private Rectangle hitbox;
     private Rectangle futurHitbox;
+    private Circle visionPeriphery;
     private Vector2 old_position;
     private Vector2 futur_position;
     private float unitScale;
+    private float visionDistance;
     private AnimationControleur animationControleur;
     private String move;
 
@@ -48,10 +51,15 @@ public class MyActor extends Actor {
         this.fastSpeed = 10;
         this.slowSpeed = 10;
         this.unitScale = 1 / 32f;
+        this.ZIndex = 0;
+        this.visionDistance = 320;
+        this.collisionBoxSize = 4;
+
         this.sprite = null;
         this.textureRegion = null;
         this.move = "idle";
-        this.ZIndex = 0;
+
+        this.visionPeriphery =  new Circle(this.getCenterX(),this.getCenterY(),visionDistance);
         this.old_position = new Vector2();
         this.futur_position = new Vector2();
         this.animationControleur = null;
@@ -110,15 +118,14 @@ public class MyActor extends Actor {
             }
         });
 
-        collisionSize = 4;
     }
 
     public void options(float unitScale, Texture texture) {
         if (texture != null) {
             this.sprite = new Sprite(texture);
             this.setBounds(getX(), getY(), this.sprite.getWidth(), this.sprite.getHeight());
-            this.hitbox = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight() / collisionSize);
-            this.futurHitbox = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight() / collisionSize);
+            this.hitbox = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight() / collisionBoxSize);
+            this.futurHitbox = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight() / collisionBoxSize);
 
         }
         this.setTouchable(Touchable.enabled);
@@ -159,17 +166,17 @@ public class MyActor extends Actor {
         this.fastSpeed = fastSpeed;
     }
 
-    public int getCollisionSize() {
+    public int getCollisionBoxSize() {
 
-        return collisionSize;
+        return collisionBoxSize;
     }
 
     public void setAnimationControleur(AnimationControleur animationControleur) {
         this.animationControleur = animationControleur;
         this.textureRegion = animationControleur.getCurrentTexture(this.move);
         this.setBounds(getX(), getY(), this.textureRegion.getRegionWidth(), this.textureRegion.getRegionHeight());
-        this.hitbox = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight() / collisionSize);
-        this.futurHitbox = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight() / collisionSize);
+        this.hitbox = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight() / collisionBoxSize);
+        this.futurHitbox = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight() / collisionBoxSize);
 
     }
 

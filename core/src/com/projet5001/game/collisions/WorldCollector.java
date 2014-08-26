@@ -178,6 +178,8 @@ public class WorldCollector {
         Array<Vector2> keyVector2List = rectHit(actor_rect);
         if (keyVector2List != null){
             for(Vector2 keyVector2: keyVector2List){
+
+                //debut pour actor
                 if (containActor(keyVector2)){
                     LinkedList<MyActor> actor_list = this.actor_collection.get(keyVector2);
                     Rectangle rect =  new Rectangle();
@@ -195,6 +197,7 @@ public class WorldCollector {
                     }
                 }
 
+                //debut pour mobilier
                 if (containMap(keyVector2)){
                     LinkedList<RectangleMapObject> mapObjList = this.rectangleMapObject_collection.get(keyVector2);
                     Rectangle rect =  new Rectangle();
