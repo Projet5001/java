@@ -22,25 +22,31 @@ public class Astar {
         nodeStart.setF(nodeStart.getG() + calculHeuristique(nodeStart, dest));
 
         while (!openList.isEmpty()){
-            current = openList.get(0);
+            Collections.sort(openList,new FValueComarator());
 
-            if (calculHeuristique(current,dest) == 0){
+            current = openList.get(0);
+            System.out.println(calculHeuristique(current,dest));
+            if (calculHeuristique(current,dest) < 3){
                 openList.clear();
                 closeList.clear();
+                System.out.println("where out");
                 return reconstruct_path(path, current);
             }
 
             openList.remove(0);
             closeList.add(current);
 
-            for(Node neighbour: current.getneighbours()){
+            ArrayList<Node> neighbours = current.getneighbours();
 
-                if (neighbour.getG() == 0){
-                    neighbour.setG(current.getG() + movementCost(current, neighbour));
+            for(int i = 0; i < 4;i++ ){
+                Node neighbour = neighbours.get(i);
+
+
+                if(neighbour.block){
+                    closeList.add(neighbour);
                 }
 
                 if (lisContains(neighbour,closeList)){
-
                     continue;
                 }
 
@@ -52,11 +58,11 @@ public class Astar {
                     neighbour.setF(neighbour.getG() + calculHeuristique(neighbour,dest));
                     if (!lisContains(neighbour,openList)){
                         openList.add(neighbour);
-                        Collections.sort(openList,new FValueComarator());
                     }
                 }
             }
         }
+        System.out.println("no solution");
         return null;
     }
     private static ArrayList<Node> reconstruct_path(ArrayList<Node> path, Node current){
@@ -82,9 +88,9 @@ public class Astar {
     }
 
     private static double  calculHeuristique(Node current, Node dest) {
-        Vector2 vector2Current = current.getKeyFromVector(current);
-        Vector2 vector2Dest = current.getKeyFromVector(dest);
-        return Math.sqrt(Math.pow(vector2Current.x - vector2Dest.x, 2) + (Math.pow(vector2Current.y - vector2Dest.y, 2))) * COUT;
+        Vector2 vector2Current = current.getTansformedVector();
+        Vector2 vector2Dest = dest.getTansformedVector();
+        return (Math.abs(vector2Current.x - vector2Dest.x) + (Math.abs(vector2Current.y - vector2Dest.y))) * COUT;
     }
 
     private static class FValueComarator implements Comparator<Node>{

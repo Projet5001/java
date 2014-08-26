@@ -151,6 +151,27 @@ public class WorldCollector {
         float y = (float)Math.floor(vector2.y / hashSize);
         return vector2.set(x, y);
     }
+    public boolean rectEqual (Rectangle rect1, Rectangle rect2){
+        return rect1.equals(rect2);
+    }
+
+    public boolean hitWorld(Rectangle actor_rect) {
+        Array<Vector2> keyVector2List = rectHit(actor_rect);
+        if (keyVector2List != null) {
+            for (Vector2 keyVector2 : keyVector2List) {
+                if (containMap(keyVector2)) {
+                    LinkedList<RectangleMapObject> mapObjList = this.rectangleMapObject_collection.get(keyVector2);
+                    Rectangle rect = new Rectangle();
+                    for (RectangleMapObject rectObj : mapObjList) {
+                        if (Intersector.intersectRectangles(actor_rect, rectObj.getRectangle(), rect)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
     public boolean hit(Rectangle actor_rect){
 

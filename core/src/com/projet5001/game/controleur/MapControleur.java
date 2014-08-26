@@ -20,6 +20,7 @@ import com.projet5001.game.collisions.WorldCollector;
 public class MapControleur {
     public TiledMap tiledmap;
     public MapProperties properties;
+    public MapProperties mapProperties;
     public OrthogonalTiledMapRenderer renderer;
     public MapLayers mapLayers;
     public MapLayer mapItems;
@@ -42,6 +43,7 @@ public class MapControleur {
     public MapControleur(FileHandleResolver fileHandleResolver, String mapFilePath) {
         this();
         tiledmap = new TmxMapLoader(fileHandleResolver).load(mapFilePath);
+        mapProperties = tiledmap.getProperties();
         renderer = new OrthogonalTiledMapRenderer(tiledmap);
         getMapLayers();
         processMapLayer();

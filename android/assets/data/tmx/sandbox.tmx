@@ -43,19 +43,20 @@
   <object name="water" type="lac" x="385" y="476" width="92" height="135"/>
   <object name="wood" type="log" x="450" y="452" width="26" height="21"/>
   <object name="water" type="lac" x="512" y="545" width="255" height="62"/>
+  <object x="-2" y="4" width="960" height="32"/>
+  <object x="1032" y="180"/>
+  <object x="1144" y="354"/>
+  <object x="-2" y="924" width="960" height="32"/>
+  <object x="34" y="0" width="960" height="32" rotation="90"/>
+  <object x="958" y="-2" width="960" height="32" rotation="90"/>
  </objectgroup>
  <objectgroup name="actors">
-  <object name="monstre" type="npc" x="222" y="437" width="41" height="41">
+  <object name="monstre" type="npc" x="650" y="356" width="41" height="41">
    <properties>
     <property name="test" value="001"/>
    </properties>
   </object>
-  <object name="hero" type="player" x="407.5" y="649.5" width="41" height="41">
-   <properties>
-    <property name="test" value="001"/>
-   </properties>
-  </object>
-  <object name="monstre" type="npc" x="224" y="630" width="41" height="41">
+  <object name="hero" type="player" x="666" y="783" width="41" height="41">
    <properties>
     <property name="test" value="001"/>
    </properties>
