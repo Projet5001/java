@@ -14,6 +14,10 @@ public class Astar {
         ArrayList<Node> path  = new ArrayList<>();
         Node current;
         int exitH = 3;
+
+        openList.ensureCapacity(50);
+        closeList.ensureCapacity(50);
+
         openList.add(nodeStart);
 
         nodeStart.setG(0);
@@ -24,13 +28,10 @@ public class Astar {
             Collections.sort(openList,new FValueComarator());
 
             current = openList.get(0);
-            System.out.println(calculHeuristique(current,dest));
-
 
             if (calculHeuristique(current,dest) < exitH){
                 openList.clear();
                 closeList.clear();
-                System.out.println("where out");
                 return reconstruct_path(path, current);
             }
 
@@ -62,7 +63,6 @@ public class Astar {
                 }
             }
         }
-        System.out.println("no solution");
         return null;
     }
     private static ArrayList<Node> reconstruct_path(ArrayList<Node> path, Node current){

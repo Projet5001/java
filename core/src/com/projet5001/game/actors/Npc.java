@@ -23,7 +23,7 @@ public class Npc extends MyActor {
         old_pos = new Vector2();
         pos = 0;
     }
-
+    //todo  separé ca avec le ai...
     @Override
     public void act(float delta) {
 
@@ -31,14 +31,9 @@ public class Npc extends MyActor {
 
             enemie_dummy = new Node(new Rectangle(Projet5001.worldDirector.player.getHitbox()));
             old_pos.set(enemie_dummy.getVector2());
-            if (!(old_pos.x == enemie_dummy.x || old_pos.y == enemie_dummy.y)){
+            pathfinding();
 
-                pathfinding_new();
-            }else{
 
-                pathfinding();
-
-            }
 
         }
 
@@ -64,23 +59,4 @@ public class Npc extends MyActor {
             }
         }
     }
-
-    private void pathfinding_new (){
-        if (nodeArrayList != null && nodeArrayList.size() >0 && pos < nodeArrayList.size() ){
-            Node node = nodeArrayList.get(++pos);
-            if(node.x < this.getX()) {
-                this.fire(new MovementEvents(MovementEvents.Type.moveLeft));
-            }
-            else if(node.x > this.getX()) {
-                this.fire(new MovementEvents(MovementEvents.Type.moveRight));
-            }
-            else if(node.y < this.getY()) {
-                this.fire(new MovementEvents(MovementEvents.Type.moveDown));
-            }
-            else if(node.y > this.getY()) {
-                this.fire(new MovementEvents(MovementEvents.Type.moveUp));
-            }
-        }
-    }
-
 }

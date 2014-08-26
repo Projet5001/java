@@ -51,12 +51,57 @@
   <object x="958" y="-2" width="960" height="32" rotation="90"/>
  </objectgroup>
  <objectgroup name="actors">
-  <object name="monstre" type="npc" x="650" y="356" width="41" height="41">
+  <object name="monstre" type="npc" x="608" y="384" width="41" height="41">
    <properties>
     <property name="test" value="001"/>
    </properties>
   </object>
-  <object name="hero" type="player" x="666" y="783" width="41" height="41">
+  <object name="hero" type="player" x="608" y="736" width="41" height="41">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
+  <object name="monstre" type="npc" x="672" y="384" width="41" height="41">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
+  <object name="monstre" type="npc" x="192" y="160" width="41" height="41">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
+  <object name="monstre" type="npc" x="128" y="224" width="41" height="41">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
+  <object name="monstre" type="npc" x="128" y="160" width="41" height="41">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
+  <object name="monstre" type="npc" x="352" y="768" width="41" height="41">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
+  <object name="monstre" type="npc" x="352" y="672" width="41" height="41">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
+  <object name="monstre" type="npc" x="192" y="224" width="41" height="41">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
+  <object name="monstre" type="npc" x="832" y="736" width="41" height="41">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
+  <object name="monstre" type="npc" x="416" y="320" width="41" height="41">
    <properties>
     <property name="test" value="001"/>
    </properties>

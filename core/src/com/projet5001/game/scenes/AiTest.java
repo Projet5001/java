@@ -26,7 +26,7 @@ public class AiTest extends ScreenAdapter {
     public AiTest(Projet5001 p) {
         this.game = p;
 
-        mapControleur = new MapControleur(new InternalFileHandleResolver(),"data/tmx/sandbox2.tmx");
+        mapControleur = new MapControleur(new InternalFileHandleResolver(),"data/tmx/sandbox.tmx");
         gameConfig = new GameConfigView();
 
         multiplexer = new InputMultiplexer();

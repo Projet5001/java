@@ -24,8 +24,8 @@ public class Node extends Rectangle{
     public Node(Rectangle rect){
         super(rect.x,rect.y,Math.max(rect.width,rect.height),Math.max(rect.width,rect.height));
         this.state = "";
-        this.speed = 44;
-        this.walkingCost = 44;
+        this.speed = 64;
+        this.walkingCost = 64;
         this.gCost = 0;
         this.h_heuristique =0;
         this.f_totalCost = 0;
