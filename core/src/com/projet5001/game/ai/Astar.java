@@ -12,19 +12,24 @@ public class Astar {
         ArrayList<Node> openList = new ArrayList<>();
         ArrayList<Node> closeList = new ArrayList<>();
         ArrayList<Node> path  = new ArrayList<>();
-
         Node current;
+        int exitH = 3;
+
+        openList.ensureCapacity(50);
+        closeList.ensureCapacity(50);
 
         openList.add(nodeStart);
 
         nodeStart.setG(0);
         nodeStart.setH(calculHeuristique(nodeStart, dest));
         nodeStart.setF(nodeStart.getG() + calculHeuristique(nodeStart, dest));
-
         while (!openList.isEmpty()){
+
+            Collections.sort(openList,new FValueComarator());
+
             current = openList.get(0);
 
-            if (calculHeuristique(current,dest) == 0){
+            if (calculHeuristique(current,dest) < exitH){
                 openList.clear();
                 closeList.clear();
                 return reconstruct_path(path, current);
@@ -33,14 +38,16 @@ public class Astar {
             openList.remove(0);
             closeList.add(current);
 
-            for(Node neighbour: current.getneighbours()){
+            ArrayList<Node> neighbours = current.getneighbours();
 
-                if (neighbour.getG() == 0){
-                    neighbour.setG(current.getG() + movementCost(current, neighbour));
+            for(int i = 0; i < 4;i++ ){
+                Node neighbour = neighbours.get(i);
+
+                if(neighbour.block){
+                    closeList.add(neighbour);
                 }
 
                 if (lisContains(neighbour,closeList)){
-
                     continue;
                 }
 
@@ -52,7 +59,6 @@ public class Astar {
                     neighbour.setF(neighbour.getG() + calculHeuristique(neighbour,dest));
                     if (!lisContains(neighbour,openList)){
                         openList.add(neighbour);
-                        Collections.sort(openList,new FValueComarator());
                     }
                 }
             }
@@ -68,7 +74,7 @@ public class Astar {
     }
 
     private static int movementCost(Node current, Node neighbour){
-        return current.getSpeed(); //-neighbour malus cost
+        return current.walkingCost; //-neighbour malus cost
     }
 
 
@@ -82,9 +88,9 @@ public class Astar {
     }
 
     private static double  calculHeuristique(Node current, Node dest) {
-        Vector2 vector2Current = current.getKeyFromVector(current);
-        Vector2 vector2Dest = current.getKeyFromVector(dest);
-        return Math.sqrt(Math.pow(vector2Current.x - vector2Dest.x, 2) + (Math.pow(vector2Current.y - vector2Dest.y, 2))) * COUT;
+        Vector2 vector2Current = current.getTansformedVector();
+        Vector2 vector2Dest = dest.getTansformedVector();
+        return (Math.abs(vector2Current.x - vector2Dest.x) + (Math.abs(vector2Current.y - vector2Dest.y))) * COUT;
     }
 
     private static class FValueComarator implements Comparator<Node>{
