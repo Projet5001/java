@@ -1,13 +1,11 @@
 package com.projet5001.game.collisions;
 
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Array;
+import com.projet5001.game.Utils.Utils;
 import com.projet5001.game.actors.MyActor;
 import com.projet5001.game.events.ContainerEvent;
 
@@ -152,7 +150,7 @@ public class WorldCollector {
 
     private Vector2 extractTopRightCoord(Rectangle rect) {
         Vector2 v4 = new Vector2(rect.getX() + rect.getWidth(), rect.getY() + rect.getHeight());
-        v4 = getKeyFromVector(v4);
+        v4 = Utils.getKeyFromVector(v4,hashSize);
         if (containActor(v4) || containMap(v4)) {
             return v4;
         }
@@ -161,7 +159,7 @@ public class WorldCollector {
 
     private Vector2 extractTopLeftCoord(Rectangle rect) {
         Vector2 v3 = new Vector2(rect.getX(), rect.getY() + rect.getHeight());
-        v3 = getKeyFromVector(v3);
+        v3 = Utils.getKeyFromVector(v3,hashSize);
         if (containActor(v3) || containMap(v3)) {
             return v3;
         }
@@ -170,7 +168,7 @@ public class WorldCollector {
 
     private Vector2 extractLowerRightCoord(Rectangle rect) {
         Vector2 v2 = new Vector2(rect.getX() + rect.getWidth(), rect.getY());
-        v2 = getKeyFromVector(v2);
+        v2 = Utils.getKeyFromVector(v2,hashSize);
         if (containActor(v2) || containMap(v2)) {
             return v2;
         }
@@ -179,17 +177,11 @@ public class WorldCollector {
 
     private Vector2 extractlowerLeftCoord(Rectangle rect) {
         Vector2 v1 = new Vector2(rect.getX(), rect.getY());
-        v1 = getKeyFromVector(v1);
+        v1 = Utils.getKeyFromVector(v1,hashSize);
         if (containActor(v1) || containMap(v1)) {
             return v1;
         }
         return null;
-    }
-
-    private Vector2 getKeyFromVector(Vector2 vector2) {
-        float x = (float) Math.floor(vector2.x / hashSize);
-        float y = (float) Math.floor(vector2.y / hashSize);
-        return vector2.set(x, y);
     }
 
     public boolean hitWorld(Rectangle actorHitbox) {

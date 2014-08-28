@@ -4,13 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 import com.projet5001.game.collisions.WorldCollector;
 import com.projet5001.game.controleur.AnimationControleur;
@@ -126,6 +121,10 @@ public class MyActor extends Actor {
 
     public Rectangle getHitbox() {
         return hitbox;
+    }
+
+    public Vector2 getVector(){
+        return new Vector2( this.getX(),this.getY());
     }
 
     public void setMove(String move) {

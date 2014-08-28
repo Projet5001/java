@@ -56,7 +56,62 @@
     <property name="test" value="001"/>
    </properties>
   </object>
-  <object name="monstre" type="npc" x="832" y="736" width="41" height="41">
+  <object name="monstre" type="npc" x="832" y="728" width="41" height="41">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
+  <object name="monstre" type="npc" x="736" y="728" width="41" height="41">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
+  <object name="monstre" type="npc" x="640" y="728" width="41" height="41">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
+  <object name="monstre" type="npc" x="640" y="656" width="41" height="41">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
+  <object name="monstre" type="npc" x="736" y="656" width="41" height="41">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
+  <object name="monstre" type="npc" x="832" y="656" width="41" height="41">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
+  <object name="monstre" type="npc" x="640" y="440" width="41" height="41">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
+  <object name="monstre" type="npc" x="736" y="440" width="41" height="41">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
+  <object name="monstre" type="npc" x="832" y="440" width="41" height="41">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
+  <object name="monstre" type="npc" x="640" y="376" width="41" height="41">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
+  <object name="monstre" type="npc" x="736" y="376" width="41" height="41">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
+  <object name="monstre" type="npc" x="832" y="376" width="41" height="41">
    <properties>
     <property name="test" value="001"/>
    </properties>
