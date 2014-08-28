@@ -8,14 +8,14 @@ import java.util.ArrayList;
 /**
  * ContainerEvent est un event qui agis de foure tous tout en utilisant le system event driven
  */
-public class ContainerEvent extends Event {
-    private ArrayList<Actor> list;
+public class ActorEvent extends Event {
+    private Actor[] list;
     private Type type;
     private Actor relatedActor;
 
-    public ContainerEvent(Type type) {
+    public ActorEvent(Type type) {
         super.reset();
-        this.list = new ArrayList<Actor>();
+        this.list = new Actor[2];
         this.relatedActor = null;
         this.type = type;
 
@@ -35,10 +35,10 @@ public class ContainerEvent extends Event {
     }
 
     public void add(Actor actor){
-        this.list.add(actor);
+        this.list[0] = actor;
     }
 
-    public ArrayList<Actor> getList(){
+    public Actor[] getList(){
         return this.list;
     }
 

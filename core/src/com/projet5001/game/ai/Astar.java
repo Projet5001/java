@@ -88,9 +88,7 @@ public class Astar {
     }
 
     private static double  calculHeuristique(Node current, Node dest) {
-        Vector2 vector2Current = current.getTansformedVector();
-        Vector2 vector2Dest = dest.getTansformedVector();
-        return (Math.abs(vector2Current.x - vector2Dest.x) + (Math.abs(vector2Current.y - vector2Dest.y))) * COUT;
+        return (Math.abs(current.x/current.getSpeed() - dest.x/dest.getSpeed()) + (Math.abs(current.y/current.getSpeed()  - dest.y/dest.getSpeed()))) * COUT;
     }
 
     private static class FValueComarator implements Comparator<Node>{

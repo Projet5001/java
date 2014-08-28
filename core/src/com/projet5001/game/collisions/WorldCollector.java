@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Array;
 import com.projet5001.game.Utils.Utils;
 import com.projet5001.game.actors.MyActor;
-import com.projet5001.game.events.ContainerEvent;
+import com.projet5001.game.events.ActorEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -219,7 +219,7 @@ public class WorldCollector {
                 for (MyActor enemie : myActorList) {
                     if (circle.x != enemie.getVisionHitbox().x && circle.y != enemie.getVisionHitbox().y ){
                             //todo doit etre improve plus tard
-                            ContainerEvent e = new ContainerEvent(ContainerEvent.Type.discover);
+                            ActorEvent e = new ActorEvent(ActorEvent.Type.discover);
                             e.add(enemie);
                             enemie.fire(e);
                             visibleActor.add(enemie);
@@ -276,7 +276,7 @@ public class WorldCollector {
                 if (!(enemie.getHitbox().equals(actorHitbox))) {
                     if (Intersector.intersectRectangles(actorHitbox, enemie.getHitbox(), rect)) {
                         //todo doit etre improve plus tard
-                        ContainerEvent e = new ContainerEvent(ContainerEvent.Type.collision);
+                        ActorEvent e = new ActorEvent(ActorEvent.Type.collision);
                         e.add(enemie);
                         enemie.fire(e);
                         return true;

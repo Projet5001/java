@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 import com.projet5001.game.collisions.WorldCollector;
 import com.projet5001.game.controleur.AnimationControleur;
-import com.projet5001.game.events.ContainerEvent;
+import com.projet5001.game.events.ActorEvent;
 import com.projet5001.game.events.MovementEvents;
 import com.projet5001.game.listeners.ContainerListener;
 import com.projet5001.game.listeners.MovementListener;
@@ -80,7 +80,7 @@ public class MyActor extends Actor {
         });
         addListener(new ContainerListener() {
             //todo changer une fois que l'on sait comment les acteur reagise au collision
-            public boolean collision(ContainerEvent containerEvent) {
+            public boolean collision(ActorEvent actorEvent) {
                 //((MyActor) containerEvent.getTarget()).collide(containerEvent.getList());
                 return false;
             }

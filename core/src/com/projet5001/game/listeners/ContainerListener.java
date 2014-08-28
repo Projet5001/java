@@ -3,34 +3,34 @@ package com.projet5001.game.listeners;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 
-import com.projet5001.game.events.ContainerEvent;
+import com.projet5001.game.events.ActorEvent;
 
 /**
  * Permet d'implanter les nouveau type de eventListener
  */
 public class ContainerListener implements EventListener {
 
-    ContainerEvent containerEvent;
+    ActorEvent actorEvent;
 
     @Override
     public boolean handle(Event e) {
-        if (!(e instanceof ContainerEvent)) {
+        if (!(e instanceof ActorEvent)) {
             return false;
         }
-        containerEvent = (ContainerEvent) e;
-        switch (containerEvent.getType()) {
+        actorEvent = (ActorEvent) e;
+        switch (actorEvent.getType()) {
             case SimpleContainer:
-                return simpleContainer(containerEvent);
+                return simpleContainer(actorEvent);
             case collision:
-                return collision(containerEvent);
+                return collision(actorEvent);
         }
         return false;
     }
 
-    public boolean simpleContainer(ContainerEvent containerEvent) {
+    public boolean simpleContainer(ActorEvent actorEvent) {
         return false;
     }
-    public boolean collision(ContainerEvent containerEvent) {
+    public boolean collision(ActorEvent actorEvent) {
         return false;
     }
 }
