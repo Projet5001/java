@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
-import com.projet5001.game.ai.Ai;
 import com.projet5001.game.collisions.WorldCollector;
 import com.projet5001.game.controleur.AnimationControleur;
 import com.projet5001.game.events.ContainerEvent;
@@ -24,19 +23,14 @@ import com.projet5001.game.listeners.MovementListener;
 public class MyActor extends Actor {
 
     private int collisionBoxSize;
-    private Ai fsm;
     private int ZIndex;
-    private int fastSpeed;
-    private int slowSpeed;
     private float speed;
     private Sprite sprite;
     private TextureRegion textureRegion;
     private Rectangle hitbox;
-    private Rectangle futurHitbox;
-    private Circle visionPeriphery;
+    private Circle visionHitbox;
     private Vector2 old_position;
     private Vector2 futur_position;
-    private float unitScale;
     private float visionDistance;
     private AnimationControleur animationControleur;
     private String move;
@@ -48,23 +42,20 @@ public class MyActor extends Actor {
     public MyActor(Texture texture) {
         super();
         this.speed = 32/16;
-        this.fastSpeed = 10;
-        this.slowSpeed = 10;
-        this.unitScale = 1 / 32f;
         this.ZIndex = 0;
-        this.visionDistance = 320;
+        this.visionDistance = 150;
         this.collisionBoxSize = 4;
 
         this.sprite = null;
         this.textureRegion = null;
+        this.animationControleur = null;
+
         this.move = "idle";
 
-        this.visionPeriphery =  new Circle(this.getCenterX(),this.getCenterY(),visionDistance);
+        this.visionHitbox =  new Circle(this.getCenterX(),this.getCenterY(),visionDistance);
         this.old_position = new Vector2();
         this.futur_position = new Vector2();
-        this.animationControleur = null;
-        this.fsm = new Ai(this);
-        this.options(this.unitScale, texture);
+        this.options(texture);
         addListener(new MovementListener() {
 
             public boolean moveLeft(MovementEvents event) {
@@ -91,17 +82,6 @@ public class MyActor extends Actor {
                 //((MyActor) event.getTarget()).setSpeed(0);
                 return false;
             }
-
-            public boolean moveFast(MovementEvents event) {
-                ((MyActor) event.getTarget()).setSpeed(fastSpeed);
-                return false;
-            }
-
-            public boolean moveSlow(MovementEvents event) {
-                ((MyActor) event.getTarget()).setSpeed(slowSpeed);
-                return false;
-            }
-
         });
         addListener(new ContainerListener() {
             //todo changer une fois que l'on sait comment les acteur reagise au collision
@@ -111,6 +91,7 @@ public class MyActor extends Actor {
             }
         });
 
+        //todo  menu ou option du personnage ou npc
         addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println(((MyActor) event.getTarget()).toString());
@@ -120,76 +101,35 @@ public class MyActor extends Actor {
 
     }
 
-    public void options(float unitScale, Texture texture) {
+    public void options(Texture texture) {
         if (texture != null) {
             this.sprite = new Sprite(texture);
             this.setBounds(getX(), getY(), this.sprite.getWidth(), this.sprite.getHeight());
             this.hitbox = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight() / collisionBoxSize);
-            this.futurHitbox = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight() / collisionBoxSize);
-
         }
         this.setTouchable(Touchable.enabled);
+    }
+
+    public void options(AnimationControleur animationControleur) {
+        if (animationControleur != null){
+            this.animationControleur = animationControleur;
+            this.textureRegion = animationControleur.getCurrentTexture(this.move);
+            this.setBounds(getX(), getY(), this.textureRegion.getRegionWidth(), this.textureRegion.getRegionHeight());
+            this.hitbox = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight() / collisionBoxSize);
+        }
+        this.setTouchable(Touchable.enabled);
+    }
+
+    public Circle getVisionHitbox() {
+        return visionHitbox;
     }
 
     public Rectangle getHitbox() {
         return hitbox;
     }
 
-    public void setHitbox(Rectangle rect) {
-        this.hitbox = rect;
-    }
-
-    public String getMove() {
-        return move;
-    }
-
     public void setMove(String move) {
         this.move = move;
-    }
-
-    @Override
-    public String toString() {
-        return "MyActor{" +
-                "fastSpeed=" + fastSpeed +
-                ", slowSpeed=" + slowSpeed +
-                ", speed=" + speed +
-                ", sprite=" + sprite +
-                ", hitbox=" + hitbox +
-                ", old_position=" + old_position +
-                ", futur_position=" + futur_position +
-                ", unitScale=" + unitScale +
-                ", moveValid=" + move +
-                '}';
-    }
-
-    public void setFastSpeed(int fastSpeed) {
-        this.fastSpeed = fastSpeed;
-    }
-
-    public int getCollisionBoxSize() {
-
-        return collisionBoxSize;
-    }
-
-    public void setAnimationControleur(AnimationControleur animationControleur) {
-        this.animationControleur = animationControleur;
-        this.textureRegion = animationControleur.getCurrentTexture(this.move);
-        this.setBounds(getX(), getY(), this.textureRegion.getRegionWidth(), this.textureRegion.getRegionHeight());
-        this.hitbox = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight() / collisionBoxSize);
-        this.futurHitbox = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight() / collisionBoxSize);
-
-    }
-
-    public float getSpeed() {
-        return this.speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
-    public Vector2 getVector() {
-        return new Vector2(getX(), getY());
     }
 
     public void moveLeft() {
@@ -254,13 +194,13 @@ public class MyActor extends Actor {
 
     @Override
     public void act(float delta) {
-        this.fsmUpdate(delta);
         this.setZIndex((int) this.getY());
         this.isIdle();
         super.act(delta);
 
         //important puisque les actions ne son pas déclenché tjs au meme moment.
         this.updateHitboxPosition();
+        this.visionHitbox.set(this.getX(), this.getY(), this.visionDistance);
     }
 
     public int getZIndex() {
@@ -283,17 +223,10 @@ public class MyActor extends Actor {
     public boolean isSeeingEnemies() {
         return false;
     }
+    public void changeState(MyActorEnumState enumState){
 
-    public void changeState(MyActorEnumState state) {
-        fsm.changeState(state);
     }
-
-    public void fsmUpdate(float delta) {
-        fsm.update();
-    }
-
     public boolean isSafe() {
-
         return true;
     }
 
@@ -306,7 +239,6 @@ public class MyActor extends Actor {
         if (this.animationControleur != null) {
             this.textureRegion = this.animationControleur.getCurrentTexture(move);
             batch.draw(textureRegion, getX(), getY());
-
         }
     }
 }

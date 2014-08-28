@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.projet5001.game.Projet5001;
 import com.projet5001.game.actors.MyActor;
 import com.projet5001.game.actors.Npc;
+import com.projet5001.game.actors.Player;
 import com.projet5001.game.collisions.WorldCollector;
 
 public class MapControleur {
@@ -106,7 +107,7 @@ public class MapControleur {
         System.out.println("we have found the itemsActor");
         MyActor itemActor = new MyActor();
         //determiner si il y a animation ou pas.
-        //itemActor.setAnimationControleur(new AnimationControleur(mapActor.getName(), 7, 0.033f, 4));
+        //itemActor.options(new AnimationControleur(mapActor.getName(), 7, 0.033f, 4));
         itemActor.setPosition(((RectangleMapObject) mapActor).getRectangle().getX(),
                 ((RectangleMapObject) mapActor).getRectangle().getY());
         Projet5001.worldDirector.addActor(itemActor);
@@ -116,7 +117,7 @@ public class MapControleur {
         System.out.println("we have found the others");
         MyActor npc = new Npc();
 
-        npc.setAnimationControleur(new AnimationControleur(mapActor.getName(), FRAME_NUMBER, ANIMATION_SPEED, IDLE_ANIMATION));
+        npc.options(new AnimationControleur(mapActor.getName(), FRAME_NUMBER, ANIMATION_SPEED, IDLE_ANIMATION));
         npc.setPosition(((RectangleMapObject) mapActor).getRectangle().getX(),
                 ((RectangleMapObject) mapActor).getRectangle().getY());
         Projet5001.worldDirector.addActor(npc);
@@ -125,8 +126,8 @@ public class MapControleur {
     private void extractPlayer(MapObject mapActor) {
         System.out.println("we have found the master");
 
-        MyActor player = new MyActor();
-        player.setAnimationControleur(new AnimationControleur(mapActor.getName(), FRAME_NUMBER, ANIMATION_SPEED,  IDLE_ANIMATION));
+        Player player = new Player();
+        player.options(new AnimationControleur(mapActor.getName(), FRAME_NUMBER, ANIMATION_SPEED, IDLE_ANIMATION));
         player.setPosition(((RectangleMapObject) mapActor).getRectangle().getX(),
                 ((RectangleMapObject) mapActor).getRectangle().getY());
         Projet5001.worldDirector.player = player;

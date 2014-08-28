@@ -46,6 +46,6 @@ public class ContainerEvent extends Event {
      * To be modifie with my own type.
      */
     static public enum Type {
-        SimpleContainer , collision
+        SimpleContainer , collision , discover
     }
 }
