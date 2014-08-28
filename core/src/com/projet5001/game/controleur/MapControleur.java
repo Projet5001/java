@@ -10,14 +10,17 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
 import com.badlogic.gdx.math.Rectangle;
 import com.projet5001.game.Projet5001;
 import com.projet5001.game.actors.MyActor;
 import com.projet5001.game.actors.Npc;
+import com.projet5001.game.actors.Player;
 import com.projet5001.game.collisions.WorldCollector;
 
 public class MapControleur {
+    public static final int FRAME_NUMBER = 7;
+    public static final float ANIMATION_SPEED = 0.063f;
+    public static final int IDLE_ANIMATION = 4;
     public TiledMap tiledmap;
     public MapProperties properties;
     public MapProperties mapProperties;
@@ -27,17 +30,14 @@ public class MapControleur {
     public MapLayer mapTrigger;
     public MapLayer mapActors;
     public MapLayer mapCollidable;
-    private MyActor player;
     private TiledMapTileLayer tileMapLayerGround;
     private TiledMapTileLayer tileMapLayerGroundStatic;
     private TiledMapTileLayer tileMapLayerGroundTop;
     private TiledMapTileLayer tileMapLayerGroundBase;
-    private TmxMapLoader.Parameters parameters;
 
     public MapControleur(){
-        parameters =  new TmxMapLoader.Parameters();
+        TmxMapLoader.Parameters parameters = new TmxMapLoader.Parameters();
         parameters.generateMipMaps = true;
-
     }
 
     public MapControleur(FileHandleResolver fileHandleResolver, String mapFilePath) {
@@ -45,18 +45,22 @@ public class MapControleur {
         tiledmap = new TmxMapLoader(fileHandleResolver).load(mapFilePath);
         mapProperties = tiledmap.getProperties();
         renderer = new OrthogonalTiledMapRenderer(tiledmap);
-        getMapLayers();
+        extractMapLayer();
         processMapLayer();
     }
 
 
-    private void getMapLayers() {
+    private void extractMapLayer() {
 
         mapLayers = tiledmap.getLayers();
-        mapCollidable = (MapLayer) mapLayers.get("obstacles");
-        mapItems = (MapLayer) mapLayers.get("items");
-        mapTrigger = (MapLayer) mapLayers.get("trigger");
-        mapActors = (MapLayer) mapLayers.get("actors");
+
+        //layer object
+        mapCollidable = mapLayers.get("obstacles");
+        mapItems =  mapLayers.get("items");
+        mapTrigger = mapLayers.get("trigger");
+        mapActors = mapLayers.get("actors");
+
+        //layermap
         tileMapLayerGround = (TiledMapTileLayer) mapLayers.get("ground");
         tileMapLayerGroundBase = (TiledMapTileLayer) mapLayers.get("objets_static_base");
         tileMapLayerGroundTop = (TiledMapTileLayer) mapLayers.get("objets_static_top");
@@ -75,6 +79,7 @@ public class MapControleur {
             MapObjects mapObjects = mapItems.getObjects();
             for (MapObject mapItem : mapObjects) {
                 MapProperties mapItemProperties = mapItem.getProperties();
+                //todo do something here
             }
         }
         if (mapActors != null) {
@@ -102,7 +107,7 @@ public class MapControleur {
         System.out.println("we have found the itemsActor");
         MyActor itemActor = new MyActor();
         //determiner si il y a animation ou pas.
-        //itemActor.setAnimationControleur(new AnimationControleur(mapActor.getName(), 7, 0.033f, 4));
+        //itemActor.options(new AnimationControleur(mapActor.getName(), 7, 0.033f, 4));
         itemActor.setPosition(((RectangleMapObject) mapActor).getRectangle().getX(),
                 ((RectangleMapObject) mapActor).getRectangle().getY());
         Projet5001.worldDirector.addActor(itemActor);
@@ -112,7 +117,7 @@ public class MapControleur {
         System.out.println("we have found the others");
         MyActor npc = new Npc();
 
-        npc.setAnimationControleur(new AnimationControleur(mapActor.getName(), 7, 0.063f, 4));
+        npc.options(new AnimationControleur(mapActor.getName(), FRAME_NUMBER, ANIMATION_SPEED, IDLE_ANIMATION));
         npc.setPosition(((RectangleMapObject) mapActor).getRectangle().getX(),
                 ((RectangleMapObject) mapActor).getRectangle().getY());
         Projet5001.worldDirector.addActor(npc);
@@ -121,8 +126,8 @@ public class MapControleur {
     private void extractPlayer(MapObject mapActor) {
         System.out.println("we have found the master");
 
-        MyActor player = new MyActor();
-        player.setAnimationControleur(new AnimationControleur(mapActor.getName(), 7, 0.063f, 4));
+        Player player = new Player();
+        player.options(new AnimationControleur(mapActor.getName(), FRAME_NUMBER, ANIMATION_SPEED, IDLE_ANIMATION));
         player.setPosition(((RectangleMapObject) mapActor).getRectangle().getX(),
                 ((RectangleMapObject) mapActor).getRectangle().getY());
         Projet5001.worldDirector.player = player;
@@ -137,7 +142,6 @@ public class MapControleur {
 
     public void renderGround() {
         this.renderer.getSpriteBatch().begin();
-        AnimatedTiledMapTile.updateAnimationBaseTime();
         if (this.tileMapLayerGround!=null)this.renderer.renderTileLayer(this.tileMapLayerGround);
         if (this.tileMapLayerGroundBase!=null)this.renderer.renderTileLayer(this.tileMapLayerGroundBase);
         if (this.tileMapLayerGroundStatic!=null)this.renderer.renderTileLayer(tileMapLayerGroundStatic);
@@ -145,7 +149,6 @@ public class MapControleur {
     }
     public void renderTop(){
         this.renderer.getSpriteBatch().begin();
-        AnimatedTiledMapTile.updateAnimationBaseTime();
         if (this.tileMapLayerGroundTop!=null)this.renderer.renderTileLayer(this.tileMapLayerGroundTop);
         this.renderer.getSpriteBatch().end();
 

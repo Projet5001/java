@@ -2,7 +2,6 @@ package com.projet5001.game.actors;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 import com.projet5001.game.Projet5001;
 import com.projet5001.game.ai.Astar;
 import com.projet5001.game.ai.Node;
@@ -27,19 +26,18 @@ public class Npc extends MyActor {
     @Override
     public void act(float delta) {
 
-        if(Projet5001.worldDirector.player!=null){
-
-            enemie_dummy = new Node(new Rectangle(Projet5001.worldDirector.player.getHitbox()));
-            old_pos.set(enemie_dummy.getVector2());
+        if(seeEnemiePLayer()){
+            enemie_dummy =  new Node(new Rectangle(Projet5001.worldDirector.player.getHitbox()));;
             pathfinding();
-
-
-
         }
 
         super.act(delta);
     }
-
+    private boolean seeEnemiePLayer(){
+        //todo utiliser pour trouver les allies et les enemie visible pour le ai
+        ArrayList<MyActor> actorArrayList =  WorldCollector.collection().circleContainActor(this.getVisionHitbox());
+        return actorArrayList.size() > 0;
+    }
     private void pathfinding (){
         pos = 0;
         nodeArrayList = Astar.run(new Node(this.getHitbox()),this.enemie_dummy );
