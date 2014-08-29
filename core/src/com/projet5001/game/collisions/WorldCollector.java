@@ -128,9 +128,9 @@ public class WorldCollector {
     }
 
     //todo separé en 4 fonctions
-    private Array<Vector2> cornerThatHit(Rectangle rect) {
+    private LinkedList<Vector2> cornerThatHit(Rectangle rect) {
         //check 4 corver of rect
-        Array<Vector2> vector2Array = new Array<>();
+        LinkedList<Vector2> vector2Array = new LinkedList<>();
 
         Vector2 v1 = extractlowerLeftCoord(rect);
         if (v1 != null) vector2Array.add(v1);
@@ -184,7 +184,7 @@ public class WorldCollector {
     }
 
     public boolean hitWorld(Rectangle actorHitbox) {
-        Array<Vector2> keyVector2CornerList = cornerThatHit(actorHitbox);
+        LinkedList<Vector2> keyVector2CornerList = cornerThatHit(actorHitbox);
         if (keyVector2CornerList != null) {
             for (Vector2 keyVector2Corner : keyVector2CornerList) {
                 if (intersectWorldObjet(actorHitbox, keyVector2Corner)) return true;
@@ -195,7 +195,7 @@ public class WorldCollector {
 
     public boolean hit(Rectangle actorHitbox) {
 
-        Array<Vector2> keyVector2CornerList = cornerThatHit(actorHitbox);
+        LinkedList<Vector2> keyVector2CornerList = cornerThatHit(actorHitbox);
         if (keyVector2CornerList != null) {
             for (Vector2 keyVector2Corner : keyVector2CornerList) {
 
