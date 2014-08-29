@@ -70,14 +70,14 @@ public class Node extends Rectangle{
     }
 
     public Node move(float x, float y) {
-        Node node = new Node(this.getX() + x ,this.getY() + y, Math.max(this.width,this.height), Math.max(this.width,this.height));
+        Node node = new Node(this.x + x ,this.y + y, Math.max(this.width,this.height), Math.max(this.width,this.height));
 
-        if (this.getX() + x < 0 || this.getY() + y < 0 ){
+        if (this.x + x < 0 || this.y + y < 0 ){
             node.block = true;
             return node ;
         }
 
-        if (this.getX() + x > 3000 || this.getY() + y> 3000 ){
+        if (this.x + x > 3000 || this.y + y> 3000 ){
             node.block = true;
             this.neighbours.add(node);
             return node;
