@@ -6,7 +6,7 @@ import java.util.*;
 
 public class AstarArrayList {
 
-    private static final int COUT = 32/16;
+    protected static final int COUT = 32/16;
 
     public  static ArrayList<Node> run(Node nodeStart, Node dest){
         ArrayList<Node> openList = new ArrayList<>();
