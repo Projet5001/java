@@ -15,10 +15,10 @@ import java.util.ArrayList;
 
 
 public class Npc extends MyActor {
-    private Node targetNode;
-    private Vector2 targetOldPos;
-    private ArrayList<Node> nodeList;
-    private int pos;
+    protected Node targetNode;
+    protected Vector2 targetOldPos;
+    protected ArrayList<Node> nodeList;
+    protected int pos;
 
     public Npc() {
         super();
@@ -32,9 +32,14 @@ public class Npc extends MyActor {
         if(seeOthers() && (targetMove() || !(nodeList.size() > pos) )){
             pos = 0;
             targetOldPos = new Vector2(Projet5001.worldDirector.player.getX(),Projet5001.worldDirector.player.getY());
-            targetNode =  new Node(new Rectangle(Projet5001.worldDirector.player.getHitbox()));
+
+            Rectangle r = Projet5001.worldDirector.player.hitbox;
+
+            targetNode =  new Node(r.x,r.y,r.width,r.height);
+
             pathfinding();
             fireMove();
+
         }else if (seeOthers() &&!targetMove()){
 
             fireMove();
@@ -55,7 +60,7 @@ public class Npc extends MyActor {
 
     private boolean seeOthers(){
         //todo utiliser pour trouver les allies et les enemie visible pour le ai
-        ArrayList<MyActor> actorArrayList =  WorldCollector.collection().circleContainActor(this.getVisionHitbox());
+        ArrayList<MyActor> actorArrayList =  WorldCollector.collection().circleContainActor(this.visionHitbox);
         for (MyActor myActor : actorArrayList) {
             if (myActor instanceof Player){
                 return true;
@@ -67,7 +72,7 @@ public class Npc extends MyActor {
     public void move(float x, float y) {
         savePosition(x, y);
         setHitboxPosition(this.futur_position);
-        if (WorldCollector.collection().hit(this.getHitbox())) {
+        if (WorldCollector.collection().hit(this.hitbox)) {
             resetPosition();
             pos--;
         } else {
@@ -84,7 +89,10 @@ public class Npc extends MyActor {
 
         while (i < 10000){
             double start = System.nanoTime();
-            nodeList = AstarArrayList.run(new Node(this.getHitbox()), this.targetNode);
+
+            Rectangle r =  this.hitbox;
+
+            nodeList = AstarArrayList.run(new Node(r.x,r.y, r.width, r.height), this.targetNode);
             double  end = System.nanoTime();
             i++;
             total += ((end-start)/1.0e-9);
@@ -94,7 +102,8 @@ public class Npc extends MyActor {
     }
 
     private void pathfinding (){
-        nodeList = AstarArrayList.run(new Node(this.getHitbox()), this.targetNode);
+        Rectangle r =  this.hitbox;
+        nodeList = AstarArrayList.run(new Node(r.x,r.y, r.width, r.height), this.targetNode);
     }
 
     private void fireMove() {

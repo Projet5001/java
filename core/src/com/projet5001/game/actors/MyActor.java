@@ -17,18 +17,18 @@ import com.projet5001.game.listeners.MovementListener;
 
 public class MyActor extends Actor {
 
-    private int collisionBoxSize;
-    private int ZIndex;
-    private float speed;
-    private Sprite sprite;
-    private TextureRegion textureRegion;
-    private Rectangle hitbox;
-    private Circle visionHitbox;
+    protected int collisionBoxSize;
+    protected int ZIndex;
+    protected float speed;
+    protected Sprite sprite;
+    protected TextureRegion textureRegion;
+    protected Rectangle hitbox;
+    protected Circle visionHitbox;
     protected Vector2 old_position;
     protected Vector2 futur_position;
-    private float visionDistance;
-    private AnimationControleur animationControleur;
-    private String move;
+    protected float visionDistance;
+    protected AnimationControleur animationControleur;
+    protected String move;
 
     public MyActor() {
         this(null);
@@ -154,7 +154,7 @@ public class MyActor extends Actor {
     public void move(float x, float y) {
         savePosition(x, y);
         setHitboxPosition(this.futur_position);
-        if (WorldCollector.collection().hit(this.getHitbox())) {
+        if (WorldCollector.collection().hit(this.hitbox)) {
             resetPosition();
         } else {
             MoveByAction moveAction = new MoveByAction();

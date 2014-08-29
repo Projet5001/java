@@ -7,18 +7,18 @@ import java.util.ArrayList;
 
 public class Node extends Rectangle{
 
-    public  boolean block;
-    private double h;
-    private int g;
-    private double f;
-    private Node parent;
-    private int speed;
-    public int walkingCost;
-    private ArrayList<Node> neighbours;
+    protected  boolean block;
+    protected double h;
+    protected int g;
+    protected double f;
+    protected Node parent;
+    protected int speed;
+    protected int walkingCost;
+    protected ArrayList<Node> neighbours;
 
 
-    public Node(Rectangle rect){
-        super(rect.x,rect.y,Math.max(rect.width,rect.height),Math.max(rect.width,rect.height));
+    public Node(float x, float y, float width , float height){
+        super(x,y,width,height);
         this.speed = 32;
         this.walkingCost = 32;
         this.g = 0;
@@ -70,27 +70,23 @@ public class Node extends Rectangle{
     }
 
     public Node move(float x, float y) {
-        Rectangle rectangle = new Rectangle(this.getX() + x,this.getY() + y,Math.max(this.width,this.height),Math.max(this.width,this.height));
+        Node node = new Node(this.getX() + x ,this.getY() + y, Math.max(this.width,this.height), Math.max(this.width,this.height));
 
         if (this.getX() + x < 0 || this.getY() + y < 0 ){
-            Node node = new Node(rectangle);
             node.block = true;
             return node ;
         }
 
         if (this.getX() + x > 3000 || this.getY() + y> 3000 ){
-            Node node = new Node(rectangle);
             node.block = true;
             this.neighbours.add(node);
             return node;
         }
 
-        if (!WorldCollector.collection().hitWorld(rectangle)) {
-            Node node = new Node(rectangle);
+        if (!WorldCollector.collection().hitWorld(node)) {
             node.block = false;
             return node;
         }else{
-            Node node = new Node(rectangle);
             node.block = true;
             return node;
 
