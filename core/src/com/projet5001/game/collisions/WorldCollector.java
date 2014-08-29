@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Array;
 import com.projet5001.game.Utils.Utils;
 import com.projet5001.game.actors.MyActor;
-import com.projet5001.game.events.ActorEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -108,11 +107,11 @@ public class WorldCollector {
      * @param v
      * @return
      */
-    public boolean containActor(Vector2 v) {
+    public boolean lsitContainActor(Vector2 v) {
         return this.actor_collection.containsKey(v);
     }
 
-    public boolean containMap(Vector2 v) {
+    public boolean lsitContainMapObj(Vector2 v) {
         return this.rectangleMapObject_collection.containsKey(v);
     }
 
@@ -151,7 +150,7 @@ public class WorldCollector {
     private Vector2 extractTopRightCoord(Rectangle rect) {
         Vector2 v4 = new Vector2(rect.getX() + rect.getWidth(), rect.getY() + rect.getHeight());
         v4 = Utils.getKeyFromVector(v4,hashSize);
-        if (containActor(v4) || containMap(v4)) {
+        if (lsitContainActor(v4) || lsitContainMapObj(v4)) {
             return v4;
         }
         return null;
@@ -160,7 +159,7 @@ public class WorldCollector {
     private Vector2 extractTopLeftCoord(Rectangle rect) {
         Vector2 v3 = new Vector2(rect.getX(), rect.getY() + rect.getHeight());
         v3 = Utils.getKeyFromVector(v3,hashSize);
-        if (containActor(v3) || containMap(v3)) {
+        if (lsitContainActor(v3) || lsitContainMapObj(v3)) {
             return v3;
         }
         return null;
@@ -169,7 +168,7 @@ public class WorldCollector {
     private Vector2 extractLowerRightCoord(Rectangle rect) {
         Vector2 v2 = new Vector2(rect.getX() + rect.getWidth(), rect.getY());
         v2 = Utils.getKeyFromVector(v2,hashSize);
-        if (containActor(v2) || containMap(v2)) {
+        if (lsitContainActor(v2) || lsitContainMapObj(v2)) {
             return v2;
         }
         return null;
@@ -178,7 +177,7 @@ public class WorldCollector {
     private Vector2 extractlowerLeftCoord(Rectangle rect) {
         Vector2 v1 = new Vector2(rect.getX(), rect.getY());
         v1 = Utils.getKeyFromVector(v1,hashSize);
-        if (containActor(v1) || containMap(v1)) {
+        if (lsitContainActor(v1) || lsitContainMapObj(v1)) {
             return v1;
         }
         return null;
@@ -217,13 +216,8 @@ public class WorldCollector {
             if (circle.contains(v.x*hashSize,v.y*hashSize)){
                 LinkedList<MyActor> myActorList = entry.getValue();
                 for (MyActor enemie : myActorList) {
-                    if (circle.x != enemie.getVisionHitbox().x && circle.y != enemie.getVisionHitbox().y ){
-                            //todo doit etre improve plus tard
-                            ActorEvent e = new ActorEvent(ActorEvent.Type.discover);
-                            e.add(enemie);
-                            enemie.fire(e);
-                            visibleActor.add(enemie);
-
+                    if (circle.x != enemie.getVisionHitbox().x || circle.y != enemie.getVisionHitbox().y ){
+                        visibleActor.add(enemie);
                     }
                 }
             }
@@ -231,31 +225,8 @@ public class WorldCollector {
         return visibleActor;
     }
 
-    private boolean circleIntersectVector(Circle circle, Rectangle rect) {
-
-        //vector vector vector rayon
-        if (Intersector.intersectSegmentCircle(extractlowerLeftCoord(rect), extractTopLeftCoord(rect),
-                new Vector2(circle.x, circle.y), circle.radius)) {
-            return true;
-        } else if (Intersector.intersectSegmentCircle(extractlowerLeftCoord(rect), extractLowerRightCoord(rect),
-                new Vector2(circle.x, circle.y), circle.radius)) {
-            return true;
-
-        } else if (Intersector.intersectSegmentCircle(extractTopRightCoord(rect), extractLowerRightCoord(rect),
-                new Vector2(circle.x, circle.y), circle.radius)) {
-            return true;
-
-        } else if (Intersector.intersectSegmentCircle(extractTopRightCoord(rect), extractTopLeftCoord(rect),
-                new Vector2(circle.x, circle.y), circle.radius)) {
-            return true;
-
-        } else {
-            return false;
-        }
-    }
-
     private boolean intersectWorldObjet(Rectangle actorHitbox, Vector2 keyVector2Corner) {
-        if (containMap(keyVector2Corner)) {
+        if (lsitContainMapObj(keyVector2Corner)) {
             LinkedList<RectangleMapObject> mapObjList = this.rectangleMapObject_collection.get(keyVector2Corner);
             Rectangle rect = new Rectangle();
             for (RectangleMapObject rectObj : mapObjList) {
@@ -268,17 +239,13 @@ public class WorldCollector {
     }
 
     private boolean intersectWorldActor(Rectangle actorHitbox, Vector2 keyVector2Corner) {
-        if (containActor(keyVector2Corner)) {
+        if (lsitContainActor(keyVector2Corner)) {
             LinkedList<MyActor> actor_list = this.actor_collection.get(keyVector2Corner);
             Rectangle rect = new Rectangle();
             for (MyActor enemie : actor_list) {
                 //security to make sure we are not testing a self hit
                 if (!(enemie.getHitbox().equals(actorHitbox))) {
                     if (Intersector.intersectRectangles(actorHitbox, enemie.getHitbox(), rect)) {
-                        //todo doit etre improve plus tard
-                        ActorEvent e = new ActorEvent(ActorEvent.Type.collision);
-                        e.add(enemie);
-                        enemie.fire(e);
                         return true;
                     }
                 }

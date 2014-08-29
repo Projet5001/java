@@ -38,7 +38,7 @@ public class MyActor extends Actor {
         super();
         this.speed = 32/16;
         this.ZIndex = 0;
-        this.visionDistance = 150;
+        this.visionDistance = 250;
         this.collisionBoxSize = 4;
 
         this.sprite = null;

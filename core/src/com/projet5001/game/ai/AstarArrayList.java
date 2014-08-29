@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.*;
 
-public class Astar {
+public class AstarArrayList {
 
     private static final int COUT = 32/16;
 
@@ -79,8 +79,8 @@ public class Astar {
 
 
     private static Boolean lisContains(Node node, ArrayList<Node> list){
-        for (Node n: list){
-          if(n.equals(node)){
+        for (int i = 0; i<list.size();i++){
+          if(list.get(i).equals(node)){
               return true;
           }
         }

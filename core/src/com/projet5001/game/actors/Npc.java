@@ -4,21 +4,21 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.projet5001.game.Projet5001;
 import com.projet5001.game.Utils.Utils;
-import com.projet5001.game.ai.Astar;
+import com.projet5001.game.ai.AstarArrayList;
 import com.projet5001.game.ai.Node;
 import com.projet5001.game.collisions.WorldCollector;
 import com.projet5001.game.events.MovementEvents;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 
 public class Npc extends MyActor {
 
     public  Node enemie_dummy;
     public Vector2 enemieOldPos;
-    public ArrayList<Node> nodeArrayList;
+    public ArrayList<Node> nodeList;
     public int pos;
+
     public Npc() {
         super();
         enemieOldPos = new Vector2();
@@ -28,11 +28,36 @@ public class Npc extends MyActor {
     @Override
     public void act(float delta) {
 
-        if(seeEnemiePLayer()){
+        if(seeEnemiePLayer() && enemieMove()){
+            pos = 0;
             enemieOldPos = new Vector2(Projet5001.worldDirector.player.getX(),Projet5001.worldDirector.player.getY());
             enemie_dummy =  new Node(new Rectangle(Projet5001.worldDirector.player.getHitbox()));
             pathfinding();
+        }else if (seeEnemiePLayer() &&!enemieMove()){
+
+            if (nodeList != null && nodeList.size() > pos){
+                Node node = nodeList.get(pos);
+                if(node.x < this.getX()) {
+                    this.fire(new MovementEvents(MovementEvents.Type.moveLeft));
+                }
+                else if(node.x > this.getX()) {
+                    this.fire(new MovementEvents(MovementEvents.Type.moveRight));
+                }
+                else if(node.y < this.getY()) {
+                    this.fire(new MovementEvents(MovementEvents.Type.moveDown));
+                }
+                else if(node.y > this.getY()) {
+                    this.fire(new MovementEvents(MovementEvents.Type.moveUp));
+                }
+            }
+
         }
+        /**
+        if (Projet5001.worldDirector.player!=null){
+            enemie_dummy =  new Node(new Rectangle(Projet5001.worldDirector.player.getHitbox()));
+            test();
+        }
+        */
         super.act(delta);
     }
 
@@ -50,11 +75,29 @@ public class Npc extends MyActor {
         }
         return false;
     }
+
+    private void test (){
+        double i = 0;
+        double total = 0;
+
+        while (i < 10000){
+            double start = System.nanoTime();
+            nodeList = AstarArrayList.run(new Node(this.getHitbox()), this.enemie_dummy);
+            double  end = System.nanoTime();
+            i++;
+            total += ((end-start)/1.0e-9);
+        }
+        System.out.println(((total)/i));
+        return;
+    }
+
     private void pathfinding (){
-        pos = 0;
-        nodeArrayList = Astar.run(new Node(this.getHitbox()),this.enemie_dummy );
-        if (nodeArrayList != null && nodeArrayList.size() >0){
-            Node node = nodeArrayList.get(pos);
+
+
+        nodeList = AstarArrayList.run(new Node(this.getHitbox()), this.enemie_dummy);
+
+        if (nodeList != null && nodeList.size() >0){
+            Node node = nodeList.get(pos);
             if(node.x < this.getX()) {
                 this.fire(new MovementEvents(MovementEvents.Type.moveLeft));
             }
