@@ -8,9 +8,9 @@ import java.util.ArrayList;
 public class Node extends Rectangle{
 
     public  boolean block;
-    private double h_heuristique;
-    private int gCost;
-    private double f_totalCost;
+    private double h;
+    private int g;
+    private double f;
     private Node parent;
     private int speed;
     public int walkingCost;
@@ -21,9 +21,9 @@ public class Node extends Rectangle{
         super(rect.x,rect.y,Math.max(rect.width,rect.height),Math.max(rect.width,rect.height));
         this.speed = 32;
         this.walkingCost = 32;
-        this.gCost = 0;
-        this.h_heuristique =0;
-        this.f_totalCost = 0;
+        this.g = 0;
+        this.h =0;
+        this.f = 0;
         this.block = false;
         this.neighbours = new ArrayList<>();
     }
@@ -102,15 +102,15 @@ public class Node extends Rectangle{
     }
 
     public double getH() {
-        return this.h_heuristique;
+        return this.h;
     }
 
     public void setH(double h_heuristique) {
-        this.h_heuristique = h_heuristique;
+        this.h = h_heuristique;
     }
 
     public int getG() {
-        return gCost;
+        return g;
     }
 
     public int getSpeed(){
@@ -118,15 +118,15 @@ public class Node extends Rectangle{
     }
 
     public void setG(int g_movementCost) {
-        this.gCost = g_movementCost;
+        this.g = g_movementCost;
     }
 
     public double getF() {
-        return f_totalCost;
+        return f;
     }
 
     public void setF(double f_totalCost) {
-        this.f_totalCost = f_totalCost;
+        this.f = f_totalCost;
     }
 
     public Node getParent() {

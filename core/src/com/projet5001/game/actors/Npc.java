@@ -2,6 +2,7 @@ package com.projet5001.game.actors;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 import com.projet5001.game.Projet5001;
 import com.projet5001.game.Utils.Utils;
@@ -14,58 +15,42 @@ import java.util.ArrayList;
 
 
 public class Npc extends MyActor {
-
-    public  Node enemie_dummy;
-    public Vector2 enemieOldPos;
-    public ArrayList<Node> nodeList;
-    public int pos;
+    private Node targetNode;
+    private Vector2 targetOldPos;
+    private ArrayList<Node> nodeList;
+    private int pos;
 
     public Npc() {
         super();
-        enemieOldPos = new Vector2();
+        targetOldPos = new Vector2();
         pos = 0;
     }
     //todo  separé ca avec le ai...
     @Override
     public void act(float delta) {
 
-        if(seeOthers() && (enemieMove() || !(nodeList.size() > pos) )){
+        if(seeOthers() && (targetMove() || !(nodeList.size() > pos) )){
             pos = 0;
-            enemieOldPos = new Vector2(Projet5001.worldDirector.player.getX(),Projet5001.worldDirector.player.getY());
-            enemie_dummy =  new Node(new Rectangle(Projet5001.worldDirector.player.getHitbox()));
+            targetOldPos = new Vector2(Projet5001.worldDirector.player.getX(),Projet5001.worldDirector.player.getY());
+            targetNode =  new Node(new Rectangle(Projet5001.worldDirector.player.getHitbox()));
             pathfinding();
-        }else if (seeOthers() &&!enemieMove()){
+            fireMove();
+        }else if (seeOthers() &&!targetMove()){
 
-            if (nodeList != null && nodeList.size() > pos){
-                System.out.println(pos);
-                Node node = nodeList.get(pos);
-                if(node.x < this.getX()) {
-                    this.fire(new MovementEvents(MovementEvents.Type.moveLeft));
-                }
-                else if(node.x > this.getX()) {
-                    this.fire(new MovementEvents(MovementEvents.Type.moveRight));
-                }
-                else if(node.y < this.getY()) {
-                    this.fire(new MovementEvents(MovementEvents.Type.moveDown));
-                }
-                else if(node.y > this.getY()) {
-                    this.fire(new MovementEvents(MovementEvents.Type.moveUp));
-                }
-            }
-            pos++;
+            fireMove();
 
         }
         /**
         if (Projet5001.worldDirector.player!=null){
-            enemie_dummy =  new Node(new Rectangle(Projet5001.worldDirector.player.getHitbox()));
+            targetNode =  new Node(new Rectangle(Projet5001.worldDirector.player.getHitbox()));
             test();
         }
         */
         super.act(delta);
     }
 
-    public boolean enemieMove(){
-        return !Utils.equals(enemieOldPos,Projet5001.worldDirector.player.getVector());
+    public boolean targetMove(){
+        return !Utils.equals(targetOldPos,Projet5001.worldDirector.player.getVector());
     }
 
     private boolean seeOthers(){
@@ -99,7 +84,7 @@ public class Npc extends MyActor {
 
         while (i < 10000){
             double start = System.nanoTime();
-            nodeList = AstarArrayList.run(new Node(this.getHitbox()), this.enemie_dummy);
+            nodeList = AstarArrayList.run(new Node(this.getHitbox()), this.targetNode);
             double  end = System.nanoTime();
             i++;
             total += ((end-start)/1.0e-9);
@@ -109,11 +94,11 @@ public class Npc extends MyActor {
     }
 
     private void pathfinding (){
+        nodeList = AstarArrayList.run(new Node(this.getHitbox()), this.targetNode);
+    }
 
-
-        nodeList = AstarArrayList.run(new Node(this.getHitbox()), this.enemie_dummy);
-
-        if (nodeList != null && nodeList.size() >0){
+    private void fireMove() {
+        if (nodeList != null && nodeList.size() >pos){
             Node node = nodeList.get(pos);
             if(node.x < this.getX()) {
                 this.fire(new MovementEvents(MovementEvents.Type.moveLeft));

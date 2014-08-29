@@ -15,21 +15,18 @@ import com.projet5001.game.Projet5001;
 
 public class Menu implements Screen {
 
-    Skin skin;
-    BitmapFont font;
+
+
     Projet5001 game;
     Director director;
-    TextButton button;
-    TextButton button2;
-    TextButton button3;
-    TextButton button4;
+
 
     public Menu( Projet5001 p) {
         this.game = p;
 
 
         //test de label
-        font = new BitmapFont();
+        BitmapFont font = new BitmapFont();
         font.setColor(Color.WHITE);
 
         director = new Director();
@@ -38,32 +35,17 @@ public class Menu implements Screen {
         //Le boutton cree une nouvelle vue(screen) qui contient le jeux.
 
         // un skin contient toutes les information pour cree le ui d'un boutton, voir le dossier json
-        skin = new Skin(Gdx.files.internal("data/button/uiskin.json"));
-
-        //Le textButton qui contient un text et un skin avec le param default (voir fichier json)
-        button = new TextButton("Lance le jeux", skin, "default");
-        button.setWidth(200);
-        button.setCenterPosition(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/3);
-        director.addActor(button);
-
-        button2 = new TextButton("Lance le testCollision", skin, "default");
-        button2.setWidth(200);
-        button2.setCenterPosition(button.getCenterX(),button.getCenterY()+100);
-        director.addActor(button2);
-
-        button3 = new TextButton("Options", skin, "default");
-        button3.setWidth(200);
-        button3.setCenterPosition(button2.getCenterX(),button2.getCenterY()+100);
-        director.addActor(button3);
+        Skin skin = new Skin(Gdx.files.internal("data/button/uiskin.json"));
 
 
-        button4 = new TextButton("Aitest", skin, "default");
-        button4.setWidth(200);
-        button4.setCenterPosition(button3.getCenterX(),button3.getCenterY()+100);
-        director.addActor(button4);
+        TextButton sandBoxButton = new TextButton("Lance le testCollision", skin, "default");
+        sandBoxButton.setWidth(200);
+        sandBoxButton.setCenterPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+        director.addActor(sandBoxButton);
+
 
         CheckBox checkBox = new CheckBox("dev",skin, "default");
-        checkBox.setPosition(100,100);
+        checkBox.setPosition(100, 100);
         director.addActor(checkBox);
 
 
@@ -72,29 +54,15 @@ public class Menu implements Screen {
         director.addActor(label);
 
 
-        //n'est pas la seul facon d'ajout les input mais permet de le faire a la vole
-        button.addListener(new InputListener() {
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                //Lance le screen test
-                //ajouter une methode qui sauve l'etat du screen actuel
-                game.setScreen(new Test(game));
-                return true;
-            }
-        });
 
-        button2.addListener(new InputListener() {
+
+        sandBoxButton.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(new SandBox(game));
                 return true;
             }
         });
 
-        button4.addListener(new InputListener() {
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new AiTest(game));
-                return true;
-            }
-        });
 
         checkBox.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
