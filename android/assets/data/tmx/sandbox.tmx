@@ -59,6 +59,26 @@
     <property name="test" value="001"/>
    </properties>
   </object>
+  <object name="monstre" type="npc" x="448" y="672" width="41" height="41">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
+  <object name="monstre" type="npc" x="576" y="704" width="41" height="41">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
+  <object name="monstre" type="npc" x="544" y="448" width="41" height="41">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
+  <object name="monstre" type="npc" x="672" y="448" width="41" height="41">
+   <properties>
+    <property name="test" value="001"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="Object Layer 4"/>
 </map>

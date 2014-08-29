@@ -2,6 +2,7 @@ package com.projet5001.game.actors;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 import com.projet5001.game.Projet5001;
 import com.projet5001.game.Utils.Utils;
 import com.projet5001.game.ai.AstarArrayList;
@@ -28,14 +29,15 @@ public class Npc extends MyActor {
     @Override
     public void act(float delta) {
 
-        if(seeEnemiePLayer() && enemieMove()){
+        if(seeOthers() && (enemieMove() || !(nodeList.size() > pos) )){
             pos = 0;
             enemieOldPos = new Vector2(Projet5001.worldDirector.player.getX(),Projet5001.worldDirector.player.getY());
             enemie_dummy =  new Node(new Rectangle(Projet5001.worldDirector.player.getHitbox()));
             pathfinding();
-        }else if (seeEnemiePLayer() &&!enemieMove()){
+        }else if (seeOthers() &&!enemieMove()){
 
             if (nodeList != null && nodeList.size() > pos){
+                System.out.println(pos);
                 Node node = nodeList.get(pos);
                 if(node.x < this.getX()) {
                     this.fire(new MovementEvents(MovementEvents.Type.moveLeft));
@@ -50,6 +52,7 @@ public class Npc extends MyActor {
                     this.fire(new MovementEvents(MovementEvents.Type.moveUp));
                 }
             }
+            pos++;
 
         }
         /**
@@ -65,7 +68,7 @@ public class Npc extends MyActor {
         return !Utils.equals(enemieOldPos,Projet5001.worldDirector.player.getVector());
     }
 
-    private boolean seeEnemiePLayer(){
+    private boolean seeOthers(){
         //todo utiliser pour trouver les allies et les enemie visible pour le ai
         ArrayList<MyActor> actorArrayList =  WorldCollector.collection().circleContainActor(this.getVisionHitbox());
         for (MyActor myActor : actorArrayList) {
@@ -74,6 +77,20 @@ public class Npc extends MyActor {
             }
         }
         return false;
+    }
+
+    public void move(float x, float y) {
+        savePosition(x, y);
+        setHitboxPosition(this.futur_position);
+        if (WorldCollector.collection().hit(this.getHitbox())) {
+            resetPosition();
+            pos--;
+        } else {
+            MoveByAction moveAction = new MoveByAction();
+            moveAction.setAmount(x, y);
+            this.addAction(moveAction);
+        }
+        updateHitboxPosition();
     }
 
     private void test (){
@@ -111,5 +128,7 @@ public class Npc extends MyActor {
                 this.fire(new MovementEvents(MovementEvents.Type.moveUp));
             }
         }
+        pos++;
     }
 }
+

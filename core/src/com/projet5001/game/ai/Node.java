@@ -36,6 +36,18 @@ public class Node extends Rectangle{
 
         return this.neighbours;
     }
+
+    public ArrayList<Node> getneighbours(int speed){
+        this.walkingCost = speed;
+        this.speed = speed;
+        moveUp();
+        moveRight();
+        moveDown();
+        moveLeft();
+
+        return this.neighbours;
+    }
+
     public void moveLeft() {
         Node node = move(-speed, 0);
         this.neighbours.add(node);

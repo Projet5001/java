@@ -37,8 +37,14 @@ public class AstarArrayList {
 
             openList.remove(0);
             closeList.add(current);
+            ArrayList<Node> neighbours;
 
-            ArrayList<Node> neighbours = current.getneighbours();
+            //this is some fine tuning
+            if (calculHeuristique(current,dest) < 6){
+                 neighbours = current.getneighbours(4);
+            }else{
+                neighbours = current.getneighbours();
+            }
 
             for(int i = 0; i < 4;i++ ){
                 Node neighbour = neighbours.get(i);
@@ -52,12 +58,12 @@ public class AstarArrayList {
                 }
 
                 int tentativeGCost = current.getG() + movementCost(current, neighbour);
-
-                if (!lisContains(neighbour,openList) || tentativeGCost < neighbour.getG()){
+                boolean n = lisContains(neighbour,openList);
+                if (!n || tentativeGCost < neighbour.getG()){
                     neighbour.setParent(current);
                     neighbour.setG(tentativeGCost);
                     neighbour.setF(neighbour.getG() + calculHeuristique(neighbour,dest));
-                    if (!lisContains(neighbour,openList)){
+                    if (!n){
                         openList.add(neighbour);
                     }
                 }
@@ -89,6 +95,40 @@ public class AstarArrayList {
 
     private static double  calculHeuristique(Node current, Node dest) {
         return (Math.abs(current.x/current.getSpeed() - dest.x/dest.getSpeed()) + (Math.abs(current.y/current.getSpeed()  - dest.y/dest.getSpeed()))) * COUT;
+        /*
+
+        case HeuristicType.Manhattan:
+            H = Math.Abs(StartX - EndX) + Math.Abs(StartY - EndY);
+            break;
+
+        case HeuristicType.Diagonal:
+            H = Math.Max(Math.Abs(StartX - EndX), Math.Abs(StartY - EndY));
+            break;
+
+        case HeuristicType.Euclidean:
+            H = Math.Sqrt(Math.Pow(StartX - EndX, 2) + Math.Pow(StartY - EndY, 2));
+            break;
+
+        case HeuristicType.EuclideanSquared:
+            H = Math.Pow(StartX - EndX, 2) + Math.Pow(StartY - EndY, 2);
+            break;
+
+        case HeuristicType.TieBreakerManhattan:
+            H = Math.Abs(StartX - EndX) + Math.Abs(StartY - EndY) * m_tieBreaker;
+            break;
+
+        case HeuristicType.TieBreakerDiagonal:
+            H = Math.Max(Math.Abs(StartX - EndX), Math.Abs(StartY - EndY)) * m_tieBreaker;
+            break;
+
+        case HeuristicType.TieBreakerEuclidean:
+            H = Math.Sqrt(Math.Pow(StartX - EndX, 2) + Math.Pow(StartY - EndY, 2)) * m_tieBreaker;
+            break;
+
+        case HeuristicType.TieBreakerEuclideanSquared:
+            H = Math.Pow(StartX - EndX, 2) + Math.Pow(StartY - EndY, 2) * m_tieBreaker;
+            break;
+         */
     }
 
     private static class FValueComarator implements Comparator<Node>{

@@ -24,8 +24,8 @@ public class MyActor extends Actor {
     private TextureRegion textureRegion;
     private Rectangle hitbox;
     private Circle visionHitbox;
-    private Vector2 old_position;
-    private Vector2 futur_position;
+    protected Vector2 old_position;
+    protected Vector2 futur_position;
     private float visionDistance;
     private AnimationControleur animationControleur;
     private String move;
@@ -164,7 +164,7 @@ public class MyActor extends Actor {
         updateHitboxPosition();
     }
 
-    private void savePosition(float x, float y) {
+    protected void savePosition(float x, float y) {
         this.old_position.set(this.getX(), this.getY());
         this.futur_position.set(this.getX() + x, this.getY() + y);
     }
