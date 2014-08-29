@@ -3,18 +3,16 @@ package com.projet5001.game.ai;
 import com.badlogic.gdx.math.Rectangle;
 import com.projet5001.game.collisions.WorldCollector;
 
-import java.util.ArrayList;
-
 public class Node extends Rectangle{
 
     protected  boolean block;
-    protected double h;
+    protected float h;
     protected int g;
     protected double f;
     protected Node parent;
     protected int speed;
     protected int walkingCost;
-    protected ArrayList<Node> neighbours;
+    protected Node[] neighbours;
 
 
     public Node(float x, float y, float width , float height){
@@ -25,10 +23,10 @@ public class Node extends Rectangle{
         this.h =0;
         this.f = 0;
         this.block = false;
-        this.neighbours = new ArrayList<>();
+        this.neighbours = new Node[4];
     }
 
-    public ArrayList<Node> getneighbours(){
+    public Node[] getneighbours(){
         moveUp();
         moveRight();
         moveDown();
@@ -37,7 +35,7 @@ public class Node extends Rectangle{
         return this.neighbours;
     }
 
-    public ArrayList<Node> getneighbours(int speed){
+    public Node[] getneighbours(int speed){
         this.walkingCost = speed;
         this.speed = speed;
         moveUp();
@@ -50,23 +48,22 @@ public class Node extends Rectangle{
 
     public void moveLeft() {
         Node node = move(-speed, 0);
-        this.neighbours.add(node);
-
+        this.neighbours[0] = node;
     }
 
     public void moveRight() {
         Node node = move(speed, 0);
-        this.neighbours.add(node);
+        this.neighbours[1] = node;
     }
 
     public void moveUp() {
         Node node = move(0, speed);
-        this.neighbours.add(node);
+        this.neighbours[2] = node;
     }
 
     public void moveDown() {
         Node node = move(0, -speed);
-        this.neighbours.add(node);
+        this.neighbours[3] = node;
     }
 
     public Node move(float x, float y) {
@@ -79,7 +76,6 @@ public class Node extends Rectangle{
 
         if (this.x + x > 3000 || this.y + y> 3000 ){
             node.block = true;
-            this.neighbours.add(node);
             return node;
         }
 
@@ -101,7 +97,7 @@ public class Node extends Rectangle{
         return this.h;
     }
 
-    public void setH(double h_heuristique) {
+    public void setH(float h_heuristique) {
         this.h = h_heuristique;
     }
 

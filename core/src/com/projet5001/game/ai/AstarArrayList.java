@@ -1,7 +1,5 @@
 package com.projet5001.game.ai;
 
-import com.badlogic.gdx.math.Vector2;
-
 import java.util.*;
 
 public class AstarArrayList {
@@ -37,7 +35,7 @@ public class AstarArrayList {
 
             openList.remove(0);
             closeList.add(current);
-            ArrayList<Node> neighbours;
+            Node[] neighbours;
 
             //this is some fine tuning
             if (calculHeuristique(current,dest) < 6){
@@ -47,7 +45,7 @@ public class AstarArrayList {
             }
 
             for(int i = 0; i < 4;i++ ){
-                Node neighbour = neighbours.get(i);
+                Node neighbour = neighbours[i];
 
                 if(neighbour.block){
                     closeList.add(neighbour);
@@ -85,15 +83,15 @@ public class AstarArrayList {
 
 
     private static Boolean lisContains(Node node, ArrayList<Node> list){
-        for (int i = 0; i<list.size();i++){
-          if(list.get(i).equals(node)){
-              return true;
-          }
+        for (Node aList : list) {
+            if (aList.equals(node)) {
+                return true;
+            }
         }
         return false;
     }
 
-    private static double  calculHeuristique(Node current, Node dest) {
+    private static float  calculHeuristique(Node current, Node dest) {
         return (Math.abs(current.x/current.getSpeed() - dest.x/dest.getSpeed()) + (Math.abs(current.y/current.getSpeed()  - dest.y/dest.getSpeed()))) * COUT;
         /*
 
