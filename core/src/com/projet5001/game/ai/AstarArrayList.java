@@ -39,7 +39,7 @@ public class AstarArrayList {
 
             //this is some fine tuning
             if (calculHeuristique(current,dest) < 6){
-                 neighbours = current.getneighbours(4);
+                 neighbours = current.getneighbours(2);
             }else{
                 neighbours = current.getneighbours();
             }

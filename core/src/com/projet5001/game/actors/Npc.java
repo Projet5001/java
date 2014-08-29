@@ -2,12 +2,10 @@ package com.projet5001.game.actors;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 import com.projet5001.game.Projet5001;
 import com.projet5001.game.Utils.Utils;
-import com.projet5001.game.ai.AstarArrayList;
-import com.projet5001.game.ai.Node;
+import com.projet5001.game.ai.*;
 import com.projet5001.game.collisions.WorldCollector;
 import com.projet5001.game.events.MovementEvents;
 
@@ -31,7 +29,8 @@ public class Npc extends MyActor {
 
         if(seeOthers() && (targetMove() || !(nodeList.size() > pos) )){
             pos = 0;
-            targetOldPos = new Vector2(Projet5001.worldDirector.player.getX(),Projet5001.worldDirector.player.getY());
+
+            targetOldPos.set(Projet5001.worldDirector.player.getX(),Projet5001.worldDirector.player.getY());
 
             Rectangle r = Projet5001.worldDirector.player.hitbox;
 
