@@ -27,8 +27,8 @@ public class Npc extends MyActor {
     @Override
     public void act(float delta) {
 
-        if(seeOthers() && (targetMove() || !(nodeList.size() > pos) )){
-            pos = 0;
+        if(seeOthers() && pos < 0||(seeOthers() && (targetMove() || !(nodeList.size() > pos) ))){
+
 
             targetOldPos.set(Projet5001.worldDirector.player.getX(),Projet5001.worldDirector.player.getY());
 
@@ -37,12 +37,16 @@ public class Npc extends MyActor {
             targetNode =  new Node(r.x,r.y,r.width,r.height);
 
             pathfinding();
-            fireMove();
+            if (nodeList.size() > 0){
+                pos = nodeList.size() -1;
+                fireMove();
 
+            }
         }else if (seeOthers() &&!targetMove()){
 
-            fireMove();
-
+            if (nodeList.size() > 0){
+                fireMove();
+            }
         }
         /**
         if (Projet5001.worldDirector.player!=null){
@@ -73,11 +77,12 @@ public class Npc extends MyActor {
         setHitboxPosition(this.futur_position);
         if (WorldCollector.collection().hit(this.hitbox)) {
             resetPosition();
-            pos--;
+            pos++;
         } else {
             MoveByAction moveAction = new MoveByAction();
             moveAction.setAmount(x, y);
             this.addAction(moveAction);
+            pos--;
         }
         updateHitboxPosition();
     }
@@ -121,7 +126,6 @@ public class Npc extends MyActor {
                 this.fire(new MovementEvents(MovementEvents.Type.moveUp));
             }
         }
-        pos++;
     }
 }
 
