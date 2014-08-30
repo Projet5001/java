@@ -1,4 +1,4 @@
-package com.projet5001.game.ai;
+package com.projet5001.game.pathfinding;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.projet5001.game.collisions.WorldCollector;

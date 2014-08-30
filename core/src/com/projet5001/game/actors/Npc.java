@@ -2,20 +2,22 @@ package com.projet5001.game.actors;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 import com.projet5001.game.Projet5001;
 import com.projet5001.game.Utils.Utils;
-import com.projet5001.game.ai.*;
 import com.projet5001.game.collisions.WorldCollector;
 import com.projet5001.game.events.MovementEvents;
+import com.projet5001.game.pathfinding.Astar;
+import com.projet5001.game.pathfinding.Node;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 
 
 public class Npc extends MyActor {
     protected Node targetNode;
     protected Vector2 targetOldPos;
-    protected ArrayList<Node> nodeList;
+    protected LinkedList<Node> nodeList;
     protected int pos;
 
     public Npc() {
@@ -27,7 +29,7 @@ public class Npc extends MyActor {
     @Override
     public void act(float delta) {
 
-        if(seeOthers() && pos < 0||(seeOthers() && (targetMove() || !(nodeList.size() > pos) ))){
+        if( seeOthers() && (targetMove() || !(nodeList.peek() == null))){
 
 
             targetOldPos.set(Projet5001.worldDirector.player.getX(),Projet5001.worldDirector.player.getY());
@@ -37,23 +39,16 @@ public class Npc extends MyActor {
             targetNode =  new Node(r.x,r.y,r.width,r.height);
 
             pathfinding();
-            if (nodeList.size() > 0){
-                pos = nodeList.size() -1;
-                fireMove();
 
+            if (isNodeListValid()){
+                fireMove();
             }
         }else if (seeOthers() &&!targetMove()){
 
-            if (nodeList.size() > 0){
+            if (isNodeListValid()){
                 fireMove();
             }
         }
-        /**
-        if (Projet5001.worldDirector.player!=null){
-            targetNode =  new Node(new Rectangle(Projet5001.worldDirector.player.getHitbox()));
-            test();
-        }
-        */
         super.act(delta);
     }
 
@@ -72,21 +67,6 @@ public class Npc extends MyActor {
         return false;
     }
 
-    public void move(float x, float y) {
-        savePosition(x, y);
-        setHitboxPosition(this.futur_position);
-        if (WorldCollector.collection().hit(this.hitbox)) {
-            resetPosition();
-            pos++;
-        } else {
-            MoveByAction moveAction = new MoveByAction();
-            moveAction.setAmount(x, y);
-            this.addAction(moveAction);
-            pos--;
-        }
-        updateHitboxPosition();
-    }
-
     private void test (){
         double i = 0;
         double total = 0;
@@ -96,23 +76,24 @@ public class Npc extends MyActor {
 
             Rectangle r =  this.hitbox;
 
-            nodeList = AstarArrayList.run(new Node(r.x,r.y, r.width, r.height), this.targetNode);
+            nodeList = Astar.run(new Node(r.x, r.y, r.width, r.height), this.targetNode);
             double  end = System.nanoTime();
             i++;
             total += ((end-start)/1.0e-9);
         }
-        System.out.println(((total)/i));
+        System.out.println(((total) / i));
         return;
     }
 
     private void pathfinding (){
         Rectangle r =  this.hitbox;
-        nodeList = AstarArrayList.run(new Node(r.x,r.y, r.width, r.height), this.targetNode);
+        nodeList = Astar.run(new Node(r.x, r.y, r.width, r.height), this.targetNode);
+        Collections.reverse(nodeList);
     }
 
     private void fireMove() {
-        if (nodeList != null && nodeList.size() >pos){
-            Node node = nodeList.get(pos);
+        if (isNodeListValid()){
+            Node node = nodeList.pop();
             if(node.x < this.getX()) {
                 this.fire(new MovementEvents(MovementEvents.Type.moveLeft));
             }
@@ -127,5 +108,10 @@ public class Npc extends MyActor {
             }
         }
     }
+
+    private boolean isNodeListValid() {
+        return (nodeList != null) && (nodeList.peek() != null);
+    }
 }
+
 

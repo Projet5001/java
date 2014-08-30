@@ -1,15 +1,15 @@
-package com.projet5001.game.ai;
+package com.projet5001.game.pathfinding;
 
 import java.util.*;
 
-public class AstarArrayList {
+public class Astar {
 
     protected static final int COUT = 32/16;
 
-    public  static ArrayList<Node> run(Node nodeStart, Node dest){
+    public  static LinkedList<Node> run(Node nodeStart, Node dest){
         ArrayList<Node> openList = new ArrayList<>();
         ArrayList<Node> closeList = new ArrayList<>();
-        ArrayList<Node> path  = new ArrayList<>();
+        LinkedList<Node> path  = new LinkedList<>();
         Node current;
         int exitH = 2;
 
@@ -18,6 +18,8 @@ public class AstarArrayList {
 
         openList.add(nodeStart);
 
+
+        nodeStart.setParent(null);
         nodeStart.setG(0);
         nodeStart.setH(calculHeuristique(nodeStart, dest));
         nodeStart.setF(nodeStart.getG() + calculHeuristique(nodeStart, dest));
@@ -70,7 +72,7 @@ public class AstarArrayList {
         }
         return null;
     }
-    private static ArrayList<Node> reconstruct_path(ArrayList<Node> path, Node last){
+    private static LinkedList<Node> reconstruct_path(LinkedList<Node> path, Node last){
         Node current = last;
         while(current.getParent() != null ){
             path.add(current);
