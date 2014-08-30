@@ -39,7 +39,7 @@ public class AstarArrayList {
 
             //this is some fine tuning
 
-            if (calculHeuristique(current,dest) < 8){
+            if (calculHeuristique(current,dest) < 4){
                  neighbours = current.getneighbours(4);
             }else{
                 neighbours = current.getneighbours();
@@ -70,10 +70,11 @@ public class AstarArrayList {
         }
         return null;
     }
-    private static ArrayList<Node> reconstruct_path(ArrayList<Node> path, Node current){
-        if (current.getParent() != null ){
-            path = reconstruct_path(path, current.getParent());
+    private static ArrayList<Node> reconstruct_path(ArrayList<Node> path, Node last){
+        Node current = last;
+        while(current.getParent() != null ){
             path.add(current);
+            current = current.getParent();
         }
         return path;
     }
