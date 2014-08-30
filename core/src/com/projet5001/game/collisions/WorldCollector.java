@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Array;
 import com.projet5001.game.Utils.Utils;
 import com.projet5001.game.actors.MyActor;
+import com.projet5001.game.ai.Node;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,21 +17,24 @@ import java.util.Map;
 
 public class WorldCollector {
 
-    private static int hashSize = 32;
+    private static int hashSize = 64;
     private static WorldCollector controls = null;
-    private  HashMap<Vector2, LinkedList<MyActor>> actor_collection;
-    private  HashMap<Vector2, LinkedList<RectangleMapObject>> rectangleMapObject_collection;
+    private HashMap<Vector2, LinkedList<MyActor>> actor_collection;
+    private HashMap<Vector2, Node> nodeGrid_collection;
+    private Vector2 tmpVector2;
 
     public WorldCollector() {
 
         this.actor_collection = new HashMap<Vector2, LinkedList<MyActor>>();
-        this.rectangleMapObject_collection = new HashMap<Vector2, LinkedList<RectangleMapObject>>();
+        this.nodeGrid_collection = new HashMap<Vector2, Node>();
+        this.tmpVector2 = new Vector2();
     }
 
 
     public static WorldCollector collection() {
         if (controls == null) {
             controls = new WorldCollector();
+
         }
         return controls;
     }
@@ -40,6 +44,13 @@ public class WorldCollector {
         Array<Actor> actors = group.getChildren();
         for (Actor actor : actors) {
             add((MyActor) actor);
+        }
+    }
+    public void creatGrid(int x, int y){
+        for (int i=0; i< x; i++ ){
+            for (int j =0; j< y ; j++){
+                this.nodeGrid_collection.put(new Vector2(i,j),new Node(i,j,hashSize,hashSize));
+            }
         }
     }
 
@@ -71,8 +82,12 @@ public class WorldCollector {
     }
 
 
+    public HashMap<Vector2, Node> getNodeGrid_collection() {
+        return nodeGrid_collection;
+    }
+
     public void add(RectangleMapObject recObj) {
-        LinkedList<RectangleMapObject> list;
+        Node node;
         Rectangle rect = recObj.getRectangle();
 
         float x = ((float) Math.floor(rect.getX() / hashSize));
@@ -80,19 +95,18 @@ public class WorldCollector {
 
         for (int i = 0; i <= Math.ceil(rect.getWidth() / hashSize); i++) {
             for (int j = 0; j <= Math.ceil(rect.getHeight() / hashSize); j++) {
-                Vector2 vector_key = new Vector2();
-                vector_key.set(x, y);
-                list = this.rectangleMapObject_collection.get(vector_key);
-                if (list != null) {
-                    if (!list.contains(recObj)) {
-                        list.add(recObj);
-                        this.rectangleMapObject_collection.remove(vector_key);
-                        this.rectangleMapObject_collection.put(vector_key, list);
-                    }
+
+                tmpVector2.set(x, y);
+                node = this.nodeGrid_collection.get(tmpVector2);
+                if (node == null) {
+                    Vector2 vector2 = new Vector2(x, y);
+                    Node n = new Node(rect.x, rect.y, hashSize, hashSize);
+                    n.setRectObj(rect);
+                    n.setBlock(true);
+                    this.nodeGrid_collection.put(vector2, n);
                 } else {
-                    LinkedList<RectangleMapObject> newList = new LinkedList<RectangleMapObject>();
-                    newList.add(recObj);
-                    this.rectangleMapObject_collection.put(vector_key, newList);
+                    node.setRectObj(rect);
+                    node.setBlock(true);
                 }
                 y++;
             }
@@ -102,8 +116,9 @@ public class WorldCollector {
     }
 
     /**
-     * containactor permet de determiner si le vecteur donne est present dans 
-     * le hashmap 
+     * containactor permet de determiner si le vecteur donne est present dans
+     * le hashmap
+     *
      * @param v
      * @return
      */
@@ -112,7 +127,7 @@ public class WorldCollector {
     }
 
     public boolean lsitContainMapObj(Vector2 v) {
-        return this.rectangleMapObject_collection.containsKey(v);
+        return this.nodeGrid_collection.containsKey(v);
     }
 
     public void clear() {
@@ -149,7 +164,7 @@ public class WorldCollector {
 
     private Vector2 extractTopRightCoord(Rectangle rect) {
         Vector2 v4 = new Vector2(rect.getX() + rect.getWidth(), rect.getY() + rect.getHeight());
-        v4 = Utils.getKeyFromVector(v4,hashSize);
+        v4 = Utils.getKeyFromVector(v4, hashSize);
         if (lsitContainActor(v4) || lsitContainMapObj(v4)) {
             return v4;
         }
@@ -158,7 +173,7 @@ public class WorldCollector {
 
     private Vector2 extractTopLeftCoord(Rectangle rect) {
         Vector2 v3 = new Vector2(rect.getX(), rect.getY() + rect.getHeight());
-        v3 = Utils.getKeyFromVector(v3,hashSize);
+        v3 = Utils.getKeyFromVector(v3, hashSize);
         if (lsitContainActor(v3) || lsitContainMapObj(v3)) {
             return v3;
         }
@@ -167,7 +182,7 @@ public class WorldCollector {
 
     private Vector2 extractLowerRightCoord(Rectangle rect) {
         Vector2 v2 = new Vector2(rect.getX() + rect.getWidth(), rect.getY());
-        v2 = Utils.getKeyFromVector(v2,hashSize);
+        v2 = Utils.getKeyFromVector(v2, hashSize);
         if (lsitContainActor(v2) || lsitContainMapObj(v2)) {
             return v2;
         }
@@ -176,7 +191,7 @@ public class WorldCollector {
 
     private Vector2 extractlowerLeftCoord(Rectangle rect) {
         Vector2 v1 = new Vector2(rect.getX(), rect.getY());
-        v1 = Utils.getKeyFromVector(v1,hashSize);
+        v1 = Utils.getKeyFromVector(v1, hashSize);
         if (lsitContainActor(v1) || lsitContainMapObj(v1)) {
             return v1;
         }
@@ -213,10 +228,10 @@ public class WorldCollector {
         ArrayList<MyActor> visibleActor = new ArrayList<>();
         for (Map.Entry<Vector2, LinkedList<MyActor>> entry : this.actor_collection.entrySet()) {
             Vector2 v = entry.getKey();
-            if (circle.contains(v.x*hashSize,v.y*hashSize)){
+            if (circle.contains(v.x * hashSize, v.y * hashSize)) {
                 LinkedList<MyActor> myActorList = entry.getValue();
                 for (MyActor enemie : myActorList) {
-                    if (circle.x != enemie.getVisionHitbox().x || circle.y != enemie.getVisionHitbox().y ){
+                    if (circle.x != enemie.getVisionHitbox().x || circle.y != enemie.getVisionHitbox().y) {
                         visibleActor.add(enemie);
                     }
                 }
@@ -227,10 +242,10 @@ public class WorldCollector {
 
     private boolean intersectWorldObjet(Rectangle actorHitbox, Vector2 keyVector2Corner) {
         if (lsitContainMapObj(keyVector2Corner)) {
-            LinkedList<RectangleMapObject> mapObjList = this.rectangleMapObject_collection.get(keyVector2Corner);
-            Rectangle rect = new Rectangle();
-            for (RectangleMapObject rectObj : mapObjList) {
-                if (Intersector.intersectRectangles(actorHitbox, rectObj.getRectangle(), rect)) {
+            Node node = this.nodeGrid_collection.get(keyVector2Corner);
+            if (node != null && node.getRectObj()!=null) {
+                Rectangle rect = new Rectangle();
+                if (Intersector.intersectRectangles(actorHitbox, node.getRectObj(), rect)) {
                     return true;
                 }
             }

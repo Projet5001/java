@@ -54,6 +54,9 @@ public class MapControleur {
 
         mapLayers = tiledmap.getLayers();
 
+        //prototype
+        WorldCollector.collection().creatGrid((Integer) mapProperties.get("width"),(Integer) mapProperties.get("height"));
+
         //layer object
         mapCollidable = mapLayers.get("obstacles");
         mapItems =  mapLayers.get("items");

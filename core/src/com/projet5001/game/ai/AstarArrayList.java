@@ -1,5 +1,11 @@
 package com.projet5001.game.ai;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Array;
+import com.projet5001.game.Projet5001;
+import com.projet5001.game.actors.MyActor;
+
 import java.util.*;
 
 public class AstarArrayList {
@@ -11,23 +17,24 @@ public class AstarArrayList {
         ArrayList<Node> closeList = new ArrayList<>();
         ArrayList<Node> path  = new ArrayList<>();
         Node current;
-        int exitH = 2;
-
+        System.out.println("enter pathfinding");
         openList.ensureCapacity(50);
         closeList.ensureCapacity(50);
 
         openList.add(nodeStart);
 
+        nodeStart.setParent(null);
         nodeStart.setG(0);
         nodeStart.setH(calculHeuristique(nodeStart, dest));
         nodeStart.setF(nodeStart.getG() + calculHeuristique(nodeStart, dest));
+
         while (!openList.isEmpty()){
 
             Collections.sort(openList,new FValueComarator());
 
             current = openList.get(0);
 
-            if (calculHeuristique(current,dest) < exitH){
+            if (current.equals(dest)){
                 openList.clear();
                 closeList.clear();
                 return reconstruct_path(path, current);
@@ -37,16 +44,15 @@ public class AstarArrayList {
             closeList.add(current);
             Node[] neighbours;
 
-            //this is some fine tuning
+            neighbours = current.getneighbours();
 
-            if (calculHeuristique(current,dest) < 8){
-                 neighbours = current.getneighbours(4);
-            }else{
-                neighbours = current.getneighbours();
-            }
 
             for(int i = 0; i < 4;i++ ){
+
                 Node neighbour = neighbours[i];
+                if (neighbour== null){
+                    continue;
+                }
 
                 if(neighbour.block){
                     closeList.add(neighbour);
@@ -68,12 +74,15 @@ public class AstarArrayList {
                 }
             }
         }
+        System.out.println("no solution");
         return null;
     }
-    private static ArrayList<Node> reconstruct_path(ArrayList<Node> path, Node current){
-        if (current.getParent() != null ){
-            path = reconstruct_path(path, current.getParent());
+    private static ArrayList<Node> reconstruct_path(ArrayList<Node> path, Node last){
+        Node current = last;
+        System.out.println("reconstruct");
+        while(current.getParent() != null ){
             path.add(current);
+            current = current.getParent();
         }
         return path;
     }
@@ -83,7 +92,7 @@ public class AstarArrayList {
     }
 
     private static float  calculHeuristique(Node current, Node dest) {
-        return (Math.abs(current.x/current.getSpeed() - dest.x/dest.getSpeed()) + (Math.abs(current.y/current.getSpeed()  - dest.y/dest.getSpeed()))) * COUT;
+        return (Math.abs(current.x - dest.x) + (Math.abs(current.y  - dest.y)));
         /*
 
         case HeuristicType.Manhattan:
@@ -119,6 +128,7 @@ public class AstarArrayList {
             break;
          */
     }
+
 
     private static class FValueComarator implements Comparator<Node>{
 

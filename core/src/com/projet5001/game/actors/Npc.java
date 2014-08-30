@@ -8,12 +8,14 @@ import com.projet5001.game.Utils.Utils;
 import com.projet5001.game.ai.*;
 import com.projet5001.game.collisions.WorldCollector;
 import com.projet5001.game.events.MovementEvents;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import java.util.ArrayList;
 
 
 public class Npc extends MyActor {
     protected Node targetNode;
+    protected Node thisNode;
     protected Vector2 targetOldPos;
     protected ArrayList<Node> nodeList;
     protected int pos;
@@ -27,29 +29,20 @@ public class Npc extends MyActor {
     @Override
     public void act(float delta) {
 
-        if(seeOthers() && (targetMove() || !(nodeList.size() > pos) )){
-            pos = 0;
-
-            targetOldPos.set(Projet5001.worldDirector.player.getX(),Projet5001.worldDirector.player.getY());
+        if(seeOthers()){
 
             Rectangle r = Projet5001.worldDirector.player.hitbox;
-
-            targetNode =  new Node(r.x,r.y,r.width,r.height);
+            Vector2 vector2  = new Vector2(r.x,r.y);
+            vector2 = Utils.getKeyFromVector(vector2,64);
+            targetNode =  WorldCollector.collection().getNodeGrid_collection().get(vector2);
 
             pathfinding();
-            fireMove();
 
-        }else if (seeOthers() &&!targetMove()){
-
-            fireMove();
-
+            if (nodeList !=null && nodeList.size() > 0){
+                pos = nodeList.size()-1;
+                fireMove();
+            }
         }
-        /**
-        if (Projet5001.worldDirector.player!=null){
-            targetNode =  new Node(new Rectangle(Projet5001.worldDirector.player.getHitbox()));
-            test();
-        }
-        */
         super.act(delta);
     }
 
@@ -73,13 +66,14 @@ public class Npc extends MyActor {
         setHitboxPosition(this.futur_position);
         if (WorldCollector.collection().hit(this.hitbox)) {
             resetPosition();
-            pos--;
+
         } else {
             MoveByAction moveAction = new MoveByAction();
             moveAction.setAmount(x, y);
             this.addAction(moveAction);
         }
         updateHitboxPosition();
+
     }
 
     private void test (){
@@ -100,28 +94,31 @@ public class Npc extends MyActor {
         return;
     }
 
+
     private void pathfinding (){
         Rectangle r =  this.hitbox;
-        nodeList = AstarArrayList.run(new Node(r.x,r.y, r.width, r.height), this.targetNode);
+        Vector2 vector2  = new Vector2(r.x,r.y);
+        vector2 = Utils.getKeyFromVector(vector2,64);
+        thisNode =  WorldCollector.collection().getNodeGrid_collection().get(vector2);
+        nodeList = AstarArrayList.run(thisNode, targetNode);
     }
 
     private void fireMove() {
         if (nodeList != null && nodeList.size() >pos){
             Node node = nodeList.get(pos);
-            if(node.x < this.getX()) {
+            if(node.x < thisNode.x) {
                 this.fire(new MovementEvents(MovementEvents.Type.moveLeft));
             }
-            else if(node.x > this.getX()) {
+            else if(node.x > thisNode.x) {
                 this.fire(new MovementEvents(MovementEvents.Type.moveRight));
             }
-            else if(node.y < this.getY()) {
+            else if(node.y < thisNode.y) {
                 this.fire(new MovementEvents(MovementEvents.Type.moveDown));
             }
-            else if(node.y > this.getY()) {
+            else if(node.y > thisNode.y) {
                 this.fire(new MovementEvents(MovementEvents.Type.moveUp));
             }
         }
-        pos++;
     }
 }
 

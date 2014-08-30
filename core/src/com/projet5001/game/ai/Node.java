@@ -1,6 +1,8 @@
 package com.projet5001.game.ai;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.projet5001.game.Utils.Utils;
 import com.projet5001.game.collisions.WorldCollector;
 
 public class Node extends Rectangle{
@@ -13,17 +15,35 @@ public class Node extends Rectangle{
     protected int speed;
     protected int walkingCost;
     protected Node[] neighbours;
+    protected Rectangle rectObj;
+    protected Vector2 tmpVector2;
+    public boolean isBlock() {
+        return block;
+    }
 
+    public void setBlock(boolean block) {
+        this.block = block;
+    }
+
+    public Rectangle getRectObj() {
+
+        return rectObj;
+    }
+
+    public void setRectObj(Rectangle rectObj) {
+        this.rectObj = rectObj;
+    }
 
     public Node(float x, float y, float width , float height){
-        super(x,y,width,height);
-        this.speed = 32;
-        this.walkingCost = 32;
+        super(x, y, width, height);
+        this.speed = 1;
+        this.walkingCost = 1;
         this.g = 0;
         this.h =0;
         this.f = 0;
         this.block = false;
         this.neighbours = new Node[4];
+        this.tmpVector2 = new Vector2();
     }
 
     public Node[] getneighbours(){
@@ -67,8 +87,14 @@ public class Node extends Rectangle{
     }
 
     public Node move(float x, float y) {
-        Node node = new Node(this.x + x ,this.y + y, Math.max(this.width,this.height), Math.max(this.width,this.height));
+        //Node node = new Node(this.x + x ,this.y + y, Math.max(this.width,this.height), Math.max(this.width,this.height));
+        tmpVector2.set(this.x + x ,this.y + y);
+        tmpVector2 = Utils.getKeyFromVector(tmpVector2,speed);
+        Node  node = WorldCollector.collection().getNodeGrid_collection().get(tmpVector2);
+        return node;
 
+
+        /**
         if (this.x + x < 0 || this.y + y < 0 ){
             node.block = true;
             return node ;
@@ -87,6 +113,7 @@ public class Node extends Rectangle{
             return node;
 
         }
+         */
     }
 
     public Rectangle getRectangle (){
@@ -133,3 +160,4 @@ public class Node extends Rectangle{
         return this.x == node.x && this.y == node.y;
     }
 }
+
