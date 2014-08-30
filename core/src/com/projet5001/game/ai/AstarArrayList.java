@@ -11,7 +11,7 @@ public class AstarArrayList {
         ArrayList<Node> closeList = new ArrayList<>();
         ArrayList<Node> path  = new ArrayList<>();
         Node current;
-        int exitH = 3;
+        int exitH = 2;
 
         openList.ensureCapacity(50);
         closeList.ensureCapacity(50);
@@ -38,8 +38,9 @@ public class AstarArrayList {
             Node[] neighbours;
 
             //this is some fine tuning
-            if (calculHeuristique(current,dest) < 6){
-                 neighbours = current.getneighbours(2);
+
+            if (calculHeuristique(current,dest) < 8){
+                 neighbours = current.getneighbours(4);
             }else{
                 neighbours = current.getneighbours();
             }
@@ -51,12 +52,12 @@ public class AstarArrayList {
                     closeList.add(neighbour);
                 }
 
-                if (lisContains(neighbour,closeList)){
+                if (closeList.contains(neighbour)){
                     continue;
                 }
 
                 int tentativeGCost = current.getG() + movementCost(current, neighbour);
-                boolean n = lisContains(neighbour,openList);
+                boolean n = openList.contains(neighbour);
                 if (!n || tentativeGCost < neighbour.getG()){
                     neighbour.setParent(current);
                     neighbour.setG(tentativeGCost);
@@ -79,16 +80,6 @@ public class AstarArrayList {
 
     private static int movementCost(Node current, Node neighbour){
         return current.walkingCost; //-neighbour malus cost
-    }
-
-
-    private static Boolean lisContains(Node node, ArrayList<Node> list){
-        for (Node aList : list) {
-            if (aList.equals(node)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private static float  calculHeuristique(Node current, Node dest) {

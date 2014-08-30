@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class WorldCollector {
 
-    private static int hashSize = 64;
+    private static int hashSize = 32;
     private static WorldCollector controls = null;
     private  HashMap<Vector2, LinkedList<MyActor>> actor_collection;
     private  HashMap<Vector2, LinkedList<RectangleMapObject>> rectangleMapObject_collection;
