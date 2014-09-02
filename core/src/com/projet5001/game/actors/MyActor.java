@@ -198,7 +198,7 @@ public class MyActor extends Actor {
         super.act(delta);
 
         //important puisque les actions ne son pas déclenché tjs au meme moment.
-        this.updateHitboxPosition();
+        this.hitbox.setPosition(this.getX(), this.getY());
         this.visionHitbox.set(this.getX(), this.getY(), this.visionDistance);
     }
 

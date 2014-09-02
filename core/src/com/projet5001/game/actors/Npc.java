@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.projet5001.game.Projet5001;
 import com.projet5001.game.Utils.Utils;
+import com.projet5001.game.BehaviorTree.FindEnemie;
 import com.projet5001.game.collisions.WorldCollector;
 import com.projet5001.game.events.MovementEvents;
 import com.projet5001.game.pathfinding.Astar;
@@ -17,7 +18,7 @@ import java.util.LinkedList;
 public class Npc extends MyActor {
     protected Node targetNode;
     protected Vector2 targetOldPos;
-    protected LinkedList<Node> nodeList;
+    protected LinkedList<Node> pathFinding;
     protected int pos;
 
     public Npc() {
@@ -29,7 +30,7 @@ public class Npc extends MyActor {
     @Override
     public void act(float delta) {
 
-        if( seeOthers() && (targetMove() || !(nodeList.peek() == null))){
+        if( seeOthers() && (targetMove() || !(pathFinding.peek() == null))){
 
 
             targetOldPos.set(Projet5001.worldDirector.player.getX(),Projet5001.worldDirector.player.getY());
@@ -76,7 +77,7 @@ public class Npc extends MyActor {
 
             Rectangle r =  this.hitbox;
 
-            nodeList = Astar.run(new Node(r.x, r.y, r.width, r.height), this.targetNode);
+            pathFinding = Astar.run(new Node(r.x, r.y, r.width, r.height), this.targetNode);
             double  end = System.nanoTime();
             i++;
             total += ((end-start)/1.0e-9);
@@ -87,13 +88,13 @@ public class Npc extends MyActor {
 
     private void pathfinding (){
         Rectangle r =  this.hitbox;
-        nodeList = Astar.run(new Node(r.x, r.y, r.width, r.height), this.targetNode);
-        Collections.reverse(nodeList);
+        pathFinding = Astar.run(new Node(r.x, r.y, r.width, r.height), this.targetNode);
+        Collections.reverse(pathFinding);
     }
 
     private void fireMove() {
         if (isNodeListValid()){
-            Node node = nodeList.pop();
+            Node node = pathFinding.pop();
             if(node.x < this.getX()) {
                 this.fire(new MovementEvents(MovementEvents.Type.moveLeft));
             }
@@ -110,7 +111,7 @@ public class Npc extends MyActor {
     }
 
     private boolean isNodeListValid() {
-        return (nodeList != null) && (nodeList.peek() != null);
+        return (pathFinding != null) && (pathFinding.peek() != null);
     }
 }
 
