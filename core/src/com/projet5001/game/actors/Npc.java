@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.projet5001.game.Projet5001;
 import com.projet5001.game.Utils.Utils;
-import com.projet5001.game.BehaviorTree.FindEnemie;
 import com.projet5001.game.collisions.WorldCollector;
 import com.projet5001.game.events.MovementEvents;
 import com.projet5001.game.pathfinding.Astar;
