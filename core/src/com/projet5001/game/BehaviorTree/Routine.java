@@ -1,6 +1,21 @@
+/*
+ * Copyright [2014] [Alexandre Leblanc]
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.projet5001.game.BehaviorTree;
 
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
@@ -8,13 +23,13 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
  */
 public abstract class Routine {
 
-    public enum RoutineState {
+    public static enum RoutineState {
         Success,
         Failure,
         Running
     }
 
-    protected RoutineState RoutineState;
+    protected RoutineState state;
 
     protected Actor RoutineActor;
 
@@ -27,34 +42,34 @@ public abstract class Routine {
     }
 
     public void start() {
-        this.RoutineState = RoutineState.Running;
+        this.state = state.Running;
     }
 
-    public abstract void act(float delta);
+    public abstract void act(Actor actor);
 
     public abstract void reset();
 
     protected void succeed() {
-        this.RoutineState = RoutineState.Success;
+        this.state = state.Success;
     }
 
     protected void fail() {
-        this.RoutineState = RoutineState.Failure;
+        this.state = state.Failure;
     }
 
     public boolean isSuccess() {
-        return RoutineState.equals(RoutineState.Success);
+        return state.equals(state.Success);
     }
 
     public boolean isFailure() {
-        return RoutineState.equals(RoutineState.Failure);
+        return state.equals(state.Failure);
     }
 
     public boolean isRunning() {
-        return RoutineState.equals(RoutineState.Running);
+        return state.equals(state.Running);
     }
 
     public RoutineState getState() {
-        return RoutineState;
+        return state;
     }
 }

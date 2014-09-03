@@ -1,7 +1,24 @@
+/*
+ * Copyright [2014] [Alexandre Leblanc]
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.projet5001.game.actors;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.projet5001.game.BehaviorTree.Ai;
 import com.projet5001.game.Projet5001;
 import com.projet5001.game.Utils.Utils;
 import com.projet5001.game.collisions.WorldCollector;
@@ -18,17 +35,24 @@ public class Npc extends MyActor {
     protected Node targetNode;
     protected Vector2 targetOldPos;
     protected LinkedList<Node> pathFinding;
-    protected int pos;
+
+    public Node getTargetNode() {
+        return targetNode;
+    }
 
     public Npc() {
         super();
         targetOldPos = new Vector2();
-        pos = 0;
     }
+
+    public Vector2 getTargetOldPos() {
+        return targetOldPos;
+    }
+
     //todo  separé ca avec le ai...
     @Override
     public void act(float delta) {
-
+        this.addAction(new Ai());
         if( seeOthers() && (targetMove() || !(pathFinding.peek() == null))){
 
 
@@ -40,16 +64,16 @@ public class Npc extends MyActor {
 
             pathfinding();
 
-            if (isNodeListValid()){
+
                 fireMove();
-            }
+            
         }else if (seeOthers() &&!targetMove()){
 
-            if (isNodeListValid()){
                 fireMove();
-            }
+
         }
         super.act(delta);
+
     }
 
     public boolean targetMove(){
@@ -107,6 +131,14 @@ public class Npc extends MyActor {
                 this.fire(new MovementEvents(MovementEvents.Type.moveUp));
             }
         }
+    }
+
+    public LinkedList<Node> getPathFinding() {
+        return pathFinding;
+    }
+
+    public void setPathFinding(LinkedList<Node> pathFinding) {
+        this.pathFinding = pathFinding;
     }
 
     private boolean isNodeListValid() {
