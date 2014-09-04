@@ -21,23 +21,17 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Ai extends Action {
 
-    public Ai(){
+    public Ai() {
 
     }
 
-    protected Actor getOwner(){
+    protected Actor getOwner() {
         return super.getActor();
     }
 
     @Override
     public boolean act(float delta) {
 
-        Selector selector = new Selector();
-        selector.addRoutine(new FindEnemie());
-        selector.start();
-        if (selector.getState() == Routine.RoutineState.Running){
-            selector.act(getActor());
-        }
 
         return false;
     }
