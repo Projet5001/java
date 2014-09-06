@@ -17,10 +17,8 @@
 package com.projet5001.game.BehaviorTree;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.projet5001.game.actors.Npc;
 
-/**
- * Created by macmata on 01/09/14.
- */
 public abstract class Routine {
 
     public static enum RoutineState {
@@ -45,7 +43,7 @@ public abstract class Routine {
         this.state = state.Running;
     }
 
-    public abstract void act(Actor actor);
+    public abstract void act(Npc npc);
 
     public abstract void reset();
 

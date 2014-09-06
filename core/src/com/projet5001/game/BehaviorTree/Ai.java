@@ -18,6 +18,7 @@ package com.projet5001.game.BehaviorTree;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.projet5001.game.actors.Npc;
 
 public class Ai extends Action {
 
@@ -32,7 +33,13 @@ public class Ai extends Action {
     @Override
     public boolean act(float delta) {
 
-
-        return false;
+        Sequence sequence = new Sequence();
+        sequence.addRoutine(new FindEnemie());
+        sequence.addRoutine(new NotInRange());
+        sequence.addRoutine(new PathFinding());
+        sequence.addRoutine(new FireMove());
+        sequence.start();
+        sequence.act((Npc)getOwner());
+        return true;
     }
 }

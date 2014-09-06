@@ -17,6 +17,7 @@
 package com.projet5001.game.Utils;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
  * Created by macmata on 27/08/14.
@@ -26,6 +27,10 @@ public class Utils {
         float x = (float) Math.floor(vector2.x / hashSize);
         float y = (float) Math.floor(vector2.y / hashSize);
         return vector2.set(x, y);
+    }
+
+    public static double calulEuclideanDist(Actor actor1, Actor actor2){
+        return Math.sqrt(Math.pow(actor1.getCenterX() - actor2.getCenterX(), 2) + Math.pow(actor1.getCenterY() - actor2.getCenterY(), 2));
     }
 
     public static boolean equals(Vector2 v1 , Vector2 v2){

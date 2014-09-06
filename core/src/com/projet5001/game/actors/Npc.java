@@ -18,6 +18,7 @@ package com.projet5001.game.actors;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.projet5001.game.BehaviorTree.Ai;
 import com.projet5001.game.Projet5001;
 import com.projet5001.game.Utils.Utils;
@@ -32,106 +33,37 @@ import java.util.LinkedList;
 
 
 public class Npc extends MyActor {
-    protected Node targetNode;
+    protected MyActor Target;
     protected Vector2 targetOldPos;
     protected LinkedList<Node> pathFinding;
-
-    public Node getTargetNode() {
-        return targetNode;
-    }
+    protected int rangeOfAttack;
 
     public Npc() {
         super();
         targetOldPos = new Vector2();
+        rangeOfAttack = 64;
+    }
+
+    public int getRangeOfAttack() {
+        return rangeOfAttack;
+    }
+
+    public void setRangeOfAttack(int rangeOfAttack) {
+        this.rangeOfAttack = rangeOfAttack;
+    }
+
+    public MyActor getTarget() {
+        return Target;
+    }
+
+    public void setTarget(MyActor target) {
+        Target = target;
     }
 
     public Vector2 getTargetOldPos() {
         return targetOldPos;
     }
 
-    //todo  separé ca avec le ai...
-    @Override
-    public void act(float delta) {
-        this.addAction(new Ai());
-        if( seeOthers() && (targetMove() || !(pathFinding.peek() == null))){
-
-
-            targetOldPos.set(Projet5001.worldDirector.player.getX(),Projet5001.worldDirector.player.getY());
-
-            Rectangle r = Projet5001.worldDirector.player.hitbox;
-
-            targetNode =  new Node(r.x,r.y,r.width,r.height);
-
-            pathfinding();
-
-
-                fireMove();
-            
-        }else if (seeOthers() &&!targetMove()){
-
-                fireMove();
-
-        }
-        super.act(delta);
-
-    }
-
-    public boolean targetMove(){
-        return !Utils.equals(targetOldPos,Projet5001.worldDirector.player.getVector());
-    }
-
-    private boolean seeOthers(){
-        //todo utiliser pour trouver les allies et les enemie visible pour le ai
-        ArrayList<MyActor> actorArrayList =  WorldCollector.collection().circleContainActor(this.visionHitbox);
-        for (MyActor myActor : actorArrayList) {
-            if (myActor instanceof Player){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void test (){
-        double i = 0;
-        double total = 0;
-
-        while (i < 10000){
-            double start = System.nanoTime();
-
-            Rectangle r =  this.hitbox;
-
-            pathFinding = Astar.run(new Node(r.x, r.y, r.width, r.height), this.targetNode);
-            double  end = System.nanoTime();
-            i++;
-            total += ((end-start)/1.0e-9);
-        }
-        System.out.println(((total) / i));
-        return;
-    }
-
-    private void pathfinding (){
-        Rectangle r =  this.hitbox;
-        pathFinding = Astar.run(new Node(r.x, r.y, r.width, r.height), this.targetNode);
-        Collections.reverse(pathFinding);
-    }
-
-    private void fireMove() {
-        if (isNodeListValid()){
-            Node node = pathFinding.pop();
-            if(node.x < this.getX()) {
-                this.fire(new MovementEvents(MovementEvents.Type.moveLeft));
-            }
-            else if(node.x > this.getX()) {
-                this.fire(new MovementEvents(MovementEvents.Type.moveRight));
-            }
-            else if(node.y < this.getY()) {
-                this.fire(new MovementEvents(MovementEvents.Type.moveDown));
-            }
-            else if(node.y > this.getY()) {
-                this.fire(new MovementEvents(MovementEvents.Type.moveUp));
-            }
-        }
-    }
 
     public LinkedList<Node> getPathFinding() {
         return pathFinding;
@@ -141,8 +73,10 @@ public class Npc extends MyActor {
         this.pathFinding = pathFinding;
     }
 
-    private boolean isNodeListValid() {
-        return (pathFinding != null) && (pathFinding.peek() != null);
+    @Override
+    public void act(float delta){
+        this.addAction(new Ai());
+        super.act(delta);
     }
 }
 
