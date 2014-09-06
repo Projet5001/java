@@ -18,27 +18,28 @@ package com.projet5001.game.BehaviorTree;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.projet5001.game.actors.Npc;
 
 public class Ai extends Action {
 
-    public Ai(){
+    public Ai() {
 
     }
 
-    protected Actor getOwner(){
+    protected Actor getOwner() {
         return super.getActor();
     }
 
     @Override
     public boolean act(float delta) {
 
-        Selector selector = new Selector();
-        selector.addRoutine(new FindEnemie());
-        selector.start();
-        if (selector.getState() == Routine.RoutineState.Running){
-            selector.act(getActor());
-        }
-
-        return false;
+        Sequence sequence = new Sequence();
+        sequence.addRoutine(new FindEnemie());
+        sequence.addRoutine(new NotInRange());
+        sequence.addRoutine(new PathFinding());
+        sequence.addRoutine(new FireMove());
+        sequence.start();
+        sequence.act((Npc)getOwner());
+        return true;
     }
 }

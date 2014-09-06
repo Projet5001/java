@@ -23,6 +23,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
+import com.projet5001.game.BehaviorTree.Ai;
 import com.projet5001.game.collisions.WorldCollector;
 import com.projet5001.game.controleur.AnimationControleur;
 import com.projet5001.game.events.ActorEvent;
@@ -172,6 +173,7 @@ public class MyActor extends Actor {
         setHitboxPosition(this.futur_position);
         if (WorldCollector.collection().hit(this.hitbox)) {
             resetPosition();
+            setMove("idle");
         } else {
             MoveByAction moveAction = new MoveByAction();
             moveAction.setAmount(x, y);
@@ -209,13 +211,14 @@ public class MyActor extends Actor {
 
     @Override
     public void act(float delta) {
+
         this.setZIndex((int) this.getY());
         this.isIdle();
         super.act(delta);
 
-        //important puisque les actions ne son pas déclenché tjs au meme moment.
-        this.hitbox.setPosition(this.getX(), this.getY());
         this.visionHitbox.set(this.getX(), this.getY(), this.visionDistance);
+        this.hitbox.setPosition(this.getX(), this.getY());
+        //important puisque les actions ne son pas déclenché tjs au meme moment.
     }
 
     public int getZIndex() {
@@ -226,9 +229,16 @@ public class MyActor extends Actor {
         this.ZIndex = index;
     }
 
-    //todo changer isIdle pour ne pas se base sur les actions
     private boolean isIdle() {
-        if (this.getActions().size == 0) {
+        int i = 0 ;
+        for(Action action : this.getActions()){
+            if (action instanceof Ai){
+                continue;
+            }
+            i++;
+        }
+
+        if (i ==0 ){
             setMove("idle");
             return true;
         }

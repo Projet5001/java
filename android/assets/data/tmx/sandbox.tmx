@@ -54,52 +54,7 @@
     <property name="test" value="001"/>
    </properties>
   </object>
-  <object name="monstre" type="npc" x="640" y="736" width="41" height="41">
-   <properties>
-    <property name="test" value="001"/>
-   </properties>
-  </object>
-  <object name="monstre" type="npc" x="640" y="640" width="41" height="41">
-   <properties>
-    <property name="test" value="001"/>
-   </properties>
-  </object>
-  <object name="monstre" type="npc" x="336" y="640" width="41" height="41">
-   <properties>
-    <property name="test" value="001"/>
-   </properties>
-  </object>
-  <object name="monstre" type="npc" x="336" y="736" width="41" height="41">
-   <properties>
-    <property name="test" value="001"/>
-   </properties>
-  </object>
-  <object name="monstre" type="npc" x="248" y="640" width="41" height="41">
-   <properties>
-    <property name="test" value="001"/>
-   </properties>
-  </object>
-  <object name="monstre" type="npc" x="248" y="736" width="41" height="41">
-   <properties>
-    <property name="test" value="001"/>
-   </properties>
-  </object>
-  <object name="monstre" type="npc" x="160" y="640" width="41" height="41">
-   <properties>
-    <property name="test" value="001"/>
-   </properties>
-  </object>
-  <object name="monstre" type="npc" x="160" y="736" width="41" height="41">
-   <properties>
-    <property name="test" value="001"/>
-   </properties>
-  </object>
-  <object name="monstre" type="npc" x="160" y="448" width="41" height="41">
-   <properties>
-    <property name="test" value="001"/>
-   </properties>
-  </object>
-  <object name="monstre" type="npc" x="160" y="544" width="41" height="41">
+  <object name="monstre" type="npc" x="192" y="736" width="41" height="41">
    <properties>
     <property name="test" value="001"/>
    </properties>
