@@ -16,19 +16,10 @@
 
 package com.projet5001.game.actors;
 
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.projet5001.game.BehaviorTree.Ai;
-import com.projet5001.game.Projet5001;
-import com.projet5001.game.Utils.Utils;
-import com.projet5001.game.collisions.WorldCollector;
-import com.projet5001.game.events.MovementEvents;
-import com.projet5001.game.pathfinding.Astar;
 import com.projet5001.game.pathfinding.Node;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 
 
@@ -74,7 +65,7 @@ public class Npc extends MyActor {
     }
 
     @Override
-    public void act(float delta){
+    public void act(float delta) {
         this.addAction(new Ai());
         super.act(delta);
     }
