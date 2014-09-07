@@ -4,9 +4,6 @@ import com.projet5001.game.actors.Npc;
 import com.projet5001.game.events.MovementEvents;
 import com.projet5001.game.pathfinding.Node;
 
-/**
- * Created by macmata on 06/09/14.
- */
 public class FireMove extends Routine {
     @Override
     public void act(Npc npc) {

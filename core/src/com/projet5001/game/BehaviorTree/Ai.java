@@ -41,5 +41,6 @@ public class Ai extends Action {
         sequence.start();
         sequence.act((Npc)getOwner());
         return true;
+
     }
 }
