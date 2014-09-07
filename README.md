@@ -12,6 +12,9 @@ run
 
  - gradlew android:run
 
+compile
+=======
+ - gradlew desktop:build
 
 License
 =======
