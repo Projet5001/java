@@ -7,7 +7,6 @@ public class NotInRange extends Routine{
 
     @Override
     public void act(Npc npc) {
-        System.out.println(Utils.calulEuclideanDist(npc, npc.getTarget()));
         if(Utils.calulEuclideanDist(npc, npc.getTarget()) < npc.getRangeOfAttack()){
             fail();
         }else{

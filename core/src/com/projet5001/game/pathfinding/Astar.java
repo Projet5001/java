@@ -20,7 +20,7 @@ import java.util.*;
 
 public class Astar {
 
-    protected static final int COUT = 32/16;
+    protected static final int COUT = 2;
 
     public  static LinkedList<Node> run(Node nodeStart, Node dest){
         ArrayList<Node> openList = new ArrayList<>();
@@ -56,7 +56,6 @@ public class Astar {
             Node[] neighbours;
 
             //this is some fine tuning
-
             if (calculHeuristique(current,dest) < 4){
                  neighbours = current.getneighbours(4);
             }else{

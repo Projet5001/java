@@ -30,7 +30,11 @@ public class Utils {
     }
 
     public static double calulEuclideanDist(Actor actor1, Actor actor2){
-        return Math.sqrt(Math.pow(actor1.getCenterX() - actor2.getCenterX(), 2) + Math.pow(actor1.getCenterY() - actor2.getCenterY(), 2));
+        return Math.sqrt(Math.pow(actor1.getX() - actor2.getX(), 2) + Math.pow(actor1.getY() - actor2.getY(), 2));
+    }
+
+    public static double calulManhattanDist(Actor actor1, Actor actor2){
+        return (Math.abs(actor1.getX() - actor2.getX()) + (Math.abs(actor1.getY() - actor2.getY())));
     }
 
     public static boolean equals(Vector2 v1 , Vector2 v2){

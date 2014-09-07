@@ -7,7 +7,8 @@ public class TagetMove extends Routine {
     @Override
     public void act(Npc npc) {
 
-        if(Utils.equals(npc.getTargetOldPos(), npc.getVector())){
+        if(Utils.equals(npc.getTargetOldPos(), npc.getTarget().getVector())){
+            System.out.println("taget did not move");
             succeed();
         }else{
             fail();

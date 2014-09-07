@@ -125,6 +125,10 @@ public class Node extends Rectangle{
         return speed;
     }
 
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
     public void setG(int g_movementCost) {
         this.g = g_movementCost;
     }

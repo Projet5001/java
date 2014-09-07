@@ -32,7 +32,7 @@ public class Npc extends MyActor {
     public Npc() {
         super();
         targetOldPos = new Vector2();
-        rangeOfAttack = 64;
+        rangeOfAttack = (int)this.getWidth();
     }
 
     public int getRangeOfAttack() {
@@ -55,6 +55,9 @@ public class Npc extends MyActor {
         return targetOldPos;
     }
 
+    public void setTargetOldPos(Vector2 targetOldPos) {
+        this.targetOldPos = targetOldPos;
+    }
 
     public LinkedList<Node> getPathFinding() {
         return pathFinding;
