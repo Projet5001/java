@@ -248,9 +248,7 @@ public class MyActor extends Actor {
     public boolean isSeeingEnemies() {
         return false;
     }
-    public void changeState(MyActorEnumState enumState){
 
-    }
     public boolean isSafe() {
         return true;
     }
