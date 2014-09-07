@@ -1,5 +1,4 @@
 ***hook***
-http://macmata:cb71660603b77095c72ec9dac06f82cb@alexandre-leblanc.com:8080/
 
 ***setup idea*** 
 
