@@ -18,6 +18,10 @@ package com.projet5001.game.BehaviorTree;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.projet5001.game.BehaviorTree.CompositeLeaft.MoveNoPath;
+import com.projet5001.game.BehaviorTree.CompositeLeaft.MoveWithPath;
+import com.projet5001.game.BehaviorTree.Leaf.FindEnemie;
+import com.projet5001.game.BehaviorTree.Leaf.NotInRange;
 import com.projet5001.game.actors.Npc;
 
 public class Ai extends Action {
@@ -36,19 +40,9 @@ public class Ai extends Action {
         Sequence sequenceMain = new Sequence();
         Selector selectTargetMoved = new Selector();
 
-        //make pathfinding and move
-        Sequence seqPathAndFire = new Sequence();
-            seqPathAndFire.addRoutine(new PathFinding());
-            seqPathAndFire.addRoutine(new FireMove());
 
-        //if taget did not moved then move
-        Sequence seqMovedNotFire = new Sequence();
-            seqMovedNotFire.addRoutine(new TagetMove());
-            seqMovedNotFire.addRoutine(new FireMove());
-
-
-        selectTargetMoved.addRoutine(seqMovedNotFire);
-        selectTargetMoved.addRoutine(seqPathAndFire);
+        selectTargetMoved.addRoutine(new MoveNoPath());
+        selectTargetMoved.addRoutine(new MoveWithPath());
 
         //if see enemie then if not in range then selectTagrgetMove
         sequenceMain.addRoutine(new FindEnemie());

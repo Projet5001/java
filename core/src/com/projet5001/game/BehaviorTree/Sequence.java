@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Queue;
 
 /**
- * A sequence is like a a while(condition == true)
+ * If true, continue
  */
 public class Sequence extends Routine {
 

@@ -14,8 +14,9 @@
  * limitations under the License.
  ******************************************************************************/
 
-package com.projet5001.game.BehaviorTree;
+package com.projet5001.game.BehaviorTree.Leaf;
 
+import com.projet5001.game.BehaviorTree.Routine;
 import com.projet5001.game.actors.Npc;
 import com.projet5001.game.events.MovementEvents;
 import com.projet5001.game.pathfinding.Node;

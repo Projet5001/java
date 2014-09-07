@@ -13,30 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+package com.projet5001.game.BehaviorTree.Leaf;
 
-package com.projet5001.game.BehaviorTree;
-
-import com.projet5001.game.Projet5001;
-import com.projet5001.game.actors.MyActor;
+import com.projet5001.game.BehaviorTree.Routine;
+import com.projet5001.game.Utils.Utils;
 import com.projet5001.game.actors.Npc;
-import com.projet5001.game.actors.Player;
-import com.projet5001.game.collisions.WorldCollector;
 
-import java.util.ArrayList;
-
-public class FindEnemie extends Routine {
-
+public class TagetImmobile extends Routine {
     @Override
     public void act(Npc npc) {
-        ArrayList<MyActor> actorArrayList =  WorldCollector.collection().circleContainActor(npc.getVisionHitbox());
-        for (MyActor actor : actorArrayList) {
-            if (actor instanceof Player){
-                succeed();
-                npc.setTarget(Projet5001.worldDirector.player);
-                return;
-            }
+
+        if(Utils.equals(npc.getTargetOldPos(), npc.getTarget().getVector())){
+            succeed();
+        }else{
+            fail();
         }
-        fail();
     }
 
     @Override

@@ -13,26 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.projet5001.game.BehaviorTree;
+package com.projet5001.game.BehaviorTree.CompositeLeaft;
 
-import com.projet5001.game.Utils.Utils;
-import com.projet5001.game.actors.Npc;
+import com.projet5001.game.BehaviorTree.Leaf.FireMove;
+import com.projet5001.game.BehaviorTree.Sequence;
+import com.projet5001.game.BehaviorTree.Leaf.TagetImmobile;
 
-public class NotInRange extends Routine{
-
-    @Override
-    public void act(Npc npc) {
-        if(Utils.calulEuclideanDist(npc, npc.getTarget()) < npc.getRangeOfAttack()){
-            fail();
-        }else{
-            succeed();
-        }
+/**
+ * Created by macmata on 07/09/14.
+ */
+public class MoveNoPath extends Sequence{
+    public void start(){
+        this.addRoutine(new TagetImmobile());
+        this.addRoutine(new FireMove());
+        super.start();
     }
-
-    @Override
-    public void reset() {
-
-    }
-
-
 }

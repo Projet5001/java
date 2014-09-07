@@ -20,6 +20,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+/**
+ * If false, continue
+ */
 public class Selector extends Routine {
 
     public Selector() {
