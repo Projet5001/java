@@ -1,4 +1,4 @@
-***setup idea*** 
+***setup idea*** y
 
  - gradlew clean
  
