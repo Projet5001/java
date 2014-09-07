@@ -1,5 +1,5 @@
-/*
- * Copyright [2014] [Alexandre Leblanc]
+/*******************************************************************************
+ * Copyright 2014 Projet5001
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ ******************************************************************************/
 
 package com.projet5001.game.pathfinding;
 
@@ -20,7 +20,7 @@ import java.util.*;
 
 public class Astar {
 
-    protected static final int COUT = 32/16;
+    protected static final int COUT = 2;
 
     public  static LinkedList<Node> run(Node nodeStart, Node dest){
         ArrayList<Node> openList = new ArrayList<>();
@@ -56,7 +56,6 @@ public class Astar {
             Node[] neighbours;
 
             //this is some fine tuning
-
             if (calculHeuristique(current,dest) < 4){
                  neighbours = current.getneighbours(4);
             }else{

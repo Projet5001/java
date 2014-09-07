@@ -20,12 +20,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-/**
- * A sequence is like a a while(condition == true)
- */
-public class Sequence extends Routine {
+public class Selector extends Routine {
 
-    public Sequence() {
+    public Selector() {
         super();
         this.currentRoutine = null;
     }
@@ -55,21 +52,18 @@ public class Sequence extends Routine {
         currentRoutine.start();
     }
 
-
-
     @Override
     public void act(Npc npc) {
 
+
         currentRoutine.act(npc);
 
-
-
-        if (currentRoutine.isFailure()) {
-            this.state = currentRoutine.getState();
+        if (currentRoutine.isSuccess()) {
+            succeed();
             return;
         }
 
-        while(routineQueue.peek() != null && currentRoutine.isSuccess()){
+        while(routineQueue.peek() != null && currentRoutine.isFailure()){
             currentRoutine = routineQueue.poll();
             currentRoutine.start();
             currentRoutine.act(npc);
@@ -78,7 +72,6 @@ public class Sequence extends Routine {
                 return;
             }
         }
-
         this.state = currentRoutine.getState();
     }
 }

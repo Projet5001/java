@@ -1,5 +1,5 @@
-/*
- * Copyright [2014] [Alexandre Leblanc]
+/*******************************************************************************
+ * Copyright 2014 Projet5001
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ ******************************************************************************/
 
 package com.projet5001.game.actors;
 
@@ -32,7 +32,7 @@ public class Npc extends MyActor {
     public Npc() {
         super();
         targetOldPos = new Vector2();
-        rangeOfAttack = 64;
+        rangeOfAttack = (int)this.getWidth();
     }
 
     public int getRangeOfAttack() {
@@ -55,6 +55,9 @@ public class Npc extends MyActor {
         return targetOldPos;
     }
 
+    public void setTargetOldPos(Vector2 targetOldPos) {
+        this.targetOldPos = targetOldPos;
+    }
 
     public LinkedList<Node> getPathFinding() {
         return pathFinding;

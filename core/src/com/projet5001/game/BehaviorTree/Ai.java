@@ -1,5 +1,5 @@
-/*
- * Copyright [2014] [Alexandre Leblanc]
+/*******************************************************************************
+ * Copyright 2014 Projet5001
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ ******************************************************************************/
 
 package com.projet5001.game.BehaviorTree;
 
@@ -33,13 +33,30 @@ public class Ai extends Action {
     @Override
     public boolean act(float delta) {
 
-        Sequence sequence = new Sequence();
-        sequence.addRoutine(new FindEnemie());
-        sequence.addRoutine(new NotInRange());
-        sequence.addRoutine(new PathFinding());
-        sequence.addRoutine(new FireMove());
-        sequence.start();
-        sequence.act((Npc)getOwner());
+        Sequence sequenceMain = new Sequence();
+        Selector selectTargetMoved = new Selector();
+
+        //make pathfinding and move
+        Sequence seqPathAndFire = new Sequence();
+            seqPathAndFire.addRoutine(new PathFinding());
+            seqPathAndFire.addRoutine(new FireMove());
+
+        //if taget did not moved then move
+        Sequence seqMovedNotFire = new Sequence();
+            seqMovedNotFire.addRoutine(new TagetMove());
+            seqMovedNotFire.addRoutine(new FireMove());
+
+
+        selectTargetMoved.addRoutine(seqMovedNotFire);
+        selectTargetMoved.addRoutine(seqPathAndFire);
+
+        //if see enemie then if not in range then selectTagrgetMove
+        sequenceMain.addRoutine(new FindEnemie());
+        sequenceMain.addRoutine(new NotInRange());
+        sequenceMain.addRoutine(selectTargetMoved);
+
+        sequenceMain.start();
+        sequenceMain.act((Npc) getOwner());
         return true;
 
     }
