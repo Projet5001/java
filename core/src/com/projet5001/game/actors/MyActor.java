@@ -173,7 +173,6 @@ public class MyActor extends Actor {
         setHitboxPosition(this.futur_position);
         if (WorldCollector.collection().hit(this.hitbox)) {
             resetPosition();
-            setMove("idle");
         } else {
             MoveByAction moveAction = new MoveByAction();
             moveAction.setAmount(x, y);
