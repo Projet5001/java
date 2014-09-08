@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.projet5001.game.BehaviorTree;
+package com.projet5001.game.BehaviorTree.Leaf;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.projet5001.game.BehaviorTree.Routine;
 import com.projet5001.game.Utils.Utils;
 import com.projet5001.game.actors.MyActor;
 import com.projet5001.game.actors.Npc;
@@ -35,16 +36,15 @@ public class PathFinding extends Routine {
 
         Node nodeEnemi  = new Node(er.getX(),er.getY(),er.width,er.height);
         Node nodeNPc  = new Node(r.x, r.y, r.width, r.height);
-
-        System.out.println(Utils.calulEuclideanDist(npc,npc.getTarget()));
-        if (Utils.calulEuclideanDist(npc,npc.getTarget())< npc.getRangeOfAttack()){
+        if (Math.floor(Utils.calulEuclideanDist(npc, npc.getTarget()))<= 64){
+            System.out.println("64");
             nodeEnemi.setSpeed(4);
             nodeNPc.setSpeed(4);
         }
         LinkedList<Node> pathFinding = Astar.run(nodeNPc,nodeEnemi);
 
         if (pathFinding != null && pathFinding.size() > 0){
-            npc.setTargetOldPos(npc.getTarget().getVector());
+            npc.setTargetPosOld(npc.getTarget().getVector());
 
             pathFinding = deflatePathfinding(pathFinding);
 

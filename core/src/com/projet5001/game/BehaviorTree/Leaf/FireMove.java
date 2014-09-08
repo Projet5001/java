@@ -14,8 +14,9 @@
  * limitations under the License.
  ******************************************************************************/
 
-package com.projet5001.game.BehaviorTree;
+package com.projet5001.game.BehaviorTree.Leaf;
 
+import com.projet5001.game.BehaviorTree.Routine;
 import com.projet5001.game.actors.Npc;
 import com.projet5001.game.events.MovementEvents;
 import com.projet5001.game.pathfinding.Node;
@@ -37,6 +38,10 @@ public class FireMove extends Routine {
             else if(node.y > npc.getY()) {
                 npc.fire(new MovementEvents(MovementEvents.Type.moveUp));
             }
+            succeed();
+        }else{
+            fail();
+            System.out.println("no path");
         }
     }
     

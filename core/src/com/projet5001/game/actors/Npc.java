@@ -16,6 +16,7 @@
 
 package com.projet5001.game.actors;
 
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.projet5001.game.BehaviorTree.Ai;
 import com.projet5001.game.pathfinding.Node;
@@ -24,39 +25,47 @@ import java.util.LinkedList;
 
 
 public class Npc extends MyActor {
-    protected MyActor Target;
-    protected Vector2 targetOldPos;
+    protected MyActor target;
+    protected Vector2 targetPosOld;
+    protected Circle targetZone;
+    protected Circle attackZone;
+    protected float targetZoneSize;
     protected LinkedList<Node> pathFinding;
-    protected int rangeOfAttack;
 
     public Npc() {
         super();
-        targetOldPos = new Vector2();
-        rangeOfAttack = (int)this.getWidth();
+        targetPosOld = new Vector2();
+        targetZone = new Circle();
+        targetZoneSize = 150f;
+        attackZone = new Circle();
     }
 
-    public int getRangeOfAttack() {
-        return rangeOfAttack;
+    public Circle getAttackZone() {
+        return attackZone;
     }
 
-    public void setRangeOfAttack(int rangeOfAttack) {
-        this.rangeOfAttack = rangeOfAttack;
+    public Circle getTargetZone() {
+        return targetZone;
+    }
+
+    public void setTargetZone() {
+        this.targetZone.set(target.getCenterX(),target.getCenterY(),targetZoneSize);
     }
 
     public MyActor getTarget() {
-        return Target;
+        return target;
     }
 
     public void setTarget(MyActor target) {
-        Target = target;
+        this.target = target;
     }
 
-    public Vector2 getTargetOldPos() {
-        return targetOldPos;
+    public Vector2 getTargetPosOld() {
+        return targetPosOld;
     }
 
-    public void setTargetOldPos(Vector2 targetOldPos) {
-        this.targetOldPos = targetOldPos;
+    public void setTargetPosOld(Vector2 targetPosOld) {
+        this.targetPosOld = targetPosOld;
     }
 
     public LinkedList<Node> getPathFinding() {
@@ -69,6 +78,7 @@ public class Npc extends MyActor {
 
     @Override
     public void act(float delta) {
+        this.attackZone.set(this.getHitbox().getX() + (this.getHitbox().getWidth() / 2), this.getHitbox().getY() + (this.getHitbox().getHeight() / 2), this.getHitbox().getWidth() - 20);
         this.addAction(new Ai());
         super.act(delta);
     }

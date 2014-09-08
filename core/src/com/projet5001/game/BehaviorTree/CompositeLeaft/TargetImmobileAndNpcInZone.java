@@ -13,26 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.projet5001.game.BehaviorTree;
+package com.projet5001.game.BehaviorTree.CompositeLeaft;
 
-import com.projet5001.game.Utils.Utils;
-import com.projet5001.game.actors.Npc;
+import com.projet5001.game.BehaviorTree.Leaf.*;
+import com.projet5001.game.BehaviorTree.Sequence;
 
-public class NotInRange extends Routine{
-
-    @Override
-    public void act(Npc npc) {
-        if(Utils.calulEuclideanDist(npc, npc.getTarget()) < npc.getRangeOfAttack()){
-            fail();
-        }else{
-            succeed();
-        }
-    }
-
-    @Override
-    public void reset() {
+/**
+ * Created by macmata on 07/09/14.
+ */
+public class TargetImmobileAndNpcInZone extends Sequence {
+    public void start(){
+        this.addRoutine(new TargetInZone());
+        this.addRoutine(new NpcInZone());
+        this.addRoutine(new TargetImmobile());
+        this.addRoutine(new FireMove());
+        super.start();
 
     }
-
-
 }

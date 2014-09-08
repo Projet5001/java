@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Queue;
 
 /**
- * A sequence is like a a while(condition == true)
+ * If true, continue
  */
 public class Sequence extends Routine {
 
@@ -30,7 +30,7 @@ public class Sequence extends Routine {
         this.currentRoutine = null;
     }
 
-    private Routine currentRoutine;
+    protected Routine currentRoutine;
     List<Routine> routines = new LinkedList<Routine>();
     Queue<Routine> routineQueue = new LinkedList<Routine>();
 
@@ -69,7 +69,7 @@ public class Sequence extends Routine {
             return;
         }
 
-        while(routineQueue.peek() != null && currentRoutine.isSuccess()){
+        while(routineQueue.peek() != null){
             currentRoutine = routineQueue.poll();
             currentRoutine.start();
             currentRoutine.act(npc);
