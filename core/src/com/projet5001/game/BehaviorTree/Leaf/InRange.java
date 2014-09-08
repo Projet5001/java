@@ -15,18 +15,20 @@
  ******************************************************************************/
 package com.projet5001.game.BehaviorTree.Leaf;
 
+import com.badlogic.gdx.math.Intersector;
 import com.projet5001.game.BehaviorTree.Routine;
 import com.projet5001.game.Utils.Utils;
 import com.projet5001.game.actors.Npc;
 
-public class NotInRange extends Routine {
+public class InRange extends Routine {
 
     @Override
     public void act(Npc npc) {
-        if(Utils.calulEuclideanDist(npc, npc.getTarget()) < npc.getRangeOfAttack()){
-            fail();
-        }else{
+        if(Intersector.overlaps(npc.getAttackZone(),npc.getTarget().getHitbox())){
             succeed();
+        }else{
+            System.out.println("not in range");
+            fail();
         }
     }
 

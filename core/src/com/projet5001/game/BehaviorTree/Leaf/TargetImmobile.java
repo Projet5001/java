@@ -13,40 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-
 package com.projet5001.game.BehaviorTree.Leaf;
 
 import com.projet5001.game.BehaviorTree.Routine;
+import com.projet5001.game.Utils.Utils;
 import com.projet5001.game.actors.Npc;
-import com.projet5001.game.events.MovementEvents;
-import com.projet5001.game.pathfinding.Node;
 
-public class FireMove extends Routine {
+public class TargetImmobile extends Routine {
     @Override
     public void act(Npc npc) {
-        if (isNodeListValid(npc)){
-            Node node = npc.getPathFinding().pop();
-            if(node.x < npc.getX()) {
-                npc.fire(new MovementEvents(MovementEvents.Type.moveLeft));
-            }
-            else if(node.x > npc.getX()) {
-                npc.fire(new MovementEvents(MovementEvents.Type.moveRight));
-            }
-            else if(node.y < npc.getY()) {
-                npc.fire(new MovementEvents(MovementEvents.Type.moveDown));
-            }
-            else if(node.y > npc.getY()) {
-                npc.fire(new MovementEvents(MovementEvents.Type.moveUp));
-            }
+        if(Utils.equals(npc.getTargetPosOld(), npc.getTarget().getVector())){
+            System.out.println("immobile");
             succeed();
         }else{
             fail();
-            System.out.println("no path");
         }
-    }
-    
-    private boolean isNodeListValid(Npc npc) {
-        return (npc.getPathFinding() != null) && (npc.getPathFinding().peek() != null);
     }
 
     @Override

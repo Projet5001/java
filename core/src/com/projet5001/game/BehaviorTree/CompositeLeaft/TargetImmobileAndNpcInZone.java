@@ -15,17 +15,19 @@
  ******************************************************************************/
 package com.projet5001.game.BehaviorTree.CompositeLeaft;
 
-import com.projet5001.game.BehaviorTree.Leaf.FireMove;
+import com.projet5001.game.BehaviorTree.Leaf.*;
 import com.projet5001.game.BehaviorTree.Sequence;
-import com.projet5001.game.BehaviorTree.Leaf.TagetImmobile;
 
 /**
  * Created by macmata on 07/09/14.
  */
-public class MoveNoPath extends Sequence{
+public class TargetImmobileAndNpcInZone extends Sequence {
     public void start(){
-        this.addRoutine(new TagetImmobile());
+        this.addRoutine(new TargetInZone());
+        this.addRoutine(new NpcInZone());
+        this.addRoutine(new TargetImmobile());
         this.addRoutine(new FireMove());
         super.start();
+
     }
 }

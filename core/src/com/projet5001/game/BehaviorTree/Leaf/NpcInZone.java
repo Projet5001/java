@@ -13,20 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.projet5001.game.BehaviorTree.CompositeLeaft;
+package com.projet5001.game.BehaviorTree.Leaf;
 
-import com.projet5001.game.BehaviorTree.Leaf.FireMove;
-import com.projet5001.game.BehaviorTree.Leaf.PathFinding;
-import com.projet5001.game.BehaviorTree.Sequence;
+import com.projet5001.game.BehaviorTree.Routine;
+import com.projet5001.game.actors.MyActor;
+import com.projet5001.game.actors.Npc;
 
 /**
  * Created by macmata on 07/09/14.
  */
-public class MoveWithPath extends Sequence {
-    public void start(){
-        this.addRoutine(new PathFinding());
-        this.addRoutine(new FireMove());
-        super.start();
+public class NpcInZone extends Routine{
+    @Override
+    public void act(Npc npc) {
+        if(npc.getTargetZone().contains(npc.getCenterX(),npc.getCenterY())){
+            System.out.println("npc in");
+            succeed();
+        }else {
+            fail();
+        }
+    }
+
+    @Override
+    public void reset() {
 
     }
 }

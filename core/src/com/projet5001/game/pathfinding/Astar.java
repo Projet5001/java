@@ -16,6 +16,8 @@
 
 package com.projet5001.game.pathfinding;
 
+import com.badlogic.gdx.math.Intersector;
+
 import java.util.*;
 
 public class Astar {
@@ -45,7 +47,7 @@ public class Astar {
 
             current = openList.get(0);
 
-            if (calculHeuristique(current,dest) < exitH){
+            if (calculEuclidean(current,dest) < 6 || calculHeuristique(current,dest) < 3|| Intersector.overlaps(current.getRectangle(),dest.getRectangle())){
                 openList.clear();
                 closeList.clear();
                 return reconstruct_path(path, current);
@@ -56,8 +58,8 @@ public class Astar {
             Node[] neighbours;
 
             //this is some fine tuning
-            if (calculHeuristique(current,dest) < 4){
-                 neighbours = current.getneighbours(4);
+            if (calculEuclidean(current,dest) < 32|| calculHeuristique(current,dest) < 4){
+                neighbours = current.getneighbours(4);
             }else{
                 neighbours = current.getneighbours();
             }
@@ -102,42 +104,45 @@ public class Astar {
 
     private static float  calculHeuristique(Node current, Node dest) {
         return (Math.abs(current.x/current.getSpeed() - dest.x/dest.getSpeed()) + (Math.abs(current.y/current.getSpeed()  - dest.y/dest.getSpeed()))) * COUT;
-        /*
-
-        case HeuristicType.Manhattan:
-            H = Math.Abs(StartX - EndX) + Math.Abs(StartY - EndY);
-            break;
-
-        case HeuristicType.Diagonal:
-            H = Math.Max(Math.Abs(StartX - EndX), Math.Abs(StartY - EndY));
-            break;
-
-        case HeuristicType.Euclidean:
-            H = Math.Sqrt(Math.Pow(StartX - EndX, 2) + Math.Pow(StartY - EndY, 2));
-            break;
-
-        case HeuristicType.EuclideanSquared:
-            H = Math.Pow(StartX - EndX, 2) + Math.Pow(StartY - EndY, 2);
-            break;
-
-        case HeuristicType.TieBreakerManhattan:
-            H = Math.Abs(StartX - EndX) + Math.Abs(StartY - EndY) * m_tieBreaker;
-            break;
-
-        case HeuristicType.TieBreakerDiagonal:
-            H = Math.Max(Math.Abs(StartX - EndX), Math.Abs(StartY - EndY)) * m_tieBreaker;
-            break;
-
-        case HeuristicType.TieBreakerEuclidean:
-            H = Math.Sqrt(Math.Pow(StartX - EndX, 2) + Math.Pow(StartY - EndY, 2)) * m_tieBreaker;
-            break;
-
-        case HeuristicType.TieBreakerEuclideanSquared:
-            H = Math.Pow(StartX - EndX, 2) + Math.Pow(StartY - EndY, 2) * m_tieBreaker;
-            break;
-         */
     }
 
+    private static float  calculEuclidean(Node current, Node dest) {
+        return (float)Math.sqrt(Math.pow(current.x - dest.x, 2) + Math.pow(current.y  - dest.y, 2));
+    }
+    /*
+
+      case HeuristicType.Manhattan:
+          H = Math.Abs(StartX - EndX) + Math.Abs(StartY - EndY);
+          break;
+
+      case HeuristicType.Diagonal:
+          H = Math.Max(Math.Abs(StartX - EndX), Math.Abs(StartY - EndY));
+          break;
+
+      case HeuristicType.Euclidean:
+          H = Math.Sqrt(Math.Pow(StartX - EndX, 2) + Math.Pow(StartY - EndY, 2));
+          break;
+
+      case HeuristicType.EuclideanSquared:
+          H = Math.Pow(StartX - EndX, 2) + Math.Pow(StartY - EndY, 2);
+          break;
+
+      case HeuristicType.TieBreakerManhattan:
+          H = Math.Abs(StartX - EndX) + Math.Abs(StartY - EndY) * m_tieBreaker;
+          break;
+
+      case HeuristicType.TieBreakerDiagonal:
+          H = Math.Max(Math.Abs(StartX - EndX), Math.Abs(StartY - EndY)) * m_tieBreaker;
+          break;
+
+      case HeuristicType.TieBreakerEuclidean:
+          H = Math.Sqrt(Math.Pow(StartX - EndX, 2) + Math.Pow(StartY - EndY, 2)) * m_tieBreaker;
+          break;
+
+      case HeuristicType.TieBreakerEuclideanSquared:
+          H = Math.Pow(StartX - EndX, 2) + Math.Pow(StartY - EndY, 2) * m_tieBreaker;
+          break;
+       */
     private static class FValueComarator implements Comparator<Node>{
 
         @Override

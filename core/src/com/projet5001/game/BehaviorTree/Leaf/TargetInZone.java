@@ -16,16 +16,21 @@
 package com.projet5001.game.BehaviorTree.Leaf;
 
 import com.projet5001.game.BehaviorTree.Routine;
-import com.projet5001.game.Utils.Utils;
+import com.projet5001.game.actors.MyActor;
 import com.projet5001.game.actors.Npc;
 
-public class TagetImmobile extends Routine {
+/**
+ * Created by macmata on 07/09/14.
+ */
+public class TargetInZone extends Routine{
     @Override
     public void act(Npc npc) {
-
-        if(Utils.equals(npc.getTargetOldPos(), npc.getTarget().getVector())){
+        MyActor target = npc.getTarget();
+        if(npc.getTargetZone().contains(target.getCenterX(),target.getCenterY())){
+            System.out.println("targe in");
             succeed();
-        }else{
+        }else {
+            npc.setTargetZone();
             fail();
         }
     }

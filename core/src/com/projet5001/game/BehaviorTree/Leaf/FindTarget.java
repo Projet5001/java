@@ -25,7 +25,7 @@ import com.projet5001.game.collisions.WorldCollector;
 
 import java.util.ArrayList;
 
-public class FindEnemie extends Routine {
+public class FindTarget extends Routine {
 
     @Override
     public void act(Npc npc) {

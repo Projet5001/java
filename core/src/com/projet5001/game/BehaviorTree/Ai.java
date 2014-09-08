@@ -18,10 +18,11 @@ package com.projet5001.game.BehaviorTree;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.projet5001.game.BehaviorTree.CompositeLeaft.MoveNoPath;
-import com.projet5001.game.BehaviorTree.CompositeLeaft.MoveWithPath;
-import com.projet5001.game.BehaviorTree.Leaf.FindEnemie;
-import com.projet5001.game.BehaviorTree.Leaf.NotInRange;
+import com.projet5001.game.BehaviorTree.CompositeLeaft.TargetAndNotNpcInZone;
+import com.projet5001.game.BehaviorTree.CompositeLeaft.TargetAndNpcInZone;
+import com.projet5001.game.BehaviorTree.CompositeLeaft.TargetImmobileAndNpcInZone;
+import com.projet5001.game.BehaviorTree.Leaf.FindTarget;
+import com.projet5001.game.BehaviorTree.Leaf.InRange;
 import com.projet5001.game.actors.Npc;
 
 public class Ai extends Action {
@@ -38,16 +39,18 @@ public class Ai extends Action {
     public boolean act(float delta) {
 
         Sequence sequenceMain = new Sequence();
-        Selector selectTargetMoved = new Selector();
 
 
-        selectTargetMoved.addRoutine(new MoveNoPath());
-        selectTargetMoved.addRoutine(new MoveWithPath());
+
+        Selector move = new Selector();
+        move.addRoutine(new TargetImmobileAndNpcInZone());
+        move.addRoutine(new TargetAndNpcInZone());
+        move.addRoutine( new TargetAndNotNpcInZone());
 
         //if see enemie then if not in range then selectTagrgetMove
-        sequenceMain.addRoutine(new FindEnemie());
-        sequenceMain.addRoutine(new NotInRange());
-        sequenceMain.addRoutine(selectTargetMoved);
+        sequenceMain.addRoutine(new FindTarget());
+        sequenceMain.addRoutine(new DecorateurNot(new InRange()));
+        sequenceMain.addRoutine(move);
 
         sequenceMain.start();
         sequenceMain.act((Npc) getOwner());

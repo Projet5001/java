@@ -66,11 +66,11 @@ public class Selector extends Routine {
             return;
         }
 
-        while(routineQueue.peek() != null && currentRoutine.isFailure()){
+        while(routineQueue.peek() != null){
             currentRoutine = routineQueue.poll();
             currentRoutine.start();
             currentRoutine.act(npc);
-            if (currentRoutine.isFailure()) {
+            if (currentRoutine.isSuccess()) {
                 this.state = currentRoutine.getState();
                 return;
             }
