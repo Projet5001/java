@@ -25,9 +25,9 @@ import com.projet5001.game.BehaviorTree.Sequence;
 /**
  * Created by macmata on 07/09/14.
  */
-public class TargetAndNotNpcInZone extends Sequence {
+public class TargeAndNpcNotInZone extends Sequence {
     public void start(){
-        this.addRoutine(new TargetInZone());
+        this.addRoutine(new DecorateurNot(new TargetInZone()));
         this.addRoutine(new DecorateurNot(new NpcInZone()));
         this.addRoutine(new PathFinding());
         this.addRoutine(new FireMove());
