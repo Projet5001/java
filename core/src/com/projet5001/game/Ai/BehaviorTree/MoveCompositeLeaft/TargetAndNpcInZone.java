@@ -13,29 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.projet5001.game.BehaviorTree.Leaf;
+package com.projet5001.game.Ai.BehaviorTree.MoveCompositeLeaft;
 
-import com.badlogic.gdx.math.Intersector;
-import com.projet5001.game.BehaviorTree.Routine;
-import com.projet5001.game.Utils.Utils;
-import com.projet5001.game.actors.Npc;
+import com.projet5001.game.Ai.BehaviorTree.Leaf.FireMove;
+import com.projet5001.game.Ai.BehaviorTree.Leaf.NpcInZone;
+import com.projet5001.game.Ai.BehaviorTree.Leaf.PathFinding;
+import com.projet5001.game.Ai.BehaviorTree.Leaf.TargetInZone;
+import com.projet5001.game.Ai.BehaviorTree.Sequence;
 
-public class InRange extends Routine {
-
-    @Override
-    public void act(Npc npc) {
-        if(Intersector.overlaps(npc.getAttackZone(),npc.getTarget().getHitbox())){
-            succeed();
-        }else{
-            System.out.println("not in range");
-            fail();
-        }
-    }
-
-    @Override
-    public void reset() {
+/**
+ * Created by macmata on 07/09/14.
+ */
+public class TargetAndNpcInZone extends Sequence {
+    public void start(){
+        this.addRoutine(new TargetInZone());
+        this.addRoutine(new NpcInZone());
+        this.addRoutine(new PathFinding());
+        this.addRoutine(new FireMove());
+        super.start();
 
     }
-
-
 }

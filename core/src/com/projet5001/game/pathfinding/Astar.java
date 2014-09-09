@@ -58,7 +58,7 @@ public class Astar {
             Node[] neighbours;
 
             //this is some fine tuning
-            if (calculEuclidean(current,dest) < 32|| calculHeuristique(current,dest) < 4){
+            if (calculEuclidean(current,dest) < 64|| calculHeuristique(current,dest) < 4){
                 neighbours = current.getneighbours(4);
             }else{
                 neighbours = current.getneighbours();

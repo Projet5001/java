@@ -14,15 +14,16 @@
  * limitations under the License.
  ******************************************************************************/
 
-package com.projet5001.game.BehaviorTree;
+package com.projet5001.game.Ai.BehaviorTree;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.projet5001.game.BehaviorTree.CompositeLeaft.TargetAndNotNpcInZone;
-import com.projet5001.game.BehaviorTree.CompositeLeaft.TargetAndNpcInZone;
-import com.projet5001.game.BehaviorTree.CompositeLeaft.TargetImmobileAndNpcInZone;
-import com.projet5001.game.BehaviorTree.Leaf.FindTarget;
-import com.projet5001.game.BehaviorTree.Leaf.InRange;
+import com.projet5001.game.Ai.BehaviorTree.Leaf.FindTarget;
+import com.projet5001.game.Ai.BehaviorTree.Leaf.InRange;
+import com.projet5001.game.Ai.BehaviorTree.MoveCompositeLeaft.TargeAndNpcNotInZone;
+import com.projet5001.game.Ai.BehaviorTree.MoveCompositeLeaft.TargetAndNpcInZone;
+import com.projet5001.game.Ai.BehaviorTree.MoveCompositeLeaft.TargetImmobileAndNpcInZone;
+import com.projet5001.game.Ai.BehaviorTree.MoveCompositeLeaft.TargetInZoneAndNpcNotInZone;
 import com.projet5001.game.actors.Npc;
 
 public class Ai extends Action {
@@ -43,9 +44,10 @@ public class Ai extends Action {
 
 
         Selector move = new Selector();
+        move.addRoutine(new TargeAndNpcNotInZone());
         move.addRoutine(new TargetImmobileAndNpcInZone());
         move.addRoutine(new TargetAndNpcInZone());
-        move.addRoutine( new TargetAndNotNpcInZone());
+        move.addRoutine( new TargetInZoneAndNpcNotInZone());
 
         //if see enemie then if not in range then selectTagrgetMove
         sequenceMain.addRoutine(new FindTarget());

@@ -35,8 +35,8 @@ public class Npc extends MyActor {
     public Npc() {
         super();
         targetPosOld = new Vector2();
-        targetZone = new Circle();
-        targetZoneSize = 150f;
+        targetZone = new Circle(0,0,targetZoneSize);
+        targetZoneSize = 64f;
         attackZone = new Circle();
     }
 
