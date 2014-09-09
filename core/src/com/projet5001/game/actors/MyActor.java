@@ -25,7 +25,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
-import com.projet5001.game.BehaviorTree.Ai;
+import com.projet5001.game.Ai.BehaviorTree.Ai;
 import com.projet5001.game.collisions.WorldCollector;
 import com.projet5001.game.controleur.AnimationControleur;
 import com.projet5001.game.events.ActorEvent;
