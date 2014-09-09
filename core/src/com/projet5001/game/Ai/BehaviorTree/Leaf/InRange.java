@@ -13,21 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.projet5001.game.BehaviorTree.CompositeLeaft;
+package com.projet5001.game.Ai.BehaviorTree.Leaf;
 
-import com.projet5001.game.BehaviorTree.Leaf.*;
-import com.projet5001.game.BehaviorTree.Sequence;
+import com.badlogic.gdx.math.Intersector;
+import com.projet5001.game.Ai.BehaviorTree.Routine;
+import com.projet5001.game.actors.Npc;
 
-/**
- * Created by macmata on 07/09/14.
- */
-public class TargetImmobileAndNpcInZone extends Sequence {
-    public void start(){
-        this.addRoutine(new TargetInZone());
-        this.addRoutine(new NpcInZone());
-        this.addRoutine(new TargetImmobile());
-        this.addRoutine(new FireMove());
-        super.start();
+public class InRange extends Routine {
+
+    @Override
+    public void act(Npc npc) {
+        if (Intersector.overlaps(npc.getAttackZone(), npc.getTarget().getHitbox())) {
+            succeed();
+        } else {
+            System.out.println("not in range");
+            fail();
+        }
+    }
+
+    @Override
+    public void reset() {
 
     }
+
+
 }

@@ -13,27 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.projet5001.game.BehaviorTree;
+package com.projet5001.game.Ai.BehaviorTree;
 
 import com.projet5001.game.actors.Npc;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
 /**
- * If false, continue
+ * If true, continue
  */
-public class Selector extends Routine {
+public class Sequence extends Routine {
 
-    public Selector() {
-        super();
-        this.currentRoutine = null;
-    }
-
-    private Routine currentRoutine;
+    protected Routine currentRoutine;
     List<Routine> routines = new LinkedList<Routine>();
     Queue<Routine> routineQueue = new LinkedList<Routine>();
 
+    public Sequence() {
+        super();
+        this.currentRoutine = null;
+    }
 
     public void addRoutine(Routine routine) {
         routines.add(routine);
@@ -55,26 +55,28 @@ public class Selector extends Routine {
         currentRoutine.start();
     }
 
+
     @Override
     public void act(Npc npc) {
 
-
         currentRoutine.act(npc);
 
-        if (currentRoutine.isSuccess()) {
-            succeed();
+
+        if (currentRoutine.isFailure()) {
+            this.state = currentRoutine.getState();
             return;
         }
 
-        while(routineQueue.peek() != null){
+        while (routineQueue.peek() != null) {
             currentRoutine = routineQueue.poll();
             currentRoutine.start();
             currentRoutine.act(npc);
-            if (currentRoutine.isSuccess()) {
+            if (currentRoutine.isFailure()) {
                 this.state = currentRoutine.getState();
                 return;
             }
         }
+
         this.state = currentRoutine.getState();
     }
 }

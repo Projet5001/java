@@ -13,25 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.projet5001.game.BehaviorTree.Leaf;
+package com.projet5001.game.Ai.BehaviorTree.MoveCompositeLeaft;
 
-import com.projet5001.game.BehaviorTree.Routine;
-import com.projet5001.game.Utils.Utils;
-import com.projet5001.game.actors.Npc;
+import com.projet5001.game.Ai.BehaviorTree.DecorateurNot;
+import com.projet5001.game.Ai.BehaviorTree.Leaf.FireMove;
+import com.projet5001.game.Ai.BehaviorTree.Leaf.NpcInZone;
+import com.projet5001.game.Ai.BehaviorTree.Leaf.TargetInZone;
+import com.projet5001.game.Ai.BehaviorTree.Sequence;
 
-public class TargetImmobile extends Routine {
-    @Override
-    public void act(Npc npc) {
-        if(Utils.equals(npc.getTargetPosOld(), npc.getTarget().getVector())){
-            System.out.println("immobile");
-            succeed();
-        }else{
-            fail();
-        }
-    }
-
-    @Override
-    public void reset() {
+/**
+ * Created by macmata on 07/09/14.
+ */
+public class TargetInZoneAndNpcNotInZone extends Sequence {
+    public void start(){
+        this.addRoutine(new TargetInZone());
+        this.addRoutine(new DecorateurNot(new NpcInZone()));
+        this.addRoutine(new FireMove());
+        super.start();
 
     }
 }

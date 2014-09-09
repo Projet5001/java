@@ -13,35 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+package com.projet5001.game.Ai.BehaviorTree;
 
-package com.projet5001.game.BehaviorTree.Leaf;
-
-import com.projet5001.game.BehaviorTree.Routine;
-import com.projet5001.game.Projet5001;
-import com.projet5001.game.actors.MyActor;
 import com.projet5001.game.actors.Npc;
-import com.projet5001.game.actors.Player;
-import com.projet5001.game.collisions.WorldCollector;
 
-import java.util.ArrayList;
+/**
+ * PROTOTYPE
+ */
+public class DecorateurNot extends Sequence {
 
-public class FindTarget extends Routine {
+    public DecorateurNot() {
+        super();
+    }
 
-    @Override
-    public void act(Npc npc) {
-        ArrayList<MyActor> actorArrayList =  WorldCollector.collection().circleContainActor(npc.getVisionHitbox());
-        for (MyActor actor : actorArrayList) {
-            if (actor instanceof Player){
-                succeed();
-                npc.setTarget(Projet5001.worldDirector.player);
-                return;
-            }
-        }
-        fail();
+    public DecorateurNot(Routine routine) {
+        super();
+        this.addRoutine(routine);
     }
 
     @Override
-    public void reset() {
+    public void act(Npc npc) {
+        currentRoutine.act(npc);
 
+        if (currentRoutine.isSuccess()) {
+            fail();
+            return;
+        }
+
+        if (currentRoutine.isFailure()) {
+            succeed();
+        }
     }
 }

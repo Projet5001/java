@@ -14,21 +14,14 @@
  * limitations under the License.
  ******************************************************************************/
 
-package com.projet5001.game.BehaviorTree;
+package com.projet5001.game.Ai.BehaviorTree;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.projet5001.game.actors.Npc;
 
 public abstract class Routine {
 
-    public static enum RoutineState {
-        Success,
-        Failure,
-        Running
-    }
-
     protected RoutineState state;
-
     protected Actor RoutineActor;
 
     public Actor getRoutineActor() {
@@ -69,5 +62,11 @@ public abstract class Routine {
 
     public RoutineState getState() {
         return state;
+    }
+
+    public static enum RoutineState {
+        Success,
+        Failure,
+        Running
     }
 }

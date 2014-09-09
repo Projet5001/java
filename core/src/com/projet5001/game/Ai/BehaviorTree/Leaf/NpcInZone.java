@@ -13,35 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.projet5001.game.BehaviorTree;
+package com.projet5001.game.Ai.BehaviorTree.Leaf;
 
+import com.projet5001.game.Ai.BehaviorTree.Routine;
 import com.projet5001.game.actors.Npc;
 
 /**
- *  PROTOTYPE
+ * Created by macmata on 07/09/14.
  */
-public class DecorateurNot extends Sequence{
-
-    public DecorateurNot() {
-        super();
-    }
-
-    public DecorateurNot(Routine routine) {
-        super();
-        this.addRoutine(routine);
+public class NpcInZone extends Routine {
+    @Override
+    public void act(Npc npc) {
+        if (npc.getTargetZone().contains(npc.getCenterX(), npc.getCenterY())) {
+            System.out.println("npc in");
+            succeed();
+        } else {
+            fail();
+        }
     }
 
     @Override
-    public void act(Npc npc) {
-        currentRoutine.act(npc);
+    public void reset() {
 
-        if (currentRoutine.isSuccess()) {
-            fail();
-            return;
-        }
-
-        if (currentRoutine.isFailure()) {
-            succeed();
-        }
     }
 }

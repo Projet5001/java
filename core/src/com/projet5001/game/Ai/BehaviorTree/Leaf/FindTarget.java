@@ -13,26 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.projet5001.game.BehaviorTree.Leaf;
 
-import com.projet5001.game.BehaviorTree.Routine;
+package com.projet5001.game.Ai.BehaviorTree.Leaf;
+
+import com.projet5001.game.Ai.BehaviorTree.Routine;
+import com.projet5001.game.Projet5001;
 import com.projet5001.game.actors.MyActor;
 import com.projet5001.game.actors.Npc;
+import com.projet5001.game.actors.Player;
+import com.projet5001.game.collisions.WorldCollector;
 
-/**
- * Created by macmata on 07/09/14.
- */
-public class TargetInZone extends Routine{
+import java.util.ArrayList;
+
+public class FindTarget extends Routine {
+
     @Override
     public void act(Npc npc) {
-        MyActor target = npc.getTarget();
-        if(npc.getTargetZone().contains(target.getCenterX(),target.getCenterY())){
-            System.out.println("targe in");
-            succeed();
-        }else {
-            npc.setTargetZone();
-            fail();
+        ArrayList<MyActor> actorArrayList = WorldCollector.collection().circleContainActor(npc.getVisionHitbox());
+        for (MyActor actor : actorArrayList) {
+            if (actor instanceof Player) {
+                succeed();
+                npc.setTarget(Projet5001.worldDirector.player);
+                return;
+            }
         }
+        fail();
     }
 
     @Override

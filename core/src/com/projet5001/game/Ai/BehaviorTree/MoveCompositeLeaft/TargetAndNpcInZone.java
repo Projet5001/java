@@ -13,22 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.projet5001.game.BehaviorTree.CompositeLeaft;
+package com.projet5001.game.Ai.BehaviorTree.MoveCompositeLeaft;
 
-import com.projet5001.game.BehaviorTree.DecorateurNot;
-import com.projet5001.game.BehaviorTree.Leaf.FireMove;
-import com.projet5001.game.BehaviorTree.Leaf.NpcInZone;
-import com.projet5001.game.BehaviorTree.Leaf.PathFinding;
-import com.projet5001.game.BehaviorTree.Leaf.TargetInZone;
-import com.projet5001.game.BehaviorTree.Sequence;
+import com.projet5001.game.Ai.BehaviorTree.Leaf.FireMove;
+import com.projet5001.game.Ai.BehaviorTree.Leaf.NpcInZone;
+import com.projet5001.game.Ai.BehaviorTree.Leaf.PathFinding;
+import com.projet5001.game.Ai.BehaviorTree.Leaf.TargetInZone;
+import com.projet5001.game.Ai.BehaviorTree.Sequence;
 
 /**
  * Created by macmata on 07/09/14.
  */
-public class TargeAndNpcNotInZone extends Sequence {
+public class TargetAndNpcInZone extends Sequence {
     public void start(){
-        this.addRoutine(new DecorateurNot(new TargetInZone()));
-        this.addRoutine(new DecorateurNot(new NpcInZone()));
+        this.addRoutine(new TargetInZone());
+        this.addRoutine(new NpcInZone());
         this.addRoutine(new PathFinding());
         this.addRoutine(new FireMove());
         super.start();

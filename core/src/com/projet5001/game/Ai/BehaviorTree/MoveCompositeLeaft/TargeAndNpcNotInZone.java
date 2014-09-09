@@ -13,28 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.projet5001.game.BehaviorTree.Leaf;
+package com.projet5001.game.Ai.BehaviorTree.MoveCompositeLeaft;
 
-import com.projet5001.game.BehaviorTree.Routine;
-import com.projet5001.game.actors.MyActor;
-import com.projet5001.game.actors.Npc;
+import com.projet5001.game.Ai.BehaviorTree.DecorateurNot;
+import com.projet5001.game.Ai.BehaviorTree.Leaf.FireMove;
+import com.projet5001.game.Ai.BehaviorTree.Leaf.NpcInZone;
+import com.projet5001.game.Ai.BehaviorTree.Leaf.PathFinding;
+import com.projet5001.game.Ai.BehaviorTree.Leaf.TargetInZone;
+import com.projet5001.game.Ai.BehaviorTree.Sequence;
 
 /**
  * Created by macmata on 07/09/14.
  */
-public class NpcInZone extends Routine{
-    @Override
-    public void act(Npc npc) {
-        if(npc.getTargetZone().contains(npc.getCenterX(),npc.getCenterY())){
-            System.out.println("npc in");
-            succeed();
-        }else {
-            fail();
-        }
-    }
-
-    @Override
-    public void reset() {
+public class TargeAndNpcNotInZone extends Sequence {
+    public void start(){
+        this.addRoutine(new DecorateurNot(new TargetInZone()));
+        this.addRoutine(new DecorateurNot(new NpcInZone()));
+        this.addRoutine(new PathFinding());
+        this.addRoutine(new FireMove());
+        super.start();
 
     }
 }

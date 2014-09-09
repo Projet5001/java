@@ -13,21 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.projet5001.game.BehaviorTree.Leaf;
+package com.projet5001.game.Ai.BehaviorTree.Leaf;
 
-import com.badlogic.gdx.math.Intersector;
-import com.projet5001.game.BehaviorTree.Routine;
-import com.projet5001.game.Utils.Utils;
+import com.projet5001.game.Ai.BehaviorTree.Routine;
+import com.projet5001.game.actors.MyActor;
 import com.projet5001.game.actors.Npc;
 
-public class InRange extends Routine {
-
+/**
+ * Created by macmata on 07/09/14.
+ */
+public class TargetInZone extends Routine{
     @Override
     public void act(Npc npc) {
-        if(Intersector.overlaps(npc.getAttackZone(),npc.getTarget().getHitbox())){
+        MyActor target = npc.getTarget();
+        if(npc.getTargetZone().contains(target.getCenterX(),target.getCenterY())){
+            System.out.println("targe in");
             succeed();
-        }else{
-            System.out.println("not in range");
+        }else {
+            npc.setTargetZone();
             fail();
         }
     }
@@ -36,6 +39,4 @@ public class InRange extends Routine {
     public void reset() {
 
     }
-
-
 }
