@@ -18,7 +18,7 @@ package com.projet5001.game.actors;
 
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
-import com.projet5001.game.BehaviorTree.Ai;
+import com.projet5001.game.Ai.BehaviorTree.Ai;
 import com.projet5001.game.pathfinding.Node;
 
 import java.util.LinkedList;
