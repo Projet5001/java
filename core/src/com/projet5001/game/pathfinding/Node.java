@@ -19,7 +19,9 @@ package com.projet5001.game.pathfinding;
 import com.badlogic.gdx.math.Rectangle;
 import com.projet5001.game.collisions.WorldCollector;
 
-public class Node extends Rectangle{
+import java.util.Comparator;
+
+public class Node extends Rectangle {
 
     protected  boolean block;
     protected float h;
@@ -32,7 +34,7 @@ public class Node extends Rectangle{
 
 
     public Node(float x, float y, float width , float height){
-        super(x,y,width,height);
+        super(x, y, width, height);
         this.speed = 32;
         this.walkingCost = 32;
         this.g = 0;
@@ -149,7 +151,14 @@ public class Node extends Rectangle{
         this.parent = p;
     }
 
+    public int hashCode(){
+
+        return (int)(((int)Math.floor((x + y) % speed)) * width);
+
+    }
+
     public boolean equals(Node node){
         return this.x == node.x && this.y == node.y;
     }
+
 }
