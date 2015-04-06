@@ -1,5 +1,5 @@
-/*
- * Copyright [2014] [Alexandre Leblanc]
+/*******************************************************************************
+ * Copyright 2014 Projet5001
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,125 +12,60 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ ******************************************************************************/
 
 package com.projet5001.game.actors;
 
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
-import com.projet5001.game.BehaviorTree.Ai;
-import com.projet5001.game.Projet5001;
-import com.projet5001.game.Utils.Utils;
-import com.projet5001.game.collisions.WorldCollector;
-import com.projet5001.game.events.MovementEvents;
-import com.projet5001.game.pathfinding.Astar;
+import com.projet5001.game.Ai.BehaviorTree.Ai;
 import com.projet5001.game.pathfinding.Node;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 
 
 public class Npc extends MyActor {
-    protected Node targetNode;
-    protected Vector2 targetOldPos;
+    protected MyActor target;
+    protected Vector2 targetPosOld;
+    protected Circle targetZone;
+    protected Circle attackZone;
+    protected float targetZoneSize;
     protected LinkedList<Node> pathFinding;
-
-    public Node getTargetNode() {
-        return targetNode;
-    }
 
     public Npc() {
         super();
-        targetOldPos = new Vector2();
+        targetPosOld = new Vector2();
+        targetZone = new Circle(0,0,targetZoneSize);
+        targetZoneSize = 64f;
+        attackZone = new Circle();
     }
 
-    public Vector2 getTargetOldPos() {
-        return targetOldPos;
+    public Circle getAttackZone() {
+        return attackZone;
     }
 
-    //todo  separé ca avec le ai...
-    @Override
-    public void act(float delta) {
-        this.addAction(new Ai());
-        if( seeOthers() && (targetMove() || !(pathFinding.peek() == null))){
-
-
-            targetOldPos.set(Projet5001.worldDirector.player.getX(),Projet5001.worldDirector.player.getY());
-
-            Rectangle r = Projet5001.worldDirector.player.hitbox;
-
-            targetNode =  new Node(r.x,r.y,r.width,r.height);
-
-            pathfinding();
-
-
-                fireMove();
-            
-        }else if (seeOthers() &&!targetMove()){
-
-                fireMove();
-
-        }
-        super.act(delta);
-
+    public Circle getTargetZone() {
+        return targetZone;
     }
 
-    public boolean targetMove(){
-        return !Utils.equals(targetOldPos,Projet5001.worldDirector.player.getVector());
+    public void setTargetZone() {
+        this.targetZone.set(target.getCenterX(),target.getCenterY(),targetZoneSize);
     }
 
-    private boolean seeOthers(){
-        //todo utiliser pour trouver les allies et les enemie visible pour le ai
-        ArrayList<MyActor> actorArrayList =  WorldCollector.collection().circleContainActor(this.visionHitbox);
-        for (MyActor myActor : actorArrayList) {
-            if (myActor instanceof Player){
-                return true;
-            }
-        }
-        return false;
+    public MyActor getTarget() {
+        return target;
     }
 
-    private void test (){
-        double i = 0;
-        double total = 0;
-
-        while (i < 10000){
-            double start = System.nanoTime();
-
-            Rectangle r =  this.hitbox;
-
-            pathFinding = Astar.run(new Node(r.x, r.y, r.width, r.height), this.targetNode);
-            double  end = System.nanoTime();
-            i++;
-            total += ((end-start)/1.0e-9);
-        }
-        System.out.println(((total) / i));
-        return;
+    public void setTarget(MyActor target) {
+        this.target = target;
     }
 
-    private void pathfinding (){
-        Rectangle r =  this.hitbox;
-        pathFinding = Astar.run(new Node(r.x, r.y, r.width, r.height), this.targetNode);
-        Collections.reverse(pathFinding);
+    public Vector2 getTargetPosOld() {
+        return targetPosOld;
     }
 
-    private void fireMove() {
-        if (isNodeListValid()){
-            Node node = pathFinding.pop();
-            if(node.x < this.getX()) {
-                this.fire(new MovementEvents(MovementEvents.Type.moveLeft));
-            }
-            else if(node.x > this.getX()) {
-                this.fire(new MovementEvents(MovementEvents.Type.moveRight));
-            }
-            else if(node.y < this.getY()) {
-                this.fire(new MovementEvents(MovementEvents.Type.moveDown));
-            }
-            else if(node.y > this.getY()) {
-                this.fire(new MovementEvents(MovementEvents.Type.moveUp));
-            }
-        }
+    public void setTargetPosOld(Vector2 targetPosOld) {
+        this.targetPosOld = targetPosOld;
     }
 
     public LinkedList<Node> getPathFinding() {
@@ -141,8 +76,11 @@ public class Npc extends MyActor {
         this.pathFinding = pathFinding;
     }
 
-    private boolean isNodeListValid() {
-        return (pathFinding != null) && (pathFinding.peek() != null);
+    @Override
+    public void act(float delta) {
+        this.attackZone.set(this.getHitbox().getX() + (this.getHitbox().getWidth() / 2), this.getHitbox().getY() + (this.getHitbox().getHeight() / 2), this.getHitbox().getWidth() - 20);
+        this.addAction(new Ai());
+        super.act(delta);
     }
 }
 

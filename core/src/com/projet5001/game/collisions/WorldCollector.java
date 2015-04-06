@@ -1,5 +1,5 @@
-/*
- * Copyright [2014] [Alexandre Leblanc]
+/*******************************************************************************
+ * Copyright 2014 Projet5001
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,12 +12,15 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ ******************************************************************************/
 
 package com.projet5001.game.collisions;
 
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Array;
@@ -117,13 +120,7 @@ public class WorldCollector {
         }
     }
 
-    /**
-     * containactor permet de determiner si le vecteur donne est present dans 
-     * le hashmap 
-     * @param v
-     * @return
-     */
-    public boolean lsitContainActor(Vector2 v) {
+    public boolean listContainActor(Vector2 v) {
         return this.actor_collection.containsKey(v);
     }
 
@@ -135,6 +132,7 @@ public class WorldCollector {
         this.actor_collection.clear();
     }
 
+
     public Array<Vector2> getKey() {
         Array<Vector2> vectorKeys = new Array<Vector2>();
         for (Vector2 vector2 : this.actor_collection.keySet()) {
@@ -143,7 +141,13 @@ public class WorldCollector {
         return vectorKeys;
     }
 
-    //todo separé en 4 fonctions
+    /**
+     * If not null add the vector representign a corner
+     * of the rectangle to the list
+     *
+     * @param rect
+     * @return
+     */
     private LinkedList<Vector2> cornerThatHit(Rectangle rect) {
         //check 4 corver of rect
         LinkedList<Vector2> vector2Array = new LinkedList<>();
@@ -163,52 +167,124 @@ public class WorldCollector {
         return vector2Array;
     }
 
+    /**
+     * Get the topright from the vector
+     *
+     * @param rect
+     * @return
+     */
+    private Vector2 getTopightVector(Rectangle rect) {
+        return new Vector2(rect.getX() + rect.getWidth(), rect.getY() + rect.getHeight());
+    }
+
+    /**
+     * Get the top left from vector
+     *
+     * @param rect
+     * @return
+     */
+    private Vector2 getTopLeftVector(Rectangle rect) {
+        return new Vector2(rect.getX(), rect.getY() + rect.getHeight());
+    }
+
+    /**
+     * Get the lower right from vector
+     *
+     * @param rect
+     * @return
+     */
+    private Vector2 getLowerRightVector(Rectangle rect) {
+        return new Vector2(rect.getX() + rect.getWidth(), rect.getY());
+    }
+
+    /**
+     * Get the lower left from vector
+     *
+     * @param rect
+     * @return
+     */
+    private Vector2 getLowerLeftVector(Rectangle rect) {
+        return new Vector2(rect.getX(), rect.getY());
+    }
+
+    /**
+     * If the vector is present one of the list return it
+     * @param rect
+     * @return
+     */
     private Vector2 extractTopRightCoord(Rectangle rect) {
-        Vector2 v4 = new Vector2(rect.getX() + rect.getWidth(), rect.getY() + rect.getHeight());
-        v4 = Utils.getKeyFromVector(v4,hashSize);
-        if (lsitContainActor(v4) || lsitContainMapObj(v4)) {
+        Vector2 v4 = getTopightVector(rect);
+        v4 = Utils.getKeyFromVector(v4, hashSize);
+        if (listContainActor(v4) || lsitContainMapObj(v4)) {
             return v4;
         }
         return null;
     }
 
+    /**
+     * If the vector is present one of the list return it
+     * @param rect
+     * @return
+     */
     private Vector2 extractTopLeftCoord(Rectangle rect) {
-        Vector2 v3 = new Vector2(rect.getX(), rect.getY() + rect.getHeight());
-        v3 = Utils.getKeyFromVector(v3,hashSize);
-        if (lsitContainActor(v3) || lsitContainMapObj(v3)) {
+        Vector2 v3 = getTopLeftVector(rect);
+        v3 = Utils.getKeyFromVector(v3, hashSize);
+        if (listContainActor(v3) || lsitContainMapObj(v3)) {
             return v3;
         }
         return null;
     }
 
+    /**
+     * If the vector is present one of the list return it
+     * @param rect
+     * @return
+     */
     private Vector2 extractLowerRightCoord(Rectangle rect) {
-        Vector2 v2 = new Vector2(rect.getX() + rect.getWidth(), rect.getY());
-        v2 = Utils.getKeyFromVector(v2,hashSize);
-        if (lsitContainActor(v2) || lsitContainMapObj(v2)) {
+        Vector2 v2 = getLowerRightVector(rect);
+        v2 = Utils.getKeyFromVector(v2, hashSize);
+        if (listContainActor(v2) || lsitContainMapObj(v2)) {
             return v2;
         }
         return null;
     }
 
+    /**
+     * If the vector is present one of the list return it
+     * @param rect
+     * @return
+     */
     private Vector2 extractlowerLeftCoord(Rectangle rect) {
-        Vector2 v1 = new Vector2(rect.getX(), rect.getY());
-        v1 = Utils.getKeyFromVector(v1,hashSize);
-        if (lsitContainActor(v1) || lsitContainMapObj(v1)) {
+        Vector2 v1 = getLowerLeftVector(rect);
+        v1 = Utils.getKeyFromVector(v1, hashSize);
+        if (listContainActor(v1) || lsitContainMapObj(v1)) {
             return v1;
         }
         return null;
     }
 
-    public boolean hitWorld(Rectangle actorHitbox) {
-        LinkedList<Vector2> keyVector2CornerList = cornerThatHit(actorHitbox);
+    /**
+     * Check wether the rect hit a world object
+     *
+     * @param rect
+     * @return
+     */
+    public boolean hitWorld(Rectangle rect) {
+        LinkedList<Vector2> keyVector2CornerList = cornerThatHit(rect);
         if (keyVector2CornerList != null) {
             for (Vector2 keyVector2Corner : keyVector2CornerList) {
-                if (intersectWorldObjet(actorHitbox, keyVector2Corner)) return true;
+                if (intersectWorldObjet(rect, keyVector2Corner)) return true;
             }
         }
         return false;
     }
 
+    /**
+     * Check for collision for both object and other actor in the
+     * world
+     * @param actorHitbox
+     * @return
+     */
     public boolean hit(Rectangle actorHitbox) {
 
         LinkedList<Vector2> keyVector2CornerList = cornerThatHit(actorHitbox);
@@ -225,21 +301,6 @@ public class WorldCollector {
         return false;
     }
 
-    public ArrayList<MyActor> circleContainActor(Circle circle) {
-        ArrayList<MyActor> visibleActor = new ArrayList<>();
-        for (Map.Entry<Vector2, LinkedList<MyActor>> entry : this.actor_collection.entrySet()) {
-            Vector2 v = entry.getKey();
-            if (circle.contains(v.x*hashSize,v.y*hashSize)){
-                LinkedList<MyActor> myActorList = entry.getValue();
-                for (MyActor enemie : myActorList) {
-                    if (circle.x != enemie.getVisionHitbox().x || circle.y != enemie.getVisionHitbox().y ){
-                        visibleActor.add(enemie);
-                    }
-                }
-            }
-        }
-        return visibleActor;
-    }
 
     private boolean intersectWorldObjet(Rectangle actorHitbox, Vector2 keyVector2Corner) {
         if (lsitContainMapObj(keyVector2Corner)) {
@@ -255,7 +316,7 @@ public class WorldCollector {
     }
 
     private boolean intersectWorldActor(Rectangle actorHitbox, Vector2 keyVector2Corner) {
-        if (lsitContainActor(keyVector2Corner)) {
+        if (listContainActor(keyVector2Corner)) {
             LinkedList<MyActor> actor_list = this.actor_collection.get(keyVector2Corner);
             Rectangle rect = new Rectangle();
             for (MyActor enemie : actor_list) {
@@ -268,5 +329,27 @@ public class WorldCollector {
             }
         }
         return false;
+    }
+
+    /**
+     * Return a list a actor contained in the circle
+     *
+     * @param circle
+     * @return
+     */
+    public ArrayList<MyActor> circleContainActor(Circle circle) {
+        ArrayList<MyActor> visibleActor = new ArrayList<>();
+        for (Map.Entry<Vector2, LinkedList<MyActor>> entry : this.actor_collection.entrySet()) {
+            Vector2 v = entry.getKey();
+            if (circle.contains(v.x * hashSize, v.y * hashSize)) {
+                LinkedList<MyActor> myActorList = entry.getValue();
+                for (MyActor enemie : myActorList) {
+                    if (circle.x != enemie.getVisionHitbox().x || circle.y != enemie.getVisionHitbox().y) {
+                        visibleActor.add(enemie);
+                    }
+                }
+            }
+        }
+        return visibleActor;
     }
 }

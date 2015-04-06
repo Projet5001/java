@@ -1,5 +1,5 @@
-/*
- * Copyright [2014] [Alexandre Leblanc]
+/*******************************************************************************
+ * Copyright 2014 Projet5001
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,25 +12,16 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ ******************************************************************************/
 
-package com.projet5001.game.BehaviorTree;
+package com.projet5001.game.Ai.BehaviorTree;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.projet5001.game.actors.Npc;
 
-/**
- * Created by macmata on 01/09/14.
- */
 public abstract class Routine {
 
-    public static enum RoutineState {
-        Success,
-        Failure,
-        Running
-    }
-
     protected RoutineState state;
-
     protected Actor RoutineActor;
 
     public Actor getRoutineActor() {
@@ -45,7 +36,7 @@ public abstract class Routine {
         this.state = state.Running;
     }
 
-    public abstract void act(Actor actor);
+    public abstract void act(Npc npc);
 
     public abstract void reset();
 
@@ -71,5 +62,11 @@ public abstract class Routine {
 
     public RoutineState getState() {
         return state;
+    }
+
+    public static enum RoutineState {
+        Success,
+        Failure,
+        Running
     }
 }

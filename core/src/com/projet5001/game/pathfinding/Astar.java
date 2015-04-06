@@ -1,5 +1,5 @@
-/*
- * Copyright [2014] [Alexandre Leblanc]
+/*******************************************************************************
+ * Copyright 2014 Projet5001
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,28 +12,26 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ ******************************************************************************/
 
 package com.projet5001.game.pathfinding;
+
+import com.badlogic.gdx.math.Intersector;
 
 import java.util.*;
 
 public class Astar {
 
-    protected static final int COUT = 32/16;
+    protected static final int COUT = 2;
 
     public  static LinkedList<Node> run(Node nodeStart, Node dest){
-        ArrayList<Node> openList = new ArrayList<>();
-        ArrayList<Node> closeList = new ArrayList<>();
+        PriorityQueue<Node> openList = new PriorityQueue<>(5000,new FValueComarator());
+        HashSet<Node> closeList = new HashSet<>(5000);
         LinkedList<Node> path  = new LinkedList<>();
         Node current;
         int exitH = 2;
 
-        openList.ensureCapacity(50);
-        closeList.ensureCapacity(50);
-
         openList.add(nodeStart);
-
 
         nodeStart.setParent(null);
         nodeStart.setG(0);
@@ -41,11 +39,10 @@ public class Astar {
         nodeStart.setF(nodeStart.getG() + calculHeuristique(nodeStart, dest));
         while (!openList.isEmpty()){
 
-            Collections.sort(openList,new FValueComarator());
 
-            current = openList.get(0);
+            current = openList.poll();
 
-            if (calculHeuristique(current,dest) < exitH){
+            if (calculManhattan(current,dest) < 6 || Intersector.overlaps(current.getRectangle(),dest.getRectangle())){
                 openList.clear();
                 closeList.clear();
                 return reconstruct_path(path, current);
@@ -56,9 +53,8 @@ public class Astar {
             Node[] neighbours;
 
             //this is some fine tuning
-
-            if (calculHeuristique(current,dest) < 4){
-                 neighbours = current.getneighbours(4);
+            if (calculManhattan(current,dest) < 64){
+                neighbours = current.getneighbours(4);
             }else{
                 neighbours = current.getneighbours();
             }
@@ -75,15 +71,12 @@ public class Astar {
                 }
 
                 int tentativeGCost = current.getG() + movementCost(current, neighbour);
-                boolean n = openList.contains(neighbour);
-                if (!n || tentativeGCost < neighbour.getG()){
-                    neighbour.setParent(current);
-                    neighbour.setG(tentativeGCost);
-                    neighbour.setF(neighbour.getG() + calculHeuristique(neighbour,dest));
-                    if (!n){
-                        openList.add(neighbour);
-                    }
-                }
+
+                neighbour.setParent(current);
+                neighbour.setG(tentativeGCost);
+                neighbour.setF(neighbour.getG() + calculManhattan(neighbour,dest));
+                openList.add(neighbour);
+
             }
         }
         return null;
@@ -103,40 +96,13 @@ public class Astar {
 
     private static float  calculHeuristique(Node current, Node dest) {
         return (Math.abs(current.x/current.getSpeed() - dest.x/dest.getSpeed()) + (Math.abs(current.y/current.getSpeed()  - dest.y/dest.getSpeed()))) * COUT;
-        /*
+    }
 
-        case HeuristicType.Manhattan:
-            H = Math.Abs(StartX - EndX) + Math.Abs(StartY - EndY);
-            break;
-
-        case HeuristicType.Diagonal:
-            H = Math.Max(Math.Abs(StartX - EndX), Math.Abs(StartY - EndY));
-            break;
-
-        case HeuristicType.Euclidean:
-            H = Math.Sqrt(Math.Pow(StartX - EndX, 2) + Math.Pow(StartY - EndY, 2));
-            break;
-
-        case HeuristicType.EuclideanSquared:
-            H = Math.Pow(StartX - EndX, 2) + Math.Pow(StartY - EndY, 2);
-            break;
-
-        case HeuristicType.TieBreakerManhattan:
-            H = Math.Abs(StartX - EndX) + Math.Abs(StartY - EndY) * m_tieBreaker;
-            break;
-
-        case HeuristicType.TieBreakerDiagonal:
-            H = Math.Max(Math.Abs(StartX - EndX), Math.Abs(StartY - EndY)) * m_tieBreaker;
-            break;
-
-        case HeuristicType.TieBreakerEuclidean:
-            H = Math.Sqrt(Math.Pow(StartX - EndX, 2) + Math.Pow(StartY - EndY, 2)) * m_tieBreaker;
-            break;
-
-        case HeuristicType.TieBreakerEuclideanSquared:
-            H = Math.Pow(StartX - EndX, 2) + Math.Pow(StartY - EndY, 2) * m_tieBreaker;
-            break;
-         */
+    private static float  calculEuclidean(Node current, Node dest) {
+        return (float)Math.sqrt(Math.pow(current.x - dest.x, 2) + Math.pow(current.y  - dest.y, 2));
+    }
+    private static float  calculManhattan(Node current, Node dest) {
+        return Math.abs(current.x - dest.x) + Math.abs(current.y  - dest.y);
     }
 
     private static class FValueComarator implements Comparator<Node>{

@@ -1,10 +1,18 @@
+***hook***
+
+http://macmata:cb71660603b77095c72ec9dac06f82cb@alexandre-leblanc.com:8080/job/projet5001-java/build?token=buildfrombitbucket
+
+
+***setup idea*** 
+
  - gradlew clean
+ 
  - graldew idea
+ 
  - ouvrir le fichier ipr dans Idea(pas le fichier gradle).
 
 
-run
-====
+***run***
 
  - gradlew desktop:run
  
@@ -12,6 +20,8 @@ run
 
  - gradlew android:run
 
+***compile***
+ - gradlew desktop:build
 
 License
 =======

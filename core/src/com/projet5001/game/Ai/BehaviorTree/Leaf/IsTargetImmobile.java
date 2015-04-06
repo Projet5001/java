@@ -13,24 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+package com.projet5001.game.Ai.BehaviorTree.Leaf;
 
-package com.projet5001.game.controleur;
+import com.projet5001.game.Ai.BehaviorTree.Routine;
+import com.projet5001.game.Utils.Utils;
+import com.projet5001.game.actors.Npc;
 
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
+public class IsTargetImmobile extends Routine {
+    @Override
+    public void act(Npc npc) {
+        if (Utils.equals(npc.getTargetPosOld(), npc.getTarget().getVector())) {
+            System.out.println("immobile");
+            succeed();
+        } else {
+            fail();
+        }
+    }
 
-import com.projet5001.game.actors.MyActor;
+    @Override
+    public void reset() {
 
-/**
- * Created by macmata on 31/05/14.
- */
-public class MyActorControler {
-    public static void register(final MyActor myActor) {
-        myActor.addListener(new InputListener() {
-            public boolean keyDown(InputEvent event, int keycode) {
-                System.out.println("test");
-                return false;
-            }
-        });
     }
 }

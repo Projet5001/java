@@ -13,24 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+package com.projet5001.game.Ai.BehaviorTree;
 
-package com.projet5001.game.controleur;
-
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-
-import com.projet5001.game.actors.MyActor;
+import com.projet5001.game.actors.Npc;
 
 /**
- * Created by macmata on 31/05/14.
+ * PROTOTYPE
  */
-public class MyActorControler {
-    public static void register(final MyActor myActor) {
-        myActor.addListener(new InputListener() {
-            public boolean keyDown(InputEvent event, int keycode) {
-                System.out.println("test");
-                return false;
-            }
-        });
+public class DecorateurNot extends Sequence {
+
+    public DecorateurNot() {
+        super();
+    }
+
+    public DecorateurNot(Routine routine) {
+        super();
+        this.addRoutine(routine);
+    }
+
+    @Override
+    public void act(Npc npc) {
+        currentRoutine.act(npc);
+
+        if (currentRoutine.isSuccess()) {
+            fail();
+            return;
+        }
+
+        if (currentRoutine.isFailure()) {
+            succeed();
+        }
     }
 }

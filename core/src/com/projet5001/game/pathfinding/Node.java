@@ -1,5 +1,5 @@
-/*
- * Copyright [2014] [Alexandre Leblanc]
+/*******************************************************************************
+ * Copyright 2014 Projet5001
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,14 +12,16 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ ******************************************************************************/
 
 package com.projet5001.game.pathfinding;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.projet5001.game.collisions.WorldCollector;
 
-public class Node extends Rectangle{
+import java.util.Comparator;
+
+public class Node extends Rectangle {
 
     protected  boolean block;
     protected float h;
@@ -32,7 +34,7 @@ public class Node extends Rectangle{
 
 
     public Node(float x, float y, float width , float height){
-        super(x,y,width,height);
+        super(x, y, width, height);
         this.speed = 32;
         this.walkingCost = 32;
         this.g = 0;
@@ -125,6 +127,10 @@ public class Node extends Rectangle{
         return speed;
     }
 
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
     public void setG(int g_movementCost) {
         this.g = g_movementCost;
     }
@@ -145,7 +151,14 @@ public class Node extends Rectangle{
         this.parent = p;
     }
 
+    public int hashCode(){
+
+        return (int)(((int)Math.floor((x + y) % speed)) * width);
+
+    }
+
     public boolean equals(Node node){
         return this.x == node.x && this.y == node.y;
     }
+
 }

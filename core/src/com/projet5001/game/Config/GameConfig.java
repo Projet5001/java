@@ -1,5 +1,5 @@
-/*
- * Copyright [2014] [Alexandre Leblanc]
+/*******************************************************************************
+ * Copyright 2014 Projet5001
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ ******************************************************************************/
 
 package com.projet5001.game.Config;
 
@@ -27,11 +27,10 @@ public class GameConfig {
     public static float unitScale = 1/32f;
     public static boolean devMode = false;
     public static boolean debugMode = false;
-    public static boolean joypadView = false;
     public static boolean joypadConfigPosition = false;
     public static boolean joypadConfigSize = false;
     public static boolean isWindows = UIUtils.isWindows;
     public static boolean isPosix = UIUtils.isLinux|UIUtils.isMac;
     public static boolean isAndroid = Gdx.app.getType() == Application.ApplicationType.Android;
-
+    public static boolean joypadView = isAndroid;
 }

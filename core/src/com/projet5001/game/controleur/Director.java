@@ -1,5 +1,5 @@
-/*
- * Copyright [2014] [Alexandre Leblanc]
+/*******************************************************************************
+ * Copyright 2014 Projet5001
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,11 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ ******************************************************************************/
 
 package com.projet5001.game.controleur;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -24,6 +25,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.SnapshotArray;
 import com.projet5001.game.actors.MyActor;
+import com.projet5001.game.actors.Npc;
 
 import java.util.Comparator;
 
@@ -149,6 +151,17 @@ public class Director extends Stage {
                 rect.end();
 
 
+            }
+            if (array.get(i) instanceof Npc){
+                Npc npc = (Npc)array.get(i);
+                Circle c = npc.getTargetZone();
+                Circle a = npc.getAttackZone();
+                rect.begin(ShapeRenderer.ShapeType.Line);
+                rect.setColor(0, 1, 2, 1);
+                rect.circle(c.x,c.y,c.radius);
+                rect.setColor(0, 1, 1, 1);
+                rect.circle(a.x,a.y,a.radius);
+                rect.end();
             }
         }
     }

@@ -13,24 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+package com.projet5001.game.Ai.BehaviorTree.MoveCompositeLeaft;
 
-package com.projet5001.game.controleur;
-
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-
-import com.projet5001.game.actors.MyActor;
+import com.projet5001.game.Ai.BehaviorTree.DecorateurNot;
+import com.projet5001.game.Ai.BehaviorTree.Leaf.FireMove;
+import com.projet5001.game.Ai.BehaviorTree.Leaf.NpcInZone;
+import com.projet5001.game.Ai.BehaviorTree.Leaf.PathFinding;
+import com.projet5001.game.Ai.BehaviorTree.Leaf.TargetInZone;
+import com.projet5001.game.Ai.BehaviorTree.Sequence;
 
 /**
- * Created by macmata on 31/05/14.
+ * Created by macmata on 07/09/14.
  */
-public class MyActorControler {
-    public static void register(final MyActor myActor) {
-        myActor.addListener(new InputListener() {
-            public boolean keyDown(InputEvent event, int keycode) {
-                System.out.println("test");
-                return false;
-            }
-        });
+public class TargeAndNpcNotInZone extends Sequence {
+    public void start(){
+        this.addRoutine(new DecorateurNot(new TargetInZone()));
+        this.addRoutine(new DecorateurNot(new NpcInZone()));
+        this.addRoutine(new PathFinding());
+        this.addRoutine(new FireMove());
+        super.start();
+
     }
 }

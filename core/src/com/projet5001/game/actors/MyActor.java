@@ -1,5 +1,5 @@
-/*
- * Copyright [2014] [Alexandre Leblanc]
+/*******************************************************************************
+ * Copyright 2014 Projet5001
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ ******************************************************************************/
 
 package com.projet5001.game.actors;
 
@@ -20,9 +20,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
+import com.projet5001.game.Ai.BehaviorTree.Ai;
 import com.projet5001.game.collisions.WorldCollector;
 import com.projet5001.game.controleur.AnimationControleur;
 import com.projet5001.game.events.ActorEvent;
@@ -52,7 +55,7 @@ public class MyActor extends Actor {
 
     public MyActor(Texture texture) {
         super();
-        this.speed = 32/16;
+        this.speed = 32 / 16;
         this.ZIndex = 0;
         this.visionDistance = 250;
         this.collisionBoxSize = 4;
@@ -63,7 +66,7 @@ public class MyActor extends Actor {
 
         this.move = "idle";
 
-        this.visionHitbox =  new Circle(this.getCenterX(),this.getCenterY(),visionDistance);
+        this.visionHitbox = new Circle(this.getCenterX(), this.getCenterY(), visionDistance);
         this.old_position = new Vector2();
         this.futur_position = new Vector2();
         this.options(texture);
@@ -122,7 +125,7 @@ public class MyActor extends Actor {
     }
 
     public void options(AnimationControleur animationControleur) {
-        if (animationControleur != null){
+        if (animationControleur != null) {
             this.animationControleur = animationControleur;
             this.textureRegion = animationControleur.getCurrentTexture(this.move);
             this.setBounds(getX(), getY(), this.textureRegion.getRegionWidth(), this.textureRegion.getRegionHeight());
@@ -139,8 +142,8 @@ public class MyActor extends Actor {
         return hitbox;
     }
 
-    public Vector2 getVector(){
-        return new Vector2( this.getX(),this.getY());
+    public Vector2 getVector() {
+        return new Vector2(this.getX(), this.getY());
     }
 
     public void setMove(String move) {
@@ -209,13 +212,14 @@ public class MyActor extends Actor {
 
     @Override
     public void act(float delta) {
+
         this.setZIndex((int) this.getY());
         this.isIdle();
         super.act(delta);
 
-        //important puisque les actions ne son pas déclenché tjs au meme moment.
-        this.hitbox.setPosition(this.getX(), this.getY());
         this.visionHitbox.set(this.getX(), this.getY(), this.visionDistance);
+        this.hitbox.setPosition(this.getX(), this.getY());
+        //important puisque les actions ne son pas déclenché tjs au meme moment.
     }
 
     public int getZIndex() {
@@ -226,9 +230,16 @@ public class MyActor extends Actor {
         this.ZIndex = index;
     }
 
-    //todo changer isIdle pour ne pas se base sur les actions
     private boolean isIdle() {
-        if (this.getActions().size == 0) {
+        int i = 0;
+        for (Action action : this.getActions()) {
+            if (action instanceof Ai) {
+                continue;
+            }
+            i++;
+        }
+
+        if (i == 0) {
             setMove("idle");
             return true;
         }
@@ -238,9 +249,7 @@ public class MyActor extends Actor {
     public boolean isSeeingEnemies() {
         return false;
     }
-    public void changeState(MyActorEnumState enumState){
 
-    }
     public boolean isSafe() {
         return true;
     }
